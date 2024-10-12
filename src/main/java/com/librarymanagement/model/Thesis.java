@@ -1,4 +1,4 @@
 package com.librarymanagement.model;
 
-public class Thesis {
+public class Thesis extends Document {
 }

@@ -1,6 +1,6 @@
 package com.librarymanagement.model;
 
-public class Admin {
+public class Admin extends User {
     public /*return_type*/ addDocument(Document doc) {
         //To do
     }

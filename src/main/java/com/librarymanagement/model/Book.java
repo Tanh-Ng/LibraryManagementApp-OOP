@@ -1,4 +1,4 @@
 package com.librarymanagement.model;
 
-public class Book {
+public class Book extends Document {
 }

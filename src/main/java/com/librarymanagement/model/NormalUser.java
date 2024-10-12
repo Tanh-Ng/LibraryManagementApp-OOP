@@ -1,4 +1,4 @@
 package com.librarymanagement.model;
 
-public class NormalUser {
+public class NormalUser extends User {
 }
