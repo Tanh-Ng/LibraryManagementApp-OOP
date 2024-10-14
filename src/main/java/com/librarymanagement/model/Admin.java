@@ -1,15 +1,34 @@
 package com.librarymanagement.model;
 
+/**
+ * Represents user admin with special permissions.
+ */
 public class Admin extends User {
-    public /*return_type*/ addDocument(Document doc) {
+
+    /**
+     * Adds a document to the library.
+     *
+     * @param document the document to be added
+     */
+    public void addDocument(Document document) {
         //To do
     }
 
-    public /*return_type*/ removeDocument(Document doc) {
+    /**
+     * Remove a document from the library.
+     *
+     * @param document the document to be removed.
+     */
+    public void removeDocument(Document document) {
         //To do
     }
 
-    public /*return_type*/ updateDocument(Document doc) {
+    /**
+     * Updates a document's detail in the library.
+     *
+     * @param document the document to be updated.
+     */
+    public void updateDocument(Document document) {
         //To do
     }
 }
