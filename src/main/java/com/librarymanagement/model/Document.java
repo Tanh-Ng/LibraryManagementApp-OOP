@@ -5,15 +5,25 @@ public class Document {
     private String author;
     private boolean isAvailable;
 
-    public /*return type*/ getInfomation() {
+    /**
+     *Get information about the document, including its title,
+     *author, and availability status.
+     */
+    public void getInfomation() {
         //To do
     }
 
-    public /*return type*/ borrow() {
+    /**
+     * Allows a user to borrow the document if it is available.
+     */
+    public void borrow() {
         //To do
     }
 
-    public /*return type*/ returnDoc() {
+    /**
+     * Allows a user to return a previously borrowed document.
+     */
+    public void returnDocument() {
         //To do
     }
 }
