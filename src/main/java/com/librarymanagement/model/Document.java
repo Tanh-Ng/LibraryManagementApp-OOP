@@ -15,7 +15,7 @@ public class Document {
      * Get information about the document, including its title,
      * author, and availability status.
      */
-    public void getInfomation() {
+    public void getInformation() {
         System.out.println("Title: " + title + ", Author: " + author + ", Available: " + isAvailable);
     }
 

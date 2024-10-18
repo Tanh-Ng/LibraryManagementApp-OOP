@@ -16,6 +16,11 @@ public class Library {
         //To do
     }
 
+    /**
+     * Returns the list of documents in the library.
+     *
+     * @return the documents in the library
+     */
     public List<Document> getDocuments() {
         return documents;
     }
@@ -23,7 +28,7 @@ public class Library {
     /**
      * Removes a document from the library.
      *
-     * @param document document the document to be removed from the library
+     * @param document the document to be removed from the library
      * @param admin the admin performing the action
      */
     public void removeDocument(Document document, Admin admin) {
@@ -43,8 +48,8 @@ public class Library {
     /**
      * Allows a user to borrow a document from the library.
      *
-     * @param user
-     * @param admin admin the admin performing the action
+     * @param user the user borrowing the document
+     * @param admin the admin performing the action
      */
     public void borrowDocument(User user, Admin admin) {
         //To do
@@ -53,13 +58,10 @@ public class Library {
     /**
      * Allows a user to return a previously borrowed document to the library.
      *
-     * @param user user the user returning the document
-     * @param admin admin the admin performing the action
+     * @param user the user returning the document
+     * @param admin the admin performing the action
      */
     public void returnDocument(User user, Admin admin) {
         //To do
     }
-
-
-
 }
