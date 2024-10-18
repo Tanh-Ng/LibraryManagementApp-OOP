@@ -16,6 +16,10 @@ public class Library {
         //To do
     }
 
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
     /**
      * Removes a document from the library.
      *

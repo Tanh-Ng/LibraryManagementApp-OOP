@@ -9,12 +9,12 @@ public class Fine {
     private Date lateDate;
 
     //Tinh toan phi phat dua tren so ngay qua han
-    public /*return_type*/ calculateFine() {
+    public void calculateFine() {
         //To do
     }
 
     //Thanh toan phi phat
-    public /*return_type*/ payFine() {
+    public void payFine() {
         //To do
     }
 }
