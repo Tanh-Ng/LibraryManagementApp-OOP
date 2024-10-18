@@ -5,6 +5,7 @@ public class Document {
     private String author;
     private boolean isAvailable;
 
+    // Constructor
     public Document(String title, String author) {
         this.title = title;
         this.author = author;

@@ -13,7 +13,7 @@ public class Library {
      * @param admin the admin performing the action
      */
     public void addDocument(Document document, Admin admin) {
-        //To do
+        // To do
     }
 
     /**
@@ -32,7 +32,7 @@ public class Library {
      * @param admin the admin performing the action
      */
     public void removeDocument(Document document, Admin admin) {
-        //To do
+        // To do
     }
 
     /**
@@ -42,7 +42,7 @@ public class Library {
      * @param admin the admin performing the action
      */
     public void updateDocument(Document document, Admin admin) {
-        //To do
+        // To do
     }
 
     /**
@@ -52,7 +52,7 @@ public class Library {
      * @param admin the admin performing the action
      */
     public void borrowDocument(User user, Admin admin) {
-        //To do
+        // To do
     }
 
     /**
@@ -62,6 +62,6 @@ public class Library {
      * @param admin the admin performing the action
      */
     public void returnDocument(User user, Admin admin) {
-        //To do
+        // To do
     }
 }
