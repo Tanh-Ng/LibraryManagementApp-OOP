@@ -6,6 +6,18 @@ package com.librarymanagement.model;
 public class Admin extends User {
 
     /**
+     * Constructs an Admin user with a userId, name, and password.
+     *
+     * @param userId The ID of the admin.
+     * @param name The name of the admin.
+     * @param password The password for the admin.
+     */
+    public Admin(int userId, String name, String password) {
+        super(userId, name, password);  // Call to User's constructor
+    }
+
+
+    /**
      * Adds a document to the library.
      *
      * @param document the document to be added

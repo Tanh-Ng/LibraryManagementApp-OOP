@@ -1,5 +1,6 @@
 package com.librarymanagement.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,22 @@ import java.util.List;
 public class User {
     private int userId;
     private String name;
+    private String password;
     private List<Document> borrowedDocuments;
+
+    /**
+     * Constructor to initialize the user.
+     *
+     * @param userId    The ID of the user.
+     * @param name      The name of the user.
+     * @param password  The password for the user.
+     */
+    public User(int userId, String name, String password) {
+        this.userId = userId;
+        this.name = name;
+        this.password = password;
+        this.borrowedDocuments = new ArrayList<>();
+    }
 
     /**
      * Borrows a document.
@@ -16,7 +32,10 @@ public class User {
      * @param document The document that the user wants to borrow.
      */
     public void borrowDocument(Document document) {
-        //To do
+        if (document.isAvailable()) {
+            document.borrow();
+            borrowedDocuments.add(document);
+        }
     }
 
     /**
@@ -25,7 +44,10 @@ public class User {
      * @param document The document that the user wants to return.
      */
     public void returnDocument(Document document) {
-        //To do
+        if (borrowedDocuments.contains(document)) {
+            document.returnDocument();
+            borrowedDocuments.remove(document);
+        }
     }
 
     /**
@@ -34,7 +56,7 @@ public class User {
      * @param password The new password that the user wants to set.
      */
     public void setPassword(String password) {
-        //To do
+        this.password = password;
     }
 
     /**
@@ -44,8 +66,10 @@ public class User {
      * @return true if the password is valid, false otherwise.
      */
     public boolean validatePassword(String password) {
-        //To do
-        return false;
+        return this.password.equals(password);
     }
 
+    public List<Document> getBorrowedDocuments() {
+        return borrowedDocuments;
+    }
 }
