@@ -7,7 +7,7 @@ public class Notification {
     private String message;
 
     //Gui thong bao cho nguoi dung
-    public /*return_type*/ sendNotification() {
+    public void sendNotification() {
         //To do
     }
 

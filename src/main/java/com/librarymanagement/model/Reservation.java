@@ -9,17 +9,17 @@ public class Reservation {
     private String status; // status can be "Waitng" or "Complete"
 
     // Tao don dat truoc cho 1 tai lieu
-    public /*return_type*/ makeReservation() {
+    public void makeReservation() {
         //To do
     }
 
     //Huy bo don dat truoc
-    public /*return_type*/ cancelReservation() {
+    public void cancelReservation() {
         //To do
     }
 
     //Kiem tra trang thai don dat cho
-    public /*return_type*/ checkStatus() {
+    public void checkStatus() {
         //To do
     }
 }
