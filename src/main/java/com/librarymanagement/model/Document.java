@@ -1,5 +1,7 @@
 package com.librarymanagement.model;
 
+import java.util.Objects;
+
 public class Document {
     private String title;
     private String author;
@@ -63,4 +65,26 @@ public class Document {
     public void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
+
+    // Override
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Document document = (Document) obj;
+        return Objects.equals(title, document.title) &&
+                Objects.equals(author, document.author) &&
+                isAvailable == document.isAvailable;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, author, isAvailable);
+    }
+
+    
 }

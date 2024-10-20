@@ -1,11 +1,16 @@
 package com.librarymanagement.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Library {
     private static List<Document> documents;
     private List<User> users;
 
+    public Library() {
+        documents = new ArrayList<>();
+        users = new ArrayList<>();
+    }
 
     /**
      * Adds a new document to the library.
