@@ -22,7 +22,7 @@ public class Admin extends User {
      * @param document the document to be added
      */
     public void addDocument(Document document) {
-        //To do
+        Library.addDocument(document,this);
     }
 
     /**
@@ -31,7 +31,7 @@ public class Admin extends User {
      * @param document the document to be removed.
      */
     public void removeDocument(Document document) {
-        //To do
+        Library.removeDocument(document,this);
     }
 
     /**
@@ -40,6 +40,6 @@ public class Admin extends User {
      * @param document the document to be updated.
      */
     public void updateDocument(Document document) {
-        //To do
+        Library.updateDocument(document,this);
     }
 }

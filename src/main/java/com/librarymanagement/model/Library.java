@@ -13,7 +13,7 @@ public class Library {
      * @param document the document to be added to the library
      * @param admin the admin performing the action
      */
-    public void addDocument(Document document, Admin admin) {
+    public static void addDocument(Document document, Admin admin) {
         documents.add(document);
         System.out.println("Document added to library by " + admin.getName() + ".");
     }
@@ -33,7 +33,7 @@ public class Library {
      * @param document the document to be removed from the library
      * @param admin the admin performing the action
      */
-    public void removeDocument(Document document, Admin admin) {
+    public static void removeDocument(Document document, Admin admin) {
         documents.remove(document);
         System.out.println("Document removed from library by " + admin.getName() + ".");
     }
@@ -45,7 +45,7 @@ public class Library {
      * @param updatedDocument the updated document
      * @param admin the admin performing the action
      */
-    public void updateDocument(Document targetDocument, Document updatedDocument, Admin admin) {
+    public static void updateDocument(Document targetDocument, Document updatedDocument, Admin admin) {
         for (int i = 0; i < documents.size(); i++) {
             if (documents.get(i).equals(targetDocument)) {
                 documents.set(i, updatedDocument);
