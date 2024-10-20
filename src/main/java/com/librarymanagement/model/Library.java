@@ -6,6 +6,7 @@ public class Library {
     private List<Document> documents;
     private List<User> users;
 
+
     /**
      * Adds a new document to the library.
      *
@@ -13,7 +14,8 @@ public class Library {
      * @param admin the admin performing the action
      */
     public void addDocument(Document document, Admin admin) {
-        // To do
+        documents.add(document);
+        System.out.println("Document added to library by " + admin.getName() + ".");
     }
 
     /**
@@ -32,36 +34,57 @@ public class Library {
      * @param admin the admin performing the action
      */
     public void removeDocument(Document document, Admin admin) {
-        // To do
+        documents.remove(document);
+        System.out.println("Document removed from library by " + admin.getName() + ".");
     }
 
     /**
      * Updates the information of an existing document in the library.
      *
-     * @param document the document with updated information
+     * @param targetDocument the document to be updated
+     * @param updatedDocument the updated document
      * @param admin the admin performing the action
      */
-    public void updateDocument(Document document, Admin admin) {
-        // To do
+    public void updateDocument(Document targetDocument, Document updatedDocument, Admin admin) {
+        for (int i = 0; i < documents.size(); i++) {
+            if (documents.get(i).equals(targetDocument)) {
+                documents.set(i, updatedDocument);
+                System.out.println("Document " + targetDocument.getTitle() + " updated by " 
+                                    + admin.getName() + " to" + updatedDocument.getTitle() + ".");
+                return;
+            }
+        }
     }
 
     /**
      * Allows a user to borrow a document from the library.
      *
      * @param user the user borrowing the document
-     * @param admin the admin performing the action
+     * @param document the document being borrowed
      */
-    public void borrowDocument(User user, Admin admin) {
-        // To do
+    public void borrowDocument(User user, Document document) {
+        for (int i = 0; i < documents.size(); i++) {
+            if (documents.get(i).equals(document)) {
+                if (document.isAvailable()) {
+                    user.borrowDocument(document);
+                    System.out.println("Document " + document.getTitle() + " borrowed by " + user.getName() + ".");
+                    return;
+                } else {
+                    System.out.println("Document " + document.getTitle() + " is not available for borrowing.");
+                    return;
+                }
+            }
+        }
     }
 
     /**
      * Allows a user to return a previously borrowed document to the library.
      *
      * @param user the user returning the document
-     * @param admin the admin performing the action
+     * @param document the document being returned
      */
-    public void returnDocument(User user, Admin admin) {
-        // To do
+    public void returnDocument(User user, Document document) {
+        user.returnDocument(document);
+        System.out.println("Document " + document.getTitle() + " returned by " + user.getName() + ".");
     }
 }
