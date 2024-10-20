@@ -3,7 +3,7 @@ package com.librarymanagement.model;
 import java.util.List;
 
 public class Library {
-    private List<Document> documents;
+    private static List<Document> documents;
     private List<User> users;
 
 

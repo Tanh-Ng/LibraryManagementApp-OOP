@@ -39,7 +39,7 @@ public class Admin extends User {
      *
      * @param document the document to be updated.
      */
-    public void updateDocument(Document document) {
-        Library.updateDocument(document,this);
+    public void updateDocument(Document document, Document updatedDocument) {
+        Library.updateDocument(document, updatedDocument, this);
     }
 }
