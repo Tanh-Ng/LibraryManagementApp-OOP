@@ -16,14 +16,13 @@ public class Admin extends User {
         super(userId, name, password);  // Call to User's constructor
     }
 
-
     /**
      * Adds a document to the library.
      *
      * @param document the document to be added
      */
     public void addDocument(Document document) {
-        //To do
+        Library.addDocument(document,this);
     }
 
     /**
@@ -32,7 +31,7 @@ public class Admin extends User {
      * @param document the document to be removed.
      */
     public void removeDocument(Document document) {
-        //To do
+        Library.removeDocument(document,this);
     }
 
     /**
@@ -40,7 +39,7 @@ public class Admin extends User {
      *
      * @param document the document to be updated.
      */
-    public void updateDocument(Document document) {
-        //To do
+    public void updateDocument(Document document, Document updatedDocument) {
+        Library.updateDocument(document, updatedDocument, this);
     }
 }

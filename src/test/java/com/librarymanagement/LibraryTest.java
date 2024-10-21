@@ -40,7 +40,7 @@ class LibraryTest {
         library.addDocument(document, admin);
         // Create a new document with updated information
         Document updatedDocument = new Document("Updated Title", "Updated Author");
-        library.updateDocument(updatedDocument, admin);
+        library.updateDocument(document, updatedDocument, admin);
         assertTrue(library.getDocuments().contains(updatedDocument), "Document should be updated in the library");
     }
 
@@ -50,7 +50,7 @@ class LibraryTest {
         // Add document to library
         library.addDocument(document, admin);
         // Borrow the document
-        library.borrowDocument(user, admin);
+        library.borrowDocument(user, document);
         // Check if user has borrowed the document
         assertTrue(user.getBorrowedDocuments().contains(document), "User should have borrowed the document");
     }
@@ -61,8 +61,8 @@ class LibraryTest {
         // Add document to library
         library.addDocument(document, admin);
         // Borrow and then return the document
-        library.borrowDocument(user, admin);
-        library.returnDocument(user, admin);
+        library.borrowDocument(user, document);
+        library.returnDocument(user, document);
         assertFalse(user.getBorrowedDocuments().contains(document), "User should have returned the document");
     }
 }
