@@ -1,12 +1,15 @@
 package com.librarymanagement.model;
 
 public class Document {
+    private static int idCounter = 0;
+    private int id;
     private String title;
     private String author;
     private boolean isAvailable;
 
     // Constructor
     public Document(String title, String author) {
+        this.id = ++idCounter;
         this.title = title;
         this.author = author;
         this.isAvailable = true; // Default to available when created
@@ -41,6 +44,10 @@ public class Document {
      // Getters
      public String getTitle() {
         return title;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getAuthor() {
