@@ -7,6 +7,7 @@ import java.util.List;
  * Represents a user in the library.
  */
 public class User {
+    private static int idCounter = 1;
     private int userId;
     private String name;
     private String password;
@@ -14,6 +15,18 @@ public class User {
 
     /**
      * Constructor to initialize the user.
+     *
+     * @param name      The name of the user.
+     * @param password  The password for the user.
+     */
+    public User(String name, String password) {
+        userId=++idCounter;
+        this.name = name;
+        this.password = password;
+        this.borrowedDocuments = new ArrayList<>();
+    }
+    /**
+     * Constructor to initialize the user 2.
      *
      * @param userId    The ID of the user.
      * @param name      The name of the user.
@@ -80,6 +93,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     //Setters
