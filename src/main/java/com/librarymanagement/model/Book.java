@@ -20,6 +20,10 @@ public class Book extends Document {
         this.isbn = isbn;
     }
 
+    public Book(int id,String title,String author,String isbn){
+        super(id,title,author);
+        this.isbn=isbn;
+    }
     /**
      * Gets the ISBN of the book.
      *
