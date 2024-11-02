@@ -113,22 +113,57 @@ public class DocumentDAO {
 
     //method to update document's title base on ID ;
     public void changeTitle(int documentId, String newTitle) throws SQLException {
-
+        String sql = "UPDATE Documents SET title = ? WHERE document_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+                pstmt.setString(1, newTitle); //Set new tile for document
+                pstmt.setInt(2, documentId);  //Set the document ID for the Update
+                
+                //Execute the change
+                pstmt.executeUpdate();
+        }
     }
 
     //method to update document's author base on ID;
     public void changeAuthor(int documentId, String newAuthor) throws SQLException {
-
+        String sql = "UPDATE Documents SET author = ? WHERE document_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+                pstmt.setString(1, newAuthor); //Set new author for document
+                pstmt.setInt(2, documentId);  //Set the document ID for the Update
+                
+                //Execute the change
+                pstmt.executeUpdate();
+        }
     }
 
     //method to update document's availability base on ID;
     public void changeAvailable(int documentId, boolean isAvailable) throws SQLException {
-
+        String sql = "UPDATE Documents SET is_available = ? WHERE document_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+                pstmt.setBoolean(1, isAvailable); //Set new availability for document
+                pstmt.setInt(2, documentId); //Set the document ID for the Update
+                
+                //Execute the change
+                pstmt.executeUpdate();
+        } 
     }
 
     //method to delete a document base on ID;
     public void deleteDocument(int documentId) throws SQLException {
-
+        String sql = "DELETE FROM Documents WHERE document_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+                pstmt.setInt(1, documentId); //Set the document ID for the Delete
+                
+                //Execute the change
+                pstmt.executeUpdate();
+        }
     }
 
 }
