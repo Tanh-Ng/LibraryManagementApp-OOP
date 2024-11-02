@@ -1,6 +1,7 @@
 package com.librarymanagement.model;
 
 public class Document {
+    private int DocumentId;
     private String title;
     private String author;
     private boolean isAvailable;
@@ -10,6 +11,13 @@ public class Document {
         this.title = title;
         this.author = author;
         this.isAvailable = true; // Default to available when created
+    }
+
+    public Document(int DocumentId,String title,String author){
+        this.DocumentId=DocumentId;
+        this.title=title;
+        this.author=author;
+        this.isAvailable=true;
     }
 
     /**
@@ -43,6 +51,10 @@ public class Document {
         return title;
     }
 
+    public int getId() {
+        return DocumentId;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -62,5 +74,9 @@ public class Document {
 
     public void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
+    }
+
+    public void setId(int DocumentId) {
+        this.DocumentId=DocumentId;
     }
 }

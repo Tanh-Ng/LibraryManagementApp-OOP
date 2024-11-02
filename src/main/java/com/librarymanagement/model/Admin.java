@@ -16,6 +16,10 @@ public class Admin extends User {
         super(userId, name, password);  // Call to User's constructor
     }
 
+    public Admin( String name, String password) {
+        super( name, password);  // Call to User's constructor
+    }
+
     /**
      * Adds a document to the library.
      *
