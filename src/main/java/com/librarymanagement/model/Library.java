@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Library {
-    private static List<Document> documents;
+    private static List<Document> documents = new ArrayList<>();
     private List<User> users;
 
     public Library() {

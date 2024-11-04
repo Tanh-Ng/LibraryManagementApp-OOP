@@ -20,6 +20,11 @@ public class Thesis extends Document {
         this.academicAdvisor = academicAdvisor;
     }
 
+    public Thesis(int id,String title,String author,String academicAdvisor){
+        super(id,title,author);
+        this.academicAdvisor=academicAdvisor;
+    }
+
     /**
      * Gets the academic advisor for the thesis.
      *
