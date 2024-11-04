@@ -94,6 +94,10 @@ public class UserDAO {
 
             //Execute the change of password
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // Log the exception or handle it appropriately
+            e.printStackTrace();
+            throw new SQLException("Error changing password for user with ID " + userId, e);
         }
     }
 
@@ -107,6 +111,10 @@ public class UserDAO {
 
             //Execute the change of name
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // Log the exception or handle it appropriately
+            e.printStackTrace();
+            throw new SQLException("Error changing name for user with ID " + userId, e);
         }
     }
 
@@ -119,6 +127,10 @@ public class UserDAO {
 
             //Execute the delete
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // Log the exception or handle it appropriately
+            e.printStackTrace();
+            throw new SQLException("Error deleting user with ID " + userId, e);
         }
     }
 }
