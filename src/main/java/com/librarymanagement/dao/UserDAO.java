@@ -86,16 +86,51 @@ public class UserDAO {
 
     //Method for updating user's password base on ID;
     public void changePassword(int userId, String newPassword) throws SQLException {
+        String sql = "UPDATE Users SET password = ? WHERE user_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {        
+            pstmt.setString(1, newPassword); // Plain text
+            pstmt.setInt(2, userId); // Retrieve user ID
 
+            //Execute the change of password
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // Log the exception or handle it appropriately
+            e.printStackTrace();
+            throw new SQLException("Error changing password for user with ID " + userId, e);
+        }
     }
 
     //Method for updating user's name bade on ID;
     public void changeName(int userId, String newName) throws SQLException {
+        String sql = "UPDATE Users SET name = ? WHERE user_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {        
+            pstmt.setString(1, newName); // Plain text
+            pstmt.setInt(2, userId); // Retrieve user ID
 
+            //Execute the change of name
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // Log the exception or handle it appropriately
+            e.printStackTrace();
+            throw new SQLException("Error changing name for user with ID " + userId, e);
+        }
     }
 
     //Method for deleting user's base on ID;
     public void deleteUser(int userId) throws SQLException {
+        String sql = "DELETE FROM Users WHERE user_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId); // Retrieve user ID
 
+            //Execute the delete
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // Log the exception or handle it appropriately
+            e.printStackTrace();
+            throw new SQLException("Error deleting user with ID " + userId, e);
+        }
     }
 }

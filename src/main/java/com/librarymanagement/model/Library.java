@@ -7,6 +7,10 @@ public class Library {
     private static List<Document> documents = new ArrayList<>();
     private List<User> users;
 
+    public Library() {
+        documents = new ArrayList<>();
+        users = new ArrayList<>();
+    }
 
     /**
      * Adds a new document to the library.
