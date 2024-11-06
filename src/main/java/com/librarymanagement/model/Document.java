@@ -5,19 +5,21 @@ public class Document {
     private String title;
     private String author;
     private boolean isAvailable;
-
+    private boolean isDeleted;
     // Constructor
     public Document(String title, String author) {
         this.title = title;
         this.author = author;
         this.isAvailable = true; // Default to available when created
+        this.isDeleted=false;
     }
 
-    public Document(int DocumentId,String title,String author){
-        this.DocumentId=DocumentId;
-        this.title=title;
-        this.author=author;
-        this.isAvailable=true;
+    public Document(int DocumentId, String title, String author) {
+        this.DocumentId = DocumentId;
+        this.title = title;
+        this.author = author;
+        this.isAvailable = true;
+        this.isDeleted=false;
     }
 
     /**
@@ -46,8 +48,8 @@ public class Document {
         isAvailable = true;
     }
 
-     // Getters
-     public String getTitle() {
+    // Getters
+    public String getTitle() {
         return title;
     }
 
@@ -61,6 +63,10 @@ public class Document {
 
     public boolean isAvailable() {
         return isAvailable;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
     // Setters
@@ -77,6 +83,10 @@ public class Document {
     }
 
     public void setId(int DocumentId) {
-        this.DocumentId=DocumentId;
+        this.DocumentId = DocumentId;
+    }
+
+    public void setIsDeleted(boolean isDeleted){
+        this.isDeleted=isDeleted;
     }
 }

@@ -59,6 +59,7 @@ public class DocumentDAO {
                 String title = rs.getString("title");
                 String author = rs.getString("author");
                 boolean isAvailable = rs.getBoolean("is_available");
+                boolean isDeleted = rs.getBoolean("is_deleted");
                 String docType = rs.getString("document_type");
 
                 Document document;
@@ -70,6 +71,7 @@ public class DocumentDAO {
                     document = new Thesis(documentId, title, author, academicAdvisor); // Pass documentId to constructor
                 }
                 document.setIsAvailable(isAvailable);
+                document.setIsDeleted(isDeleted);
                 documents.add(document);
             }
         }
@@ -88,6 +90,7 @@ public class DocumentDAO {
                     String title = rs.getString("title");
                     String author = rs.getString("author");
                     boolean isAvailable = rs.getBoolean("is_available");
+                    boolean isDeleted = rs.getBoolean("is_deleted");
                     String docType = rs.getString("document_type");
 
                     Document document;
@@ -101,6 +104,7 @@ public class DocumentDAO {
                         return null; // If document type is unknown, return null
                     }
                     document.setIsAvailable(isAvailable); // Set availability status
+                    document.setIsDeleted(isDeleted);
                     document.setId(documentId); // Set document ID
                     return document;
                 } else {
@@ -165,5 +169,19 @@ public class DocumentDAO {
                 pstmt.executeUpdate();
         }
     }
+
+    // Method to soft delete a document based on its ID
+    public void softDelete(int documentId) throws SQLException {
+        String sql = "UPDATE Documents SET is_deleted = 1 WHERE document_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, documentId);  // Set the document ID for the soft delete
+
+            // Execute the soft delete
+            pstmt.executeUpdate();
+        }
+    }
+
 
 }

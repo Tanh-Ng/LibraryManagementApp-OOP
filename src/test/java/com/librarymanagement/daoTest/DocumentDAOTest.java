@@ -118,6 +118,23 @@ class DocumentDAOTest {
         assertNull(deletedBook);
     }
 
+    @Test
+    void testSoftDeleteDocument() throws SQLException {
+        Document book = new Book("To Be Soft Deleted", "Author", "1234567890");
+        documentDAO.addDocument(book);
+
+        List<Document> documents = documentDAO.getAllDocuments();
+        Document savedBook = documents.get(0);
+
+        documentDAO.softDelete(savedBook.getId());
+
+        Document softDeletedBook = documentDAO.getDocumentById(savedBook.getId());
+        assertNotNull(softDeletedBook);
+        assertTrue(softDeletedBook.isDeleted()); // Assuming isDeleted() checks the deletion status
+    }
+
+
+
     @AfterEach
     void afterEachTest() throws SQLException {
         clearTable(); // Ensures table is cleared after each test as well
