@@ -1,8 +1,9 @@
+package com.librarymanagement.UI;
 
 public class GUInterface extends javax.swing.JFrame {
 
     /**
-     * Creates new form GUInterface
+     * Creates new form com.librarymanagement.UI.GUInterface
      */
     public GUInterface() {
         initComponents();
