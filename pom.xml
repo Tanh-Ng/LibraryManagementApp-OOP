@@ -51,6 +51,11 @@
             <artifactId>jcommon</artifactId>
             <version>1.0.23</version>
     </dependency>
+        <dependency>
+            <groupId>unknown.binary</groupId>
+            <artifactId>RojeruSan.parte1</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
