@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.PieChart?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.librarymanagement.UI.AdminPageController">
+    <!-- Tab menu -->
+    <left>
+        <fx:include source="TabMenu.fxml"/>
+    </left>
+
+    <!-- Center content area -->
+    <center>
+        <VBox spacing="10">
+            <!-- Dashboard metrics at the top -->
+            <HBox spacing="10">
+                <Label text="Number Of Books: 10"/>
+                <Label text="Number Of Users: 10"/>
+                <Label text="Issued Books: 10"/>
+                <Label text="Defaulter List: 10"/>
+            </HBox>
+
+            <!-- User Details Table -->
+            <TableView fx:id="userTable">
+                <columns>
+                    <TableColumn text="User ID"/>
+                    <TableColumn text="User Name"/>
+                    <TableColumn text="Course"/>
+                    <TableColumn text="Branch"/>
+                </columns>
+            </TableView>
+
+            <!-- Book Details Table -->
+            <TableView fx:id="bookTable">
+                <columns>
+                    <TableColumn text="User ID"/>
+                    <TableColumn text="User Name"/>
+                    <TableColumn text="Course"/>
+                    <TableColumn text="Branch"/>
+                </columns>
+            </TableView>
+
+            <!-- Pie chart for book types -->
+            <PieChart fx:id="bookTypeChart"/>
+        </VBox>
+    </center>
+</BorderPane>

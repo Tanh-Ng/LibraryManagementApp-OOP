@@ -120,12 +120,12 @@ public class DocumentDAO {
         String sql = "UPDATE Documents SET title = ? WHERE document_id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-                pstmt.setString(1, newTitle); //Set new tile for document
-                pstmt.setInt(2, documentId);  //Set the document ID for the Update
-                
-                //Execute the change
-                pstmt.executeUpdate();
+
+            pstmt.setString(1, newTitle); //Set new tile for document
+            pstmt.setInt(2, documentId);  //Set the document ID for the Update
+
+            //Execute the change
+            pstmt.executeUpdate();
         }
     }
 
@@ -134,12 +134,12 @@ public class DocumentDAO {
         String sql = "UPDATE Documents SET author = ? WHERE document_id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-                pstmt.setString(1, newAuthor); //Set new author for document
-                pstmt.setInt(2, documentId);  //Set the document ID for the Update
-                
-                //Execute the change
-                pstmt.executeUpdate();
+
+            pstmt.setString(1, newAuthor); //Set new author for document
+            pstmt.setInt(2, documentId);  //Set the document ID for the Update
+
+            //Execute the change
+            pstmt.executeUpdate();
         }
     }
 
@@ -148,13 +148,13 @@ public class DocumentDAO {
         String sql = "UPDATE Documents SET is_available = ? WHERE document_id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-                pstmt.setBoolean(1, isAvailable); //Set new availability for document
-                pstmt.setInt(2, documentId); //Set the document ID for the Update
-                
-                //Execute the change
-                pstmt.executeUpdate();
-        } 
+
+            pstmt.setBoolean(1, isAvailable); //Set new availability for document
+            pstmt.setInt(2, documentId); //Set the document ID for the Update
+
+            //Execute the change
+            pstmt.executeUpdate();
+        }
     }
 
     //method to delete a document base on ID;
@@ -162,11 +162,11 @@ public class DocumentDAO {
         String sql = "DELETE FROM Documents WHERE document_id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-                pstmt.setInt(1, documentId); //Set the document ID for the Delete
-                
-                //Execute the change
-                pstmt.executeUpdate();
+
+            pstmt.setInt(1, documentId); //Set the document ID for the Delete
+
+            //Execute the change
+            pstmt.executeUpdate();
         }
     }
 
