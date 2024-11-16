@@ -16,19 +16,19 @@ public class LibraryManagementApp extends Application {
     }
 
     public static void showLoginScreen() throws Exception {
-        System.out.println(LibraryManagementApp.class.getResource("/GUI/Login.fxml"));
-        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/GUI/Login.fxml"));
+        System.out.println(LibraryManagementApp.class.getResource("/FXML/Login.fxml"));
+        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/Login.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
         primaryStage.show();
     }
 
     public static void showHomeScreen() throws Exception {
-        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("../../../../resources/GUI/Home.fxml"));
+        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("../../../../resources/FXML/Home.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
     }
 
     public static void showAddDocumentScreen() throws Exception {
-        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("../../../../resources/GUI/AddDocument.fxml"));
+        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("../../../../resources/FXML/AddDocument.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
     }
 

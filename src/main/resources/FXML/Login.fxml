@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1"
+           xmlns="http://javafx.com/javafx/23.0.1"
+           fx:controller="com.librarymanagement.UI.LoginController"
+           prefWidth="1400.0" prefHeight="700.0">
+
+    <!-- Background Image -->
+    <ImageView fitWidth="600" fitHeight="400">
+        <image>
+            <!-- Image path -->
+            <Image url="@/Image/LoginScreen.png" />
+        </image>
+    </ImageView>
+
+    <!-- Dark Overlay -->
+    <StackPane style="-fx-background-color: rgba(0, 0, 0, 0.5);"
+               prefWidth="600" prefHeight="400"/>
+
+    <!-- Login Form Container -->
+    <VBox alignment="CENTER" spacing="15"
+          style="-fx-background-color: rgba(255, 255, 255, 0.8);
+                 -fx-padding: 20;
+                 -fx-background-radius: 10;"
+          maxWidth="300" maxHeight="250">
+
+        <!-- Username Field -->
+        <TextField fx:id="usernameField" promptText="Username"
+                   style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+
+        <!-- Password Field -->
+        <PasswordField fx:id="passwordField" promptText="Password"
+                       style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+
+        <!-- Login Button -->
+        <Button onAction="#handleLogin" text="Login"
+                style="-fx-background-color: #3b82f6;
+                       -fx-background-radius: 5;
+                       -fx-text-fill: white;
+                       -fx-font-weight: bold;
+                       -fx-padding: 10 20;" />
+
+        <!-- Forgot Password Link -->
+        <Label text="Forgot your password?"
+               style="-fx-text-fill: #3b82f6; -fx-cursor: hand;"
+               onMouseClicked="#handleForgotPassword" />
+
+        <!-- Error Label -->
+        <Label fx:id="errorLabel" textFill="red" />
+
+    </VBox>
+</StackPane>

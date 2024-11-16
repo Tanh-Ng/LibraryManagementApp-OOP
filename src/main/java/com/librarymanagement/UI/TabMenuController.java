@@ -1,4 +1,4 @@
-package com.librarymanagement.app;
+package com.librarymanagement.UI;
 
 public class TabMenuController {
 }
