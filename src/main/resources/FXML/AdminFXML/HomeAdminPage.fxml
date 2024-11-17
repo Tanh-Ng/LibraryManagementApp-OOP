@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1200.0" style="-fx-background-color: thistle;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="700.0" prefWidth="1400.0" style="-fx-background-color: thistle;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
        <fx:include source="AdminTabMenu.fxml" />
       <Pane layoutX="212.0" layoutY="91.0" prefHeight="100.0" prefWidth="180.0" style="-fx-background-color: pink;">

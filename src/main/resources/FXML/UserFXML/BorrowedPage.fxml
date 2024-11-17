@@ -6,9 +6,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="564.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.BorrowedController">
+<AnchorPane prefHeight="564.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.BorrowedController">
    <children>
-      <TableView layoutX="116.0" layoutY="146.0" prefHeight="200.0" prefWidth="607.0">
+       <fx:include source="TabMenu.fxml" />
+      <TableView layoutX="304.0" layoutY="150.0" prefHeight="200.0" prefWidth="607.0">
         <columns>
           <TableColumn prefWidth="100.00006103515625" text="Document Id" />
           <TableColumn prefWidth="175.9999237060547" text="Document Title" />
@@ -17,8 +18,7 @@
             <TableColumn prefWidth="99.99993896484375" text="Due Date" />
         </columns>
       </TableView>
-      <Label layoutX="328.0" layoutY="60.0" text="LIST OF BORROWED DOCUMENTS" />
-      <Button layoutX="606.0" layoutY="392.0" mnemonicParsing="false" text="Return" />
-      <Button layoutX="21.0" layoutY="24.0" mnemonicParsing="false" text="Back" />
+      <Label layoutX="516.0" layoutY="86.0" text="LIST OF BORROWED DOCUMENTS" />
+      <Button layoutX="885.0" layoutY="372.0" mnemonicParsing="false" text="Return" />
    </children>
 </AnchorPane>

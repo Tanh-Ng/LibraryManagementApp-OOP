@@ -8,12 +8,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="535.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.ManageUserPage">
+<AnchorPane prefHeight="535.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.ManageUserPageController">
    <children>
       <AnchorPane prefHeight="596.0" prefWidth="311.0" style="-fx-background-color: thistle;">
          <children>
-            <Button layoutX="14.0" layoutY="24.0" mnemonicParsing="false" text="Back" />
+            <Button layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleToHomePageUser" text="Back" />
             <Label layoutX="47.0" layoutY="161.0" text="User Id :" />
             <Label layoutX="50.0" layoutY="253.0" text="Username :" />
             <Label layoutX="51.0" layoutY="348.0" text="Password :" />

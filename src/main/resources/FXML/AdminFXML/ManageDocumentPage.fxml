@@ -8,7 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="535.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.ManageDocumentController">
+   
    <children>
       <AnchorPane layoutX="7.0" layoutY="6.0" prefHeight="524.0" prefWidth="290.0">
          <children>
@@ -25,7 +27,7 @@
             <Button layoutX="206.0" layoutY="457.0" mnemonicParsing="false" text="DELETE" />
             <TextField layoutX="42.0" layoutY="345.0" promptText="Book or Thesis" />
             <Label layoutX="43.0" layoutY="314.0" text="Type Of Document :" />
-            <Button layoutX="20.0" layoutY="22.0" mnemonicParsing="false" text="Back" />
+            <Button layoutX="20.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleToHomePageAdmin" text="Back" />
             <Label layoutX="68.0" layoutY="63.0" text="Action For Admin">
                <font>
                   <Font size="20.0" />
