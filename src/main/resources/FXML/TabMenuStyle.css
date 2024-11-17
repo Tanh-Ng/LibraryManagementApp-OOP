@@ -1,0 +1,29 @@
+/* Styles for the VBox container */
+.menu-container {
+    -fx-background-color: black;
+    -fx-padding: 0;
+    -fx-alignment: top-left;
+    -fx-pref-width: 180;
+    -fx-pref-height: 700; /* Stretch vertically */
+}
+
+/* General button styles */
+.menu-button {
+    -fx-background-color: black;
+    -fx-text-fill: lightgray;
+    -fx-font-size: 14px;
+    -fx-pref-height: 60px;
+    -fx-pref-width: 180px;
+    -fx-border-color: gray;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-insets: 0 20 0 20;
+    -fx-border-style: solid;
+    -fx-padding: 5 10;
+    -fx-effect: none; /* No shadow by default */
+    -fx-cursor: hand; /* Pointer cursor on hover */
+}
+
+/* Hover effects for buttons */
+.menu-button:hover {
+    -fx-background-color: #333;
+}

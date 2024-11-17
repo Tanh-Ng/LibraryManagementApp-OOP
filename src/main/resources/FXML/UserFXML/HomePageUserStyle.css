@@ -1,0 +1,23 @@
+/* Common Button Style */
+.button-style {
+    -fx-font-size: 12px;
+    -fx-font-family: "Century";
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-pref-width: 145px;
+    -fx-pref-height: 175px;
+    -fx-alignment: center;
+}
+
+/* Style for Labels */
+.label-title {
+    -fx-font-size: 33px;
+    -fx-font-family: "Century";
+    -fx-text-fill: #a7b720;
+}
+
+/* Style for Search TextField */
+.text-field-style {
+    -fx-pref-height: 26px;
+    -fx-pref-width: 206px;
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: thistle;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+       <fx:include source="AdminTabMenu.fxml" />
+      <Pane layoutX="212.0" layoutY="91.0" prefHeight="100.0" prefWidth="180.0" style="-fx-background-color: pink;">
+         <children>
+            <Label layoutX="90.0" layoutY="32.0" prefHeight="37.0" prefWidth="34.0" text="10">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="20.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../adminIcons/icons8_Book_Shelf_50px.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Pane layoutX="427.0" layoutY="91.0" prefHeight="100.0" prefWidth="180.0" style="-fx-background-color: pink;">
+         <children>
+            <Label layoutX="90.0" layoutY="32.0" prefHeight="37.0" prefWidth="34.0" text="10">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="14.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../adminIcons/icons8_People_50px.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Pane layoutX="643.0" layoutY="91.0" prefHeight="100.0" prefWidth="180.0" style="-fx-background-color: pink;">
+         <children>
+            <Label layoutX="79.0" layoutY="32.0" prefHeight="37.0" prefWidth="46.0" text="10">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="24.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../adminIcons/icons8_Sell_50px.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Pane layoutX="856.0" layoutY="91.0" prefHeight="100.0" prefWidth="180.0" style="-fx-background-color: pink;">
+         <children>
+            <Label layoutX="90.0" layoutY="32.0" prefHeight="37.0" prefWidth="46.0" text="10">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="28.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../adminIcons/icons8_List_of_Thumbnails_50px.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <TableView layoutX="212.0" layoutY="245.0" prefHeight="200.0" prefWidth="682.0">
+        <columns>
+          <TableColumn prefWidth="96.0" text="User Id" />
+          <TableColumn prefWidth="183.20001220703125" text="Name" />
+            <TableColumn prefWidth="231.20001220703125" text="Password" />
+            <TableColumn prefWidth="170.39996337890625" text="Borrowed Quanity" />
+        </columns>
+      </TableView>
+      <TableView layoutX="218.0" layoutY="476.0" prefHeight="200.0" prefWidth="682.0">
+        <columns>
+          <TableColumn prefWidth="78.4000244140625" text="Document Id" />
+          <TableColumn prefWidth="184.800048828125" text="Document Title" />
+            <TableColumn prefWidth="129.5999755859375" text="Author" />
+            <TableColumn prefWidth="75.0" text="Type" />
+            <TableColumn prefWidth="122.39990234375" text="Quantity" />
+            <TableColumn prefWidth="89.60009765625" text="Status" />
+        </columns>
+      </TableView>
+      <Label layoutX="226.0" layoutY="63.0" text="No. Of Documents :" />
+      <Label layoutX="444.0" layoutY="63.0" text="No. Of Users :" />
+      <Label layoutX="643.0" layoutY="63.0" text="Issued Documents :" />
+      <Label layoutX="856.0" layoutY="63.0" text="Defaulter List :" />
+      <Label layoutX="218.0" layoutY="210.0" text="User Details :" />
+      <Label layoutX="218.0" layoutY="451.0" text="Document Details" />
+      <PieChart layoutX="932.0" layoutY="345.0" prefHeight="200.0" prefWidth="217.0" title="Type Of Documents Chart" />
+   </children>
+</AnchorPane>
