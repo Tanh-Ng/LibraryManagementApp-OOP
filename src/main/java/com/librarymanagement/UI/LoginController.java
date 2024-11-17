@@ -26,7 +26,8 @@ public class LoginController {
         String password = passwordField.getText();
         if (Objects.equals(username, "admin") && Objects.equals(password, "2005"))
             LibraryManagementApp.showAdminPage();
-        else LibraryManagementApp.showHomeScreen();
+        else if (username != null || password != null)
+            LibraryManagementApp.showHomeScreen();
         /*
         try {
             User user = userDAO.getUserById(Integer.parseInt(username)); // Example assumes username is ID

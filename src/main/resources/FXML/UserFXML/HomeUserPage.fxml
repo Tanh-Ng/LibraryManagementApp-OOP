@@ -10,101 +10,78 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1400.0" style="-fx-background-color: thistle;"
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.librarymanagement.UI.HomePageUserController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: thistle;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.HomePageUserController">
 
 
     <children>
         <fx:include source="TabMenu.fxml" />
       <Label layoutX="281.0" layoutY="438.0" text="THESIS" />
       <Label layoutX="277.0" layoutY="196.0" prefHeight="18.0" prefWidth="51.0" text="BOOK" />
-      <Label layoutX="1116.0" layoutY="29.0" text="WELCOME TO OUR LIBRARY">
-         <font>
-            <Font name="Eras Bold ITC" size="16.0" />
-         </font></Label>
       <ScrollPane layoutX="278.0" layoutY="231.0" prefHeight="175.0" prefWidth="742.0" vbarPolicy="NEVER">
          <content>
             <HBox prefHeight="175.0" prefWidth="1023.0">
-               <children>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: yellow;">
-                     <children>
-                        <Button layoutX="44.0" layoutY="107.0" mnemonicParsing="false" text="Borrow" />
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin></Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: white;">
-                     <children>
-                        <Button layoutX="44.0" layoutY="113.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: green;">
-                     <children>
-                        <Button layoutX="44.0" layoutY="111.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: black;">
-                     <children>
-                        <Button layoutX="44.0" layoutY="111.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: red;">
-                     <children>
-                        <Button layoutX="44.0" layoutY="114.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane layoutX="129.0" layoutY="10.0" prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: blue;">
-                     <children>
-                        <Button layoutX="44.0" layoutY="108.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: yellow;">
-                     <children>
-                        <Button layoutX="46.0" layoutY="109.0" mnemonicParsing="false" text="Button" />
-                     </children>
-                  </Pane>
-               </children>
+               <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: yellow;">
+                  <HBox.margin>
+                     <Insets/>
+                  </HBox.margin>
+                  <Button layoutX="44.0" layoutY="107.0" mnemonicParsing="false" text="Borrow"/>
+               </Pane>
+               <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: white;">
+                  <Button layoutX="44.0" layoutY="113.0" mnemonicParsing="false" text="Borrow"/>
+               </Pane>
+               <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: green;">
+                  <Button layoutX="44.0" layoutY="111.0" mnemonicParsing="false" text="Borrow"/>
+               </Pane>
+               <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: black;">
+                  <Button layoutX="44.0" layoutY="111.0" mnemonicParsing="false" text="Borrow"/>
+               </Pane>
+               <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: red;">
+                  <Button layoutX="44.0" layoutY="114.0" mnemonicParsing="false" text="Borrow"/>
+               </Pane>
+               <Pane layoutX="129.0" layoutY="10.0" prefHeight="175.0" prefWidth="145.0"
+                     style="-fx-background-color: blue;">
+                  <Button layoutX="44.0" layoutY="108.0" mnemonicParsing="false" text="Borrow"/>
+               </Pane>
+               <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: yellow;">
+                  <Button layoutX="46.0" layoutY="109.0" mnemonicParsing="false" text="Button"/>
+               </Pane>
             </HBox>
          </content>
       </ScrollPane>
-      <ScrollPane layoutX="278.0" layoutY="475.0" prefHeight="175.0" prefWidth="742.0" vbarPolicy="NEVER">
-         <content>
-            <HBox prefHeight="175.0" prefWidth="1023.0">
-               <children>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: yellow;">
-                     <children>
-                        <Button layoutX="38.0" layoutY="103.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: black;">
-                     <children>
-                        <Button layoutX="39.0" layoutY="104.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: blue;">
-                     <children>
-                        <Button layoutX="40.0" layoutY="103.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: brown;">
-                     <children>
-                        <Button layoutX="40.0" layoutY="106.0" mnemonicParsing="false" text="Borrow" />
-                     </children>
-                  </Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: red;">
-                     <children>
-                        <Button layoutX="40.0" layoutY="108.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane layoutX="129.0" layoutY="10.0" prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: pink;">
-                     <children>
-                        <Button layoutX="33.0" layoutY="108.0" mnemonicParsing="false" text="Borrow" />
-                     </children></Pane>
-                  <Pane prefHeight="175.0" prefWidth="145.0" />
-               </children>
-            </HBox>
-         </content>
-      </ScrollPane>
+       <ScrollPane layoutX="278.0" layoutY="475.0" prefHeight="175.0" prefWidth="742.0" vbarPolicy="NEVER">
+          <HBox prefHeight="175.0" prefWidth="1023.0">
+             <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: yellow;">
+                <Button layoutX="38.0" layoutY="103.0" mnemonicParsing="false" text="Borrow"/>
+             </Pane>
+             <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: black;">
+                <Button layoutX="39.0" layoutY="104.0" mnemonicParsing="false" text="Borrow"/>
+             </Pane>
+             <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: blue;">
+                <children>
+                   <Button layoutX="40.0" layoutY="103.0" mnemonicParsing="false" text="Borrow"/>
+                </children>
+             </Pane>
+             <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: brown;">
+                <Button layoutX="40.0" layoutY="106.0" mnemonicParsing="false" text="Borrow"/>
+             </Pane>
+             <Pane prefHeight="175.0" prefWidth="145.0" style="-fx-background-color: red;">
+                <Button layoutX="40.0" layoutY="108.0" mnemonicParsing="false" text="Borrow"/>
+             </Pane>
+             <Pane layoutX="129.0" layoutY="10.0" prefHeight="175.0" prefWidth="145.0"
+                   style="-fx-background-color: pink;">
+                <Button layoutX="33.0" layoutY="108.0" mnemonicParsing="false" text="Borrow"/>
+             </Pane>
+             <Pane prefHeight="175.0" prefWidth="145.0"/>
+          </HBox>
+       </ScrollPane>
 
-      <Label layoutX="515.0" layoutY="103.0" text="SEARCH :" />
+      <Label layoutX="476.0" layoutY="94.0" text="SEARCH :" />
       <Label layoutX="277.0" layoutY="164.0" text="RECOMMEND :" />
-      <Label layoutX="535.0" layoutY="39.0" text="ONLINE LIBRARY SYSTEM" textFill="#a7b720">
+      <Label layoutX="422.0" layoutY="38.0" text="ONLINE LIBRARY SYSTEM" textFill="#a7b720">
          <font>
             <Font name="Century" size="33.0" />
          </font>
       </Label>
-      <TextField layoutX="605.0" layoutY="100.0" onAction="#searchDocument" prefHeight="26.0" prefWidth="206.0" />
+      <TextField fx:id="searchStringField" layoutX="546.0" layoutY="90.0" onAction="#handleSearchDocument" prefHeight="26.0" prefWidth="206.0" />
    </children>
 </AnchorPane>

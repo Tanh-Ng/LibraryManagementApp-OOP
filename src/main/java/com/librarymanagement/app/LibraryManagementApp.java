@@ -15,7 +15,6 @@ public class LibraryManagementApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
-        primaryStage.setMaximized(true);
         showLoginScreen();
     }
 
