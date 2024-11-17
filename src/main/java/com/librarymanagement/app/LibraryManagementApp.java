@@ -23,7 +23,7 @@ public class LibraryManagementApp extends Application {
     }
 
     public static void showHomeScreen() throws Exception {
-        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("../../../../resources/FXML/Home.fxml"));
+        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/HomeUserPage.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
     }
 

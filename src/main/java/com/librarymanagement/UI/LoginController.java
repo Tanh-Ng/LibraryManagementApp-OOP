@@ -14,14 +14,15 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
 
-    private UserDAO userDAO = new UserDAO();
+    //private UserDAO userDAO = new UserDAO();
 
     /* */
 
-    public void handleLogin() {
+    public void handleLogin() throws Exception {
         String username = usernameField.getText();
         String password = passwordField.getText();
-
+        LibraryManagementApp.showHomeScreen();
+        /*
         try {
             User user = userDAO.getUserById(Integer.parseInt(username)); // Example assumes username is ID
             if (user != null && user.validatePassword(password)) {
@@ -33,7 +34,7 @@ public class LoginController {
             }
         } catch (Exception e) {
             errorLabel.setText("Error: " + e.getMessage());
-        }
+        } */
     }
 
     public void handleForgotPassword() {

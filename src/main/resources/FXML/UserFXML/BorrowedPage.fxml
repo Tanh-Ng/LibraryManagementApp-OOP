@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="564.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.BorrowedController">
+   <children>
+      <TableView layoutX="116.0" layoutY="146.0" prefHeight="200.0" prefWidth="607.0">
+        <columns>
+          <TableColumn prefWidth="100.00006103515625" text="Document Id" />
+          <TableColumn prefWidth="175.9999237060547" text="Document Title" />
+            <TableColumn prefWidth="125.60003662109375" text="Author" />
+            <TableColumn prefWidth="104.00006103515625" text="Borrowed Date" />
+            <TableColumn prefWidth="99.99993896484375" text="Due Date" />
+        </columns>
+      </TableView>
+      <Label layoutX="328.0" layoutY="60.0" text="LIST OF BORROWED DOCUMENTS" />
+      <Button layoutX="606.0" layoutY="392.0" mnemonicParsing="false" text="Return" />
+      <Button layoutX="21.0" layoutY="24.0" mnemonicParsing="false" text="Back" />
+   </children>
+</AnchorPane>
