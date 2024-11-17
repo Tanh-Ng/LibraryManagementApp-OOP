@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -18,7 +19,7 @@
             <Label layoutX="51.0" layoutY="348.0" text="Password :" />
             <TextField layoutX="47.0" layoutY="203.0" promptText="Enter User Id..." />
             <TextField layoutX="47.0" layoutY="298.0" promptText="Enter Username..." />
-            <TextField layoutX="47.0" layoutY="385.0" promptText="Enter Password..." />
+            <PasswordField layoutX="47.0" layoutY="385.0" promptText="Enter Password..." />
             <Button layoutX="53.0" layoutY="481.0" mnemonicParsing="false" text="Add" />
             <Button layoutX="152.0" layoutY="481.0" mnemonicParsing="false" text="Delete" />
             <Label layoutX="75.0" layoutY="103.0" text="Action For Admin">
