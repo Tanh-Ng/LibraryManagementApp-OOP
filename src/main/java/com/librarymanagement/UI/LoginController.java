@@ -9,6 +9,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
+import javax.swing.*;
+import java.util.Objects;
+
 public class LoginController {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
@@ -21,7 +24,10 @@ public class LoginController {
     public void handleLogin() throws Exception {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        LibraryManagementApp.showHomeScreen();
+        if (Objects.equals(username, "admin") && Objects.equals(password, "2005"))
+            LibraryManagementApp.showAdminPage();
+        else if (username != null || password != null)
+            LibraryManagementApp.showHomeScreen();
         /*
         try {
             User user = userDAO.getUserById(Integer.parseInt(username)); // Example assumes username is ID

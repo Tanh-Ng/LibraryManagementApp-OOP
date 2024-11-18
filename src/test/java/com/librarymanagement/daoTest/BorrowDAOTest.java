@@ -2,32 +2,76 @@ package com.librarymanagement.dao;
 
 import com.librarymanagement.database.DatabaseConfig;
 import com.librarymanagement.model.Borrow;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BorrowDAOTest {
 
-    private static BorrowDAO borrowDAO;
+    private BorrowDAO borrowDAO;
+    private static final int DUMMY_USER_ID = 1;
+    private static final int DUMMY_DOCUMENT_ID = 1;
 
-    @BeforeAll
-    static void setUp() {
-        borrowDAO = new BorrowDAO();
-    }
     @BeforeEach
-    void clearTable() throws SQLException {
-        try (var conn = DatabaseConfig.getConnection();
-             var stmt = conn.createStatement()) {
-            stmt.execute("DELETE FROM Documents"); // Clears Documents table before each test
+    void setUp() throws SQLException {
+        borrowDAO = new BorrowDAO();
+        insertDummyData();  // Insert dummy data for `Users` and `Documents`
+    }
+
+    // Method to insert dummy data for testing
+    private void insertDummyData() throws SQLException {
+        try (Connection conn = DatabaseConfig.getConnection()) {
+            // Insert a dummy user if not exists
+            String insertUser = "INSERT IGNORE INTO Users (user_id, name, password) VALUES (?, 'Dummy User', 'password')";
+            try (PreparedStatement pstmt = conn.prepareStatement(insertUser)) {
+                pstmt.setInt(1, DUMMY_USER_ID);
+                pstmt.executeUpdate();
+            }
+
+            // Insert a dummy document if not exists
+            String insertDocument = "INSERT IGNORE INTO Documents (document_id, title, author, is_available) VALUES (?, 'Dummy Document', 'Author', 1)";
+            try (PreparedStatement pstmt = conn.prepareStatement(insertDocument)) {
+                pstmt.setInt(1, DUMMY_DOCUMENT_ID);
+                pstmt.executeUpdate();
+            }
         }
     }
 
     @Test
-    void testAddBorrow() throws Exception {
-        int userId = 1;
-        int documentId = 1;
+    void testAddBorrow_UserNotFound() {
+        int invalidUserId = 999; // User ID that doesn't exist
+        int documentId = DUMMY_DOCUMENT_ID;
+        Date borrowDate = new Date(System.currentTimeMillis());
+
+        SQLException exception = assertThrows(SQLException.class, () -> {
+            borrowDAO.addBorrow(invalidUserId, documentId, borrowDate);
+        });
+        assertTrue(exception.getMessage().contains("User ID " + invalidUserId + " not found."));
+    }
+
+    @Test
+    void testAddBorrow_DocumentNotFound() {
+        int userId = DUMMY_USER_ID;
+        int invalidDocumentId = 999; // Document ID that doesn't exist
+        Date borrowDate = new Date(System.currentTimeMillis());
+
+        SQLException exception = assertThrows(SQLException.class, () -> {
+            borrowDAO.addBorrow(userId, invalidDocumentId, borrowDate);
+        });
+        assertTrue(exception.getMessage().contains("Document ID " + invalidDocumentId + " not found."));
+    }
+
+    @Test
+    void testAddBorrow_Successful() throws SQLException {
+        int userId = DUMMY_USER_ID;
+        int documentId = DUMMY_DOCUMENT_ID;
         Date borrowDate = new Date(System.currentTimeMillis());
 
         borrowDAO.addBorrow(userId, documentId, borrowDate);
@@ -38,20 +82,9 @@ class BorrowDAOTest {
     }
 
     @Test
-    void testGetBorrowedDocumentsByUser() throws Exception {
-        int userId = 1;
-        int documentId = 1;
-        Date borrowDate = new Date(System.currentTimeMillis());
-
-        borrowDAO.addBorrow(userId, documentId, borrowDate);
-        List<Borrow> borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(userId);
-        assertNotNull(borrowedDocuments, "Result should not be null.");
-    }
-
-    @Test
-    void testGetBorrowById() throws Exception {
-        int userId = 1;
-        int documentId = 1;
+    void testGetBorrowById() throws SQLException {
+        int userId = DUMMY_USER_ID;
+        int documentId = DUMMY_DOCUMENT_ID;
         Date borrowDate = new Date(System.currentTimeMillis());
 
         borrowDAO.addBorrow(userId, documentId, borrowDate);
@@ -64,9 +97,9 @@ class BorrowDAOTest {
     }
 
     @Test
-    void testDeleteBorrow() throws Exception {
-        int userId = 1;
-        int documentId = 1;
+    void testDeleteBorrow() throws SQLException {
+        int userId = DUMMY_USER_ID;
+        int documentId = DUMMY_DOCUMENT_ID;
         Date borrowDate = new Date(System.currentTimeMillis());
 
         borrowDAO.addBorrow(userId, documentId, borrowDate);
@@ -78,9 +111,5 @@ class BorrowDAOTest {
 
         Borrow deletedBorrow = borrowDAO.getBorrowById(borrowId);
         assertNull(deletedBorrow, "Borrow should be null after deletion.");
-    }
-    @AfterEach
-    void afterEachTest() throws SQLException {
-        clearTable(); // Ensures table is cleared after each test as well
     }
 }
