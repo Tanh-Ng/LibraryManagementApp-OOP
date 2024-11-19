@@ -1,6 +1,7 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 .idea/
+resources/db.properties
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml

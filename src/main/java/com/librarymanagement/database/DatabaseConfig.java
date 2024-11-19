@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class DatabaseConfig {
 
-    private static final String URL = "jdbc:mysql://LAPTOP-O22INC2J/libraryappdb";
+    private static final String URL;
     private static String USER;
     private static String PASSWORD;
 
@@ -22,6 +22,7 @@ public class DatabaseConfig {
                 throw new IllegalStateException("Properties file not found");
             }
             properties.load(input);
+            URL = properties.getProperty("db.url");
             USER = properties.getProperty("db.username");
             PASSWORD = properties.getProperty("db.password");
         } catch (IOException e) {
