@@ -2,6 +2,7 @@ package com.librarymanagement.dao;
 
 import com.librarymanagement.database.DatabaseConfig;
 import com.librarymanagement.model.Borrow;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -111,5 +112,19 @@ class BorrowDAOTest {
 
         Borrow deletedBorrow = borrowDAO.getBorrowById(borrowId);
         assertNull(deletedBorrow, "Borrow should be null after deletion.");
+    }
+
+    @AfterEach
+    void afterEachTest() throws SQLException {
+        clearTable(); // Ensures table is cleared after each test as well
+    }
+
+    void clearTable() throws SQLException {
+        try (var conn = DatabaseConfig.getConnection();
+             var stmt = conn.createStatement()) {
+            stmt.execute("DELETE FROM BorrowedDocuments");
+            stmt.execute("DELETE FROM Documents");
+            stmt.execute("DELETE FROM Users"); // Clears Documents table before each test
+        }
     }
 }
