@@ -34,11 +34,11 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <TableView layoutX="328.0" layoutY="227.0" prefHeight="200.0" prefWidth="519.0">
+      <TableView fx:id="userTable" layoutX="328.0" layoutY="227.0" prefHeight="200.0" prefWidth="519.0">
         <columns>
-          <TableColumn prefWidth="136.0" text="User Id" />
-          <TableColumn prefWidth="123.19998168945312" text="UserName" />
-            <TableColumn prefWidth="227.20001220703125" text="Password" />
+          <TableColumn fx:id="userIdColumn" prefWidth="136.0" text="userIdColumn" />
+          <TableColumn fx:id="userNameColumn" prefWidth="123.19998168945312" text="userNameColumn" />
+            <TableColumn fx:id="userPasswordColumn" prefWidth="258.39990234375" text="userPasswordColumn" />
         </columns>
       </TableView>
    </children>
