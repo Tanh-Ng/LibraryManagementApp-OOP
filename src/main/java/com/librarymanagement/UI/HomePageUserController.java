@@ -5,6 +5,7 @@ import com.librarymanagement.model.Document;
 import com.librarymanagement.dao.DocumentDAO;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
@@ -50,7 +51,15 @@ public class HomePageUserController {
         documents.add(new Book(20,"Life After the Sorrows", "Kato Mika", "020"));
     }
     //Search document after clicked
-    public void handleSearchDocument() {
+    public void handleSearchDocument() throws Exception{
+        /*
+        DocumentDAO documentDao = new DocumentDAO();
+        try {
+            documents = documentDao.getAllDocuments();
+        } catch (Exception e) {
+            errorLabel.setText("Error: " + e.getMessage());
+        }
+         */
         searchStringField.textProperty().addListener(
                 (observable, oldValue, newValue) -> onSearch(newValue)
         );
@@ -76,7 +85,27 @@ public class HomePageUserController {
             resultListView.setMinHeight(23.75 * resultListView.getItems().size() + 1.5);
         }
 
-        resultListView.setOnMouseClicked(event -> handlePickDocumnet(resultListView.getSelectionModel().getSelectedItem()));
+        resultListView.setCellFactory(ListView -> new ListCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    setOnMouseEntered(event -> {
+                        setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
+                    });
+                    setOnMouseExited(event -> {
+                        setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black;");
+                    });
+                }
+            }
+        });
+        
+        resultListView.setOnMouseClicked(
+                event -> handlePickDocumnet(resultListView.getSelectionModel().getSelectedItem())
+        );
     }
 
     private void handlePickDocumnet(String documentTitleAuthor) {
