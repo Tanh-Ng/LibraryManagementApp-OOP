@@ -1,5 +1,6 @@
 package com.librarymanagement.app;
 
+import com.librarymanagement.model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import java.io.IOException;
 
 public class LibraryManagementApp extends Application {
     private static Stage primaryStage;
+    private static User currentUser;
 
 
 
@@ -54,6 +56,11 @@ public class LibraryManagementApp extends Application {
         primaryStage.setScene(new Scene(loader.load()));
     }
 
+    //User setter
+    public static void setCurrentUser(User loggedInUser) { currentUser = loggedInUser; }
+
+    //User getter
+    public static User getCurrentUser() { return currentUser; }
 
 
     public static void main(String[] args) {
