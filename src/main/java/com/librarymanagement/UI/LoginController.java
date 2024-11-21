@@ -44,7 +44,7 @@ public class LoginController {
                 errorLabel.setText("Invalid username or password.");
             }
         } catch (Exception e) {
-            errorLabel.setText("Error: " + e.getMessage());
+            errorLabel.setText(e.getMessage());
         }
     }
 
