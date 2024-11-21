@@ -4,8 +4,10 @@ public class Document {
     private int DocumentId;
     private String title;
     private String author;
-    private boolean isAvailable;
+    protected boolean isAvailable;
     private boolean isDeleted;
+
+
     // Constructor
     public Document(String title, String author) {
         this.title = title;
@@ -88,5 +90,9 @@ public class Document {
 
     public void setIsDeleted(boolean isDeleted){
         this.isDeleted=isDeleted;
+    }
+
+    public String getDocumentType() {
+        return this instanceof Book ? "Book" : this instanceof Thesis ? "Thesis" : "Unknown";
     }
 }

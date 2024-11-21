@@ -19,7 +19,7 @@ public class ManageUserPageController {
     public TextField userIdField;
     public TextField userNameField;
     public PasswordField userPasswordField;
-    public TableView<User> userTable; // TableView để hiển thị danh sách người dùng
+    public TableView<User> userTable;
     public TableColumn<User, Integer> userIdColumn;
     public TableColumn<User, String> userNameColumn;
     public TableColumn<User, String> userPasswordColumn;
