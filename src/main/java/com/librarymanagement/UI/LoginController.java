@@ -2,48 +2,54 @@ package com.librarymanagement.UI;
 
 import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.dao.UserDAO;
+import com.librarymanagement.model.Admin;
+import com.librarymanagement.model.NormalUser;
 import com.librarymanagement.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-
-import javax.swing.*;
-import java.util.Objects;
 
 public class LoginController {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
 
-    //private UserDAO userDAO = new UserDAO();
+    private UserDAO userDAO = new UserDAO();
 
-    /* */
-
-    public void handleLogin() throws Exception {
+    public void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        if (Objects.equals(username, "admin") && Objects.equals(password, "2005"))
-            LibraryManagementApp.showAdminPage();
-        else if (username != null || password != null)
-            LibraryManagementApp.showHomeScreen();
-        /*
+
+        // Validate input fields
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            errorLabel.setText("Please enter both username and password.");
+            return;
+        }
+
         try {
-            User user = userDAO.getUserById(Integer.parseInt(username)); // Example assumes username is ID
-            if (user != null && user.validatePassword(password)) {
-                //Navigate to home screen
-                errorLabel.setText("");
-                LibraryManagementApp.showHomeScreen(); // Placeholder function
+            // Authenticate user
+            User user = userDAO.authenticateUser(username, password);
+
+            if (user != null) {
+                // Navigate to the appropriate screen based on user type
+                if (user instanceof NormalUser) {
+                    LibraryManagementApp.showHomeScreen();
+                } else if (user instanceof Admin) {
+                    LibraryManagementApp.showAdminPage();
+                }
+                // Set the current user in the application
+                LibraryManagementApp.setCurrentUser(user);
             } else {
                 errorLabel.setText("Invalid username or password.");
             }
         } catch (Exception e) {
-            errorLabel.setText("Error: " + e.getMessage());
-        } */
+            errorLabel.setText(e.getMessage());
+        }
     }
 
     public void handleForgotPassword() {
-        System.out.println("ok");
+        // Handle forgot password logic (to be implemented)
+        System.out.println("Forgot Password clicked");
     }
 }
