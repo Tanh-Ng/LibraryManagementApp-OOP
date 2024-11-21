@@ -139,4 +139,5 @@ class DocumentDAOTest {
     void afterEachTest() throws SQLException {
         clearTable(); // Ensures table is cleared after each test as well
     }
+
 }

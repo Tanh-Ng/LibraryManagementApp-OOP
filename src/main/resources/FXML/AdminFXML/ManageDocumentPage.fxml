@@ -46,7 +46,7 @@
             </ChoiceBox>
          </children>
       </AnchorPane>
-      <Label layoutX="468.0" layoutY="80.0" prefHeight="28.0" prefWidth="171.0" text="Manage Documents" textAlignment="CENTER" textFill="#d41010">
+      <Label layoutX="480.0" layoutY="46.0" prefHeight="28.0" prefWidth="171.0" text="Manage Documents" textAlignment="CENTER" textFill="#d41010">
          <font>
             <Font name="Calibri Light Italic" size="20.0" />
          </font>
@@ -60,5 +60,7 @@
             <TableColumn prefWidth="98.39990234375" text="Quantity" />
         </columns>
       </TableView>
+      <TextField layoutX="480.0" layoutY="92.0" />
+      <Label layoutX="402.0" layoutY="96.0" text="SEARCH :" />
    </children>
 </AnchorPane>

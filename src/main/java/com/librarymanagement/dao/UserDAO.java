@@ -58,6 +58,36 @@ public class UserDAO {
         }
     }
 
+    // Method to authenticate a user during login
+    public User authenticateUser(String username, String password) throws SQLException {
+        String sql = "SELECT * FROM Users WHERE name = ? AND password = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username); // Plain text
+            pstmt.setString(2, password); // Plain text
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                // Retrieve user details
+                int userId = rs.getInt("user_id");
+                String name = rs.getString("name");
+                String userType = rs.getString("user_type");
+
+                // Return appropriate User object
+                return userType.equals("Admin")
+                        ? new Admin(userId, name, password)
+                        : new NormalUser(userId, name, password);
+            } else {
+                // Invalid credentials
+                throw new SQLException("Invalid username or password.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the exception or handle it appropriately
+            throw new SQLException("Error authenticating user with username " + username, e);
+        }
+    }
+
     //Method to get all user
     public List<User> getAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
