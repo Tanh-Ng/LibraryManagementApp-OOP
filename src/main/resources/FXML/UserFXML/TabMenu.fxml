@@ -3,15 +3,12 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="1" styleClass="menu-container"
-      stylesheets="@../TabMenuStyle.css"
-      xmlns:fx="http://javafx.com/fxml/1"
-      xmlns="http://javafx.com/javafx/23.0.1"
-      fx:controller="com.librarymanagement.UI.TabMenuController">
+<VBox spacing="1" styleClass="menu-container" stylesheets="@../TabMenuStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.TabMenuController">
 
-    <Button styleClass="menu-button" text="Home Page" onAction="#handleToHomePageUser"/>
-    <Button styleClass="menu-button" text="Borrow Document"/>
-    <Button styleClass="menu-button" text="Return Document"/>
-    <Button styleClass="menu-button" text="Borrowed Documents" onAction="#hanldeToBorrowedDocuments"/>
-    <Button styleClass="menu-button" text="Logout" onAction="#handleLogout"/>
+    <Button onAction="#handleToHomePageUser" styleClass="menu-button" text="Home Page" />
+    <Button styleClass="menu-button" text="Borrow Document" />
+    <Button styleClass="menu-button" text="Return Document" />
+    <Button onAction="#hanldeToBorrowedDocuments" styleClass="menu-button" text="Borrowed Documents" />
+    <Button onAction="#handleToAccountSetting" styleClass="menu-button" text="Account Setting" />
+    <Button onAction="#handleLogout" styleClass="menu-button" text="Logout" />
 </VBox>

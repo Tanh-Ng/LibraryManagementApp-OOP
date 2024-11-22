@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="564.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.librarymanagement.UI.AccountSettingController">
+
+    <children>
+        <fx:include source="TabMenu.fxml"/>
+        <Label layoutX="530.0" layoutY="60.0" prefHeight="40.0" prefWidth="122.0" text="Change Password" textAlignment="CENTER">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="200.0" layoutY="150.0" text="Old password">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="200.0" layoutY="250.0" text="Re-enter new password">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="200.0" layoutY="200.0" text="New password">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <TextField layoutX="363.0" layoutY="148.0" prefHeight="26.0" prefWidth="606.0" />
+        <TextField layoutX="363.0" layoutY="197.0" prefHeight="26.0" prefWidth="606.0" />
+        <TextField layoutX="363.0" layoutY="247.0" prefHeight="26.0" prefWidth="605.0" />
+        <Button layoutX="513.0" layoutY="312.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="156.0" text="Confirm" />
+    </children>
+</AnchorPane>

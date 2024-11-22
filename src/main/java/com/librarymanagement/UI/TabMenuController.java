@@ -12,7 +12,13 @@ public class TabMenuController {
         LibraryManagementApp.showBorrowedDocumentsPage();
     }
 
+    public void handleToAccountSetting(ActionEvent actionEvent) throws Exception {
+        LibraryManagementApp.showAccountSetting();
+    }
+
     public void handleLogout(ActionEvent actionEvent) throws Exception {
         LibraryManagementApp.showLoginScreen();
     }
+
+
 }

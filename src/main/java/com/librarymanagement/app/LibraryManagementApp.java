@@ -39,6 +39,11 @@ public class LibraryManagementApp extends Application {
         primaryStage.setScene(new Scene(loader.load()));
     }
 
+    public static void showAccountSetting() throws Exception {
+        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/AccountSetting.fxml"));
+        primaryStage.setScene(new Scene(loader.load()));
+    }
+
     //Admins' Screen
 
     public static void showAdminPage() throws Exception {
