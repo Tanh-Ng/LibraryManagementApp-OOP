@@ -8,6 +8,8 @@ public class Book extends Document {
 
     private String isbn;
 
+
+
     /**
      * Constructs a Book with the specified title, author, and ISBN.
      *
@@ -23,6 +25,10 @@ public class Book extends Document {
     public Book(int id,String title,String author,String isbn){
         super(id,title,author);
         this.isbn=isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
     /**
      * Gets the ISBN of the book.
