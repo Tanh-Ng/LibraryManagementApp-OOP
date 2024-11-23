@@ -22,6 +22,7 @@
             <PasswordField fx:id="userPasswordField" layoutX="47.0" layoutY="385.0" promptText="Enter Password..." />
             <Button layoutX="53.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleAddUser" text="Add" />
             <Button layoutX="152.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleDeleteUser" text="Delete" />
+            <Button layoutX="251.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleUpdateUser" text="Update" /> <!-- Added Update button -->
             <Label layoutX="75.0" layoutY="103.0" text="Action For Admin">
                <font>
                   <Font size="20.0" />
@@ -35,11 +36,11 @@
          </font>
       </Label>
       <TableView fx:id="userTable" layoutX="328.0" layoutY="227.0" prefHeight="200.0" prefWidth="519.0">
-        <columns>
-          <TableColumn fx:id="userIdColumn" prefWidth="136.0" text="userIdColumn" />
-          <TableColumn fx:id="userNameColumn" prefWidth="123.19998168945312" text="userNameColumn" />
+         <columns>
+            <TableColumn fx:id="userIdColumn" prefWidth="136.0" text="userIdColumn" />
+            <TableColumn fx:id="userNameColumn" prefWidth="123.19998168945312" text="userNameColumn" />
             <TableColumn fx:id="userPasswordColumn" prefWidth="258.39990234375" text="userPasswordColumn" />
-        </columns>
+         </columns>
       </TableView>
    </children>
 </AnchorPane>
