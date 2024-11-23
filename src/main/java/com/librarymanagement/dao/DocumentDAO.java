@@ -177,6 +177,20 @@ public class DocumentDAO {
             pstmt.executeUpdate();
         }
     }
+    // Method to update document's book type
+    public void changeBookType(int documentId, Book.BookType newBookType) throws SQLException {
+        String sql = "UPDATE Documents SET book_type = ? WHERE document_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, newBookType.name()); // Set the new book type
+            pstmt.setInt(2, documentId); // Set the document ID
+
+            // Execute the update
+            pstmt.executeUpdate();
+        }
+    }
+
 
     // Method to delete a document by ID
     public void deleteDocument(int documentId) throws SQLException {
@@ -190,6 +204,7 @@ public class DocumentDAO {
             pstmt.executeUpdate();
         }
     }
+
 
     // Method to soft delete a document by ID
     public void softDelete(int documentId) throws SQLException {

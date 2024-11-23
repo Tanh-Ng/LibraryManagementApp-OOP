@@ -38,6 +38,12 @@ public class ManageUserPageController {
         userPasswordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
         userTable.setItems(userList);
         loadUsers();
+        // Set up row selection listener
+        userTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                fillFieldsWithSelectedUser(newValue);
+            }
+        });
     }
 
     /**
@@ -70,12 +76,52 @@ public class ManageUserPageController {
             userList.add(newUser);
             userNameField.clear();
             userPasswordField.clear();
+            userTable.refresh();
             showAlert(AlertType.INFORMATION, "Success", "User has been added successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(AlertType.ERROR, "Error", "Could not add user: " + e.getMessage());
         }
+        
     }
+
+    /**
+     * Handles the update user action. Updates the user's information in the database.
+     *
+     * @param actionEvent The event triggered by the user action (click on the update button).
+     */
+    public void handleUpdateUser(ActionEvent actionEvent) {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        String userIdStr = userIdField.getText();
+        String userName = userNameField.getText();
+        String userPassword = userPasswordField.getText();
+
+        // Validate input fields
+        if (userIdStr.isEmpty() || userName.isEmpty() || userPassword.isEmpty()) {
+            showAlert(AlertType.WARNING, "Input Error", "Please fill in all the information!");
+            return;
+        }
+
+        try {
+            int userId = Integer.parseInt(userIdStr); // Convert the userId to an integer
+
+            // Update the user in the database
+            userDAO.changeName(userId,userName);
+            userDAO.changePassword(userId,userPassword);
+            selectedUser.setPassword(userPassword);
+            selectedUser.setName(userName);
+            userTable.refresh();
+            showAlert(AlertType.INFORMATION, "Success", "User has been updated successfully!");
+
+        } catch (NumberFormatException e) {
+            showAlert(AlertType.ERROR, "Error", "User ID must be a valid number.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(AlertType.ERROR, "Error", "Could not update user: " + e.getMessage());
+        }
+
+    }
+
 
     /**
      * Loads all users from the database and updates the user list.
@@ -104,11 +150,18 @@ public class ManageUserPageController {
         try {
             userDAO.deleteUser(selectedUser.getUserId());
             userList.remove(selectedUser);
+            userTable.refresh();
             System.out.println("User has been deleted successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(AlertType.ERROR, "Error", "Could not delete user: " + e.getMessage());
         }
+        
+    }
+    private void fillFieldsWithSelectedUser(User selectedUser) {
+        userIdField.setText(String.valueOf(selectedUser.getUserId()));
+        userNameField.setText(selectedUser.getName());
+        userPasswordField.setText(selectedUser.getPassword());
     }
 
     /**

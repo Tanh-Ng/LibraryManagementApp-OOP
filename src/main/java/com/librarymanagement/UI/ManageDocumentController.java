@@ -60,6 +60,13 @@ public class ManageDocumentController {
 
         // Load document data into the table view
         loadDocumentData();
+        // Set up row selection listener
+        documentTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                // Fill the text fields with the selected document's details
+                fillFieldsWithSelectedDocument(newValue);
+            }
+        });
     }
 
     /**
@@ -159,7 +166,7 @@ public class ManageDocumentController {
             documentDAO.changeTitle(selectedDocument.getDocumentId(), newTitle);
             documentDAO.changeAuthor(selectedDocument.getDocumentId(), newAuthor);
             documentDAO.changeAvailable(selectedDocument.getDocumentId(), newIsAvailable);
-
+            documentDAO.changeBookType(selectedDocument.getDocumentId(), newBookType);
             if (selectedDocument instanceof Book) {
                 ((Book) selectedDocument).setIsbn(newIsbn);
                 ((Book) selectedDocument).setBookType(newBookType); // Update book type
@@ -170,7 +177,6 @@ public class ManageDocumentController {
             selectedDocument.setAuthor(newAuthor);
             selectedDocument.setIsAvailable(newIsAvailable);
             documentTableView.refresh();
-            clearFields();
 
             showAlert(Alert.AlertType.INFORMATION, "Success", "The book has been successfully updated!");
         } catch (SQLException e) {
@@ -248,6 +254,64 @@ public class ManageDocumentController {
             showAlert(Alert.AlertType.ERROR, "Error", bookDetails);
         }
     }
+
+    @FXML
+    public void handleAddFromApi(ActionEvent actionEvent) {
+        // Get ISBN from the input field
+        String isbn = isbnSearchField.getText().trim();
+
+        if (isbn.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Invalid Input", "ISBN cannot be empty.");
+            return;
+        }
+
+        // Create a new Book object with the ISBN
+        Book book = new Book(isbn);
+
+        // Fetch book details using the API
+        String bookDetails = book.fetchFromIsbn();
+
+        // If the book details were fetched successfully, add them to the table
+        if (bookDetails.startsWith("Title:")) {
+            try {
+                // Retrieve essential details from the fetched book information
+                String title = book.getTitle();
+                String author = book.getAuthor();
+                String fetchedIsbn = book.getIsbn();
+                Book.BookType bookType = Book.BookType.TEXTBOOKS;
+                boolean isAvailable = true;  // Default availability for fetched books
+
+                if (title == null || author == null || bookType == null) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Some required book details are missing.");
+                    return;
+                }
+
+                // Create a new Book instance with fetched details
+                Book newBook = new Book(title, author, fetchedIsbn, bookType);
+                newBook.setIsAvailable(isAvailable);
+
+                // Add the new book to the database
+                documentDAO.addDocument(newBook);
+
+                // Add the book to the table view
+                documentTableView.getItems().add(newBook);
+
+                // Show success message
+                showAlert(Alert.AlertType.INFORMATION, "Success", "The book has been successfully added!");
+
+                // Clear the ISBN search field
+                isbnSearchField.clear();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while adding the book.");
+            }
+        } else {
+            // Show an alert if book details are not found
+            showAlert(Alert.AlertType.ERROR, "Error", bookDetails);
+        }
+    }
+
     /**
      * Displays an alert dialog with the specified details.
      */
@@ -257,4 +321,23 @@ public class ManageDocumentController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    private void fillFieldsWithSelectedDocument(Document selectedDocument) {
+        if (selectedDocument instanceof Book) {
+            Book selectedBook = (Book) selectedDocument;
+
+            // Set text fields with the document's details
+            titleField.setText(selectedBook.getTitle());
+            authorNameField.setText(selectedBook.getAuthor());
+            isbnField.setText(selectedBook.getIsbn());
+            isAvailableField.setValue(selectedBook.isAvailable());
+            bookTypeChoiceBox.setValue(selectedBook.getBookType()); // Set book type
+
+            // Optionally set document ID (if needed)
+            documentIDField.setText(String.valueOf(selectedBook.getDocumentId()));
+        } else {
+            // Clear the fields if the selected document is not a book
+            clearFields();
+        }
+    }
+
 }

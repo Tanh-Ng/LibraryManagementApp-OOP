@@ -71,9 +71,9 @@
             <TableColumn fx:id="documentTypeColumn" prefWidth="108.8000366210938" text="Document Type" />
          </columns>
       </TableView>
-      <TextField fx:id="isbnSearchField"  layoutX="480.0" layoutY="92.0" promptText="SEARCH ISBN..." />
-      <Label layoutX="402.0" layoutY="96.0" text="SEARCH:" />
-      <Button layoutX="640.0" layoutY="92.0" mnemonicParsing="false" onAction="#handleSearchByIsbn" text="SEARCH" />
-
+      <TextField fx:id="isbnSearchField"  layoutX="480.0" layoutY="92.0" promptText="Enter ISBN..." />
+      <Label layoutX="402.0" layoutY="96.0" text="Search ISBN:" />
+      <Button layoutX="640.0" layoutY="92.0" mnemonicParsing="false" onAction="#handleSearchByIsbn" text="CHECK" />
+      <Button layoutX="720.0" layoutY="92.0" mnemonicParsing="false" onAction="#handleAddFromApi" text="Add" />
    </children>
 </AnchorPane>
