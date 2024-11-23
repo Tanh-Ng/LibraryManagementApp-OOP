@@ -35,3 +35,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+## Local MySQL Sever ##
+.src/main/resources/db.properties
