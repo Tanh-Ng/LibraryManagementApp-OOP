@@ -22,6 +22,11 @@ public class Book extends Document {
         this.isbn = isbn;
         this.apiClient = new ApiClient(); // Initialize the API client
     }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
     public String getIsbn() {
         return isbn;
     }
