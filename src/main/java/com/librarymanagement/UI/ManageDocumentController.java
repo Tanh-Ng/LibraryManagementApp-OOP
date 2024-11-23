@@ -235,7 +235,7 @@ public class ManageDocumentController {
                 // Create a new stage for the popup
                 Stage bookDetailsStage = new Stage();
                 Scene scene = new Scene(hbox);
-                bookDetailsStage.setTitle("Book Details");
+                bookDetailsStage.setTitle(book.getInfoUrl());
                 bookDetailsStage.setScene(scene);
                 bookDetailsStage.show();
             } catch (Exception e) {
