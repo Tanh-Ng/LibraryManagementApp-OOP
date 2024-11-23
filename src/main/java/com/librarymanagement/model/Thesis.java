@@ -25,6 +25,10 @@ public class Thesis extends Document {
         this.academicAdvisor=academicAdvisor;
     }
 
+    public void setAcademicAdvisor(String academicAdvisor) {
+        this.academicAdvisor = academicAdvisor;
+    }
+
     /**
      * Gets the academic advisor for the thesis.
      *

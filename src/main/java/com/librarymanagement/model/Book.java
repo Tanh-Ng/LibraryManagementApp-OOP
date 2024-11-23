@@ -11,7 +11,6 @@ public class Book extends Document {
 
     private String isbn;
     private ApiClient apiClient;
-
     public Book(String title, String author, String isbn) {
         super(title, author); // Call to Document's constructor
         this.isbn = isbn;
@@ -23,7 +22,6 @@ public class Book extends Document {
         this.isbn = isbn;
         this.apiClient = new ApiClient(); // Initialize the API client
     }
-
     public String getIsbn() {
         return isbn;
     }

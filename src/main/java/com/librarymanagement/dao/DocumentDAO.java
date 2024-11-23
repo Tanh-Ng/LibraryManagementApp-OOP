@@ -169,6 +169,18 @@ public class DocumentDAO {
             pstmt.executeUpdate();
         }
     }
+    public void updateDocumentType(int documentId, String newDocumentType) throws SQLException {
+        String sql = "UPDATE Documents SET document_type = ? WHERE document_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, newDocumentType); // Set the new document type
+            pstmt.setInt(2, documentId);        // Set the document ID for the update
+
+            // Execute the update
+            pstmt.executeUpdate();
+        }
+    }
 
     // Method to soft delete a document based on its ID
     public void softDelete(int documentId) throws SQLException {
