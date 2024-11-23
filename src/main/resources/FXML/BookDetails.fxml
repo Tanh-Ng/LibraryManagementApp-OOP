@@ -14,6 +14,8 @@
         <Label fx:id="authorLabel" text="Author: " wrapText="true" style="-fx-font-size: 14px;" />
         <Label fx:id="publisherLabel" text="Publisher: " wrapText="true" style="-fx-font-size: 14px;" />
         <Label fx:id="publishDateLabel" text="Published Date: " wrapText="true" style="-fx-font-size: 14px;" />
+        <Label text="Scan to Access Document:" style="-fx-font-size: 14px;" />
+        <ImageView fx:id="qrCodeImageView" fitWidth="150" fitHeight="150" preserveRatio="true" />
         <Button text="Close" fx:id="closeButton" style="-fx-alignment: center;" />
     </VBox>
 </HBox>
