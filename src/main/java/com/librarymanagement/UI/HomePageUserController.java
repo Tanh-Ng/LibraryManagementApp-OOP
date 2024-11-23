@@ -1,6 +1,8 @@
 package com.librarymanagement.UI;
 
+import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.model.Book;
+import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
 import  com.librarymanagement.dao.DocumentDAO;
 import javafx.scene.Scene;
@@ -20,6 +22,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class HomePageUserController {
+    private final DocumentDAO documentDAO = new DocumentDAO();
+    private final BorrowDAO borrowDAO = new BorrowDAO();
+
     @FXML
     public TextField searchStringField;
 
@@ -27,6 +32,22 @@ public class HomePageUserController {
     public ListView<String> resultListView;
 
     public static List<Document> documents;
+
+    public List<Borrow> borrowedDocuments;
+
+    public void initialize() throws SQLException {
+        try {
+            // DAO initialization and data fetching
+            borrowedDocuments = borrowDAO.getAllBorrowedDocuments();
+            documents = documentDAO.getAllDocuments();
+            // Populate the rows
+            //itemsContainer.getChildren().add(createRowWithButtons("Borrowed Documents"));
+            itemsContainer.getChildren().add(createDocumentList("FANTASY"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //Search document after clicked
     public void handleSearchDocument() throws Exception{
@@ -109,20 +130,8 @@ public class HomePageUserController {
 
     @FXML
     private VBox itemsContainer; // The container for dynamic items (rows)
-    private DocumentDAO documentDAO;
 
-    public void initialize() throws SQLException {
-
-        // Create 4 rows of AnchorPanes
-        itemsContainer.getChildren().add(createRowWithButtons("Borrowed Documents"));
-        for (int i = 0; i < 3; i++) {
-            itemsContainer.getChildren().add(createRowWithButtons("Testss"));
-        }
-    }
-
-    private VBox createRowWithButtons(String categoryText) throws SQLException {
-
-
+    private VBox createDocumentList(String categoryText) throws SQLException {
         VBox vbox = new VBox(10);
         vbox.setStyle("-fx-padding: 10;");
 
@@ -147,31 +156,63 @@ public class HomePageUserController {
         Button rightButton = new Button(">");
         rightButton.setStyle("-fx-font-size: 18px;");
 
-        // Create the ScrollPane to hold the content
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefHeight(200);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
+        // Create the ScrollButtonHBox to hold the content
         HBox contentHBox = new HBox(10);
         contentHBox.setStyle("-fx-padding: 10;");
 
+        // Get documents for this category
         List<Document> documentsByType = documentDAO.getDocumentsByType(Book.BookType.valueOf(categoryText));
-        for (Document doc : documentsByType) {
-            AnchorPane anchorPane = createAnchorPane(doc);
-            contentHBox.getChildren().add(anchorPane);
-        }
+        final int paneCount = 5; // Number of panes to show at a time
+        final int[] currentIndex = {0}; // Keep track of the starting index
 
-        // Place left and right buttons inside the HBox (along with the content)
+        // Initialize content for the first view
+        updateContent(contentHBox, documentsByType, currentIndex[0], paneCount, leftButton, rightButton);
+
+        // Attach event handlers to buttons
+        leftButton.setOnAction(event -> {
+            if (currentIndex[0] - paneCount >= 0) {
+                currentIndex[0] -= paneCount;
+                updateContent(contentHBox, documentsByType, currentIndex[0], paneCount, leftButton, rightButton);
+            }
+        });
+
+        rightButton.setOnAction(event -> {
+            if (currentIndex[0] + paneCount < documentsByType.size()) {
+                currentIndex[0] += paneCount;
+                updateContent(contentHBox, documentsByType, currentIndex[0], paneCount, leftButton, rightButton);
+            }
+        });
+
+        // Wrap the HBox and buttons in a ScrollPane
         HBox scrollButtonsHBox = new HBox(10, leftButton, contentHBox, rightButton);
         scrollButtonsHBox.setAlignment(Pos.CENTER);
 
-        scrollPane.setContent(scrollButtonsHBox);
-
         // Add everything to the main VBox
-        vbox.getChildren().addAll(topHBox, scrollPane);
+        vbox.getChildren().addAll(topHBox, scrollButtonsHBox);
 
         return vbox;
+    }
+
+    // Method to update content in the HBox
+    private void updateContent(HBox contentHBox, List<Document> documents, int startIndex, int count, Button leftButton, Button rightButton) {
+        contentHBox.getChildren().clear();
+        int endIndex = Math.min(startIndex + count, documents.size());
+
+        // Add actual panes for the documents in range
+        for (int i = startIndex; i < endIndex; i++) {
+            AnchorPane anchorPane = createAnchorPane(documents.get(i));
+            contentHBox.getChildren().add(anchorPane);
+        }
+
+        // Add placeholder panes if fewer than 5 panes are displayed
+        for (int i = endIndex; i < startIndex + count; i++) {
+            AnchorPane placeholderPane = createPlaceholderPane();
+            contentHBox.getChildren().add(placeholderPane);
+        }
+
+        // Update button visibility
+        leftButton.setDisable(startIndex == 0); // Disable "left" if at the beginning
+        rightButton.setDisable(startIndex + count >= documents.size()); // Disable "right" if at the end
     }
 
     private AnchorPane createAnchorPane(Document document) {
@@ -188,9 +229,12 @@ public class HomePageUserController {
         return anchorPane;
     }
 
-
-
-
+    // Create a placeholder AnchorPane for empty spaces
+    private AnchorPane createPlaceholderPane() {
+        AnchorPane placeholderPane = new AnchorPane();
+        placeholderPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 180px; -fx-pref-width: 160px;");
+        return placeholderPane;
+    }
 
 
 }
