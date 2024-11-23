@@ -12,7 +12,7 @@ public class DocumentDAO {
 
     // Method for adding a new document (Books only)
     public void addDocument(Document document) throws SQLException {
-        String sql = "INSERT INTO Documents (title, author, is_available, isbn) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Documents (title, author, is_available, isbn, book_type) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, document.getTitle());
@@ -22,6 +22,7 @@ public class DocumentDAO {
             // Set ISBN for Book
             if (document instanceof Book) {
                 pstmt.setString(4, ((Book) document).getIsbn());
+                pstmt.setString(5, ((Book) document).getBookType().name()); // Save the book_type as a string
             }
 
             // Execute the insert and retrieve the generated keys
@@ -55,8 +56,12 @@ public class DocumentDAO {
                 boolean isDeleted = rs.getBoolean("is_deleted");
                 String isbn = rs.getString("isbn");
 
+                // Get the book type (mapping from String to BookType enum)
+                String bookTypeString = rs.getString("book_type");
+                Book.BookType bookType = Book.BookType.valueOf(bookTypeString); // Map to BookType enum
+
                 // Only create a Book object, since that's the only document type now
-                Document document = new Book(documentId, title, author, isbn);
+                Document document = new Book(documentId, title, author, isbn, bookType);
                 document.setIsAvailable(isAvailable);
                 document.setIsDeleted(isDeleted);
                 documents.add(document);
@@ -80,8 +85,12 @@ public class DocumentDAO {
                     boolean isDeleted = rs.getBoolean("is_deleted");
                     String isbn = rs.getString("isbn");
 
+                    // Get the book type (mapping from String to BookType enum)
+                    String bookTypeString = rs.getString("book_type");
+                    Book.BookType bookType = Book.BookType.valueOf(bookTypeString);
+
                     // Return Book object as the only document type
-                    Document document = new Book(title, author, isbn);
+                    Document document = new Book(title, author, isbn, bookType);
                     document.setIsAvailable(isAvailable);
                     document.setIsDeleted(isDeleted);
                     document.setId(documentId);

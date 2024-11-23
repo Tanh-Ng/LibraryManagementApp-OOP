@@ -28,112 +28,132 @@ class DocumentDAOTest {
     }
 
     @Test
-    void testAddDocument() throws SQLException {
-        Document book = new Book("JUnit in Action", "Craig Walls", "9781935182023");
+    void shouldAddDocument() throws SQLException {
+        // Given: a book with a valid ISBN and a book type
+        Book book = createBook("JUnit in Action", "Craig Walls", "9781935182023", Book.BookType.SCIENCE_FICTION);
         documentDAO.addDocument(book);
 
+        // When: we fetch all documents
         List<Document> documents = documentDAO.getAllDocuments();
+
+        // Then: we assert that the book is added
         assertTrue(documents.stream().anyMatch(doc -> "JUnit in Action".equals(doc.getTitle())));
     }
 
     @Test
-    void testGetAllDocuments() throws SQLException {
-        Document book1 = new Book("Clean Code", "Robert C. Martin", "9780132350884");
-        Document book2 = new Book("Refactoring", "Martin Fowler", "9780201485677");
+    void shouldReturnAllDocuments() throws SQLException {
+        // Given: two books with valid ISBNs and book types
+        Book book1 = createBook("Clean Code", "Robert C. Martin", "9780132350884", Book.BookType.TEXTBOOKS);
+        Book book2 = createBook("Refactoring", "Martin Fowler", "9780201485677", Book.BookType.TEXTBOOKS);
 
         documentDAO.addDocument(book1);
         documentDAO.addDocument(book2);
 
+        // When: we fetch all documents
         List<Document> documents = documentDAO.getAllDocuments();
+
+        // Then: we assert that the correct number of documents are returned
         assertEquals(2, documents.size());
     }
 
     @Test
-    void testGetDocumentById() throws SQLException {
-        Document book = new Book("Effective Java", "Joshua Bloch", "9780134685991");
+    void shouldRetrieveDocumentById() throws SQLException {
+        // Given: a book with a valid ISBN and book type
+        Book book = createBook("Effective Java", "Joshua Bloch", "9780134685991", Book.BookType.TEXTBOOKS);
         documentDAO.addDocument(book);
 
-        List<Document> documents = documentDAO.getAllDocuments();
-        Document savedBook = documents.get(0);
-
+        // When: we fetch the document by ID
+        Document savedBook = documentDAO.getAllDocuments().get(0);
         Document retrievedBook = documentDAO.getDocumentById(savedBook.getId());
+
+        // Then: we assert the book details are correct
         assertNotNull(retrievedBook);
         assertEquals("Effective Java", retrievedBook.getTitle());
     }
 
     @Test
-    void testChangeTitle() throws SQLException {
-        Document book = new Book("Old Title", "Author", "1234567890");
+    void shouldChangeDocumentTitle() throws SQLException {
+        // Given: a book with a valid ISBN and book type
+        Book book = createBook("Old Title", "Author", "1234567890", Book.BookType.BIOGRAPHY);
         documentDAO.addDocument(book);
 
-        List<Document> documents = documentDAO.getAllDocuments();
-        Document savedBook = documents.get(0);
-
+        // When: we change the title of the book
+        Document savedBook = documentDAO.getAllDocuments().get(0);
         documentDAO.changeTitle(savedBook.getId(), "New Title");
 
+        // Then: we assert that the title has been updated
         Document updatedBook = documentDAO.getDocumentById(savedBook.getId());
         assertEquals("New Title", updatedBook.getTitle());
     }
 
     @Test
-    void testChangeAuthor() throws SQLException {
-        Document book = new Book("Title", "Old Author", "1234567890");
+    void shouldChangeDocumentAuthor() throws SQLException {
+        // Given: a book with a valid ISBN and book type
+        Book book = createBook("Title", "Old Author", "1234567890", Book.BookType.ROMANCE);
         documentDAO.addDocument(book);
 
-        List<Document> documents = documentDAO.getAllDocuments();
-        Document savedBook = documents.get(0);
-
+        // When: we change the author of the book
+        Document savedBook = documentDAO.getAllDocuments().get(0);
         documentDAO.changeAuthor(savedBook.getId(), "New Author");
 
+        // Then: we assert that the author has been updated
         Document updatedBook = documentDAO.getDocumentById(savedBook.getId());
         assertEquals("New Author", updatedBook.getAuthor());
     }
 
     @Test
-    void testChangeAvailable() throws SQLException {
-        Document book = new Book("Available Test", "Author", "1234567890");
+    void shouldChangeDocumentAvailability() throws SQLException {
+        // Given: a book with a valid ISBN and book type
+        Book book = createBook("Available Test", "Author", "1234567890", Book.BookType.ART);
         documentDAO.addDocument(book);
 
-        List<Document> documents = documentDAO.getAllDocuments();
-        Document savedBook = documents.get(0);
-
+        // When: we change the availability status of the book
+        Document savedBook = documentDAO.getAllDocuments().get(0);
         documentDAO.changeAvailable(savedBook.getId(), false);
 
+        // Then: we assert that the availability has been updated
         Document updatedBook = documentDAO.getDocumentById(savedBook.getId());
         assertFalse(updatedBook.isAvailable());
     }
 
     @Test
-    void testDeleteDocument() throws SQLException {
-        Document book = new Book("To Be Deleted", "Author", "1234567890");
+    void shouldDeleteDocument() throws SQLException {
+        // Given: a book with a valid ISBN and book type
+        Book book = createBook("To Be Deleted", "Author", "1234567890", Book.BookType.SCIENCE_FICTION);
         documentDAO.addDocument(book);
 
-        List<Document> documents = documentDAO.getAllDocuments();
-        Document savedBook = documents.get(0);
-
+        // When: we delete the book
+        Document savedBook = documentDAO.getAllDocuments().get(0);
         documentDAO.deleteDocument(savedBook.getId());
 
+        // Then: we assert that the document is deleted
         Document deletedBook = documentDAO.getDocumentById(savedBook.getId());
         assertNull(deletedBook);
     }
 
     @Test
-    void testSoftDeleteDocument() throws SQLException {
-        Document book = new Book("To Be Soft Deleted", "Author", "1234567890");
+    void shouldSoftDeleteDocument() throws SQLException {
+        // Given: a book with a valid ISBN and book type
+        Book book = createBook("To Be Soft Deleted", "Author", "1234567890", Book.BookType.ROMANCE);
         documentDAO.addDocument(book);
 
-        List<Document> documents = documentDAO.getAllDocuments();
-        Document savedBook = documents.get(0);
-
+        // When: we perform a soft delete
+        Document savedBook = documentDAO.getAllDocuments().get(0);
         documentDAO.softDelete(savedBook.getId());
 
+        // Then: we assert that the document is marked as deleted
         Document softDeletedBook = documentDAO.getDocumentById(savedBook.getId());
         assertNotNull(softDeletedBook);
-        assertTrue(softDeletedBook.isDeleted()); // Assuming isDeleted() checks the deletion status
+        assertTrue(softDeletedBook.isDeleted(), "Document should be soft deleted.");
     }
 
     @AfterEach
     void afterEachTest() throws SQLException {
-        clearTable(); // Ensures table is cleared after each test as well
+        clearTable(); // Ensures table is cleared after each test
+    }
+
+    // Helper method to create a Book with book type
+    private Book createBook(String title, String author, String isbn, Book.BookType bookType) {
+        return new Book(title, author, isbn, bookType);
     }
 }
