@@ -4,8 +4,10 @@ public class Document {
     private int DocumentId;
     private String title;
     private String author;
-    private boolean isAvailable;
+    protected boolean isAvailable;
     private boolean isDeleted;
+
+
     // Constructor
     public Document(String title, String author) {
         this.title = title;

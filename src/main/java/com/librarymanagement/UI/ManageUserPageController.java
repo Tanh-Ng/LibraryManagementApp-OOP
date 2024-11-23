@@ -1,32 +1,37 @@
 package com.librarymanagement.UI;
 
 import com.librarymanagement.app.LibraryManagementApp;
+import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import com.librarymanagement.dao.UserDAO;
 import com.librarymanagement.model.NormalUser;
 import com.librarymanagement.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 
 import java.sql.SQLException;
 
 public class ManageUserPageController {
-    public TextField userIdField;
-    public TextField userNameField;
-    public PasswordField userPasswordField;
-    public TableView<User> userTable; // TableView để hiển thị danh sách người dùng
-    public TableColumn<User, Integer> userIdColumn;
-    public TableColumn<User, String> userNameColumn;
-    public TableColumn<User, String> userPasswordColumn;
+    @FXML public TextField userIdField;
+    @FXML public TextField userNameField;
+    @FXML public PasswordField userPasswordField;
+    @FXML public TableView<User> userTable;
+    @FXML public TableColumn<User, Integer> userIdColumn;
+    @FXML public TableColumn<User, String> userNameColumn;
+    @FXML public TableColumn<User, String> userPasswordColumn;
 
-    private ObservableList<User> userList = FXCollections.observableArrayList();
-    private UserDAO userDAO = new UserDAO();
+    @FXML private ObservableList<User> userList = FXCollections.observableArrayList();
+    @FXML private UserDAO userDAO = new UserDAO();
 
+    /**
+     * Initializes the user management page by setting up the table columns
+     * and loading all users from the database.
+     */
     public void initialize() {
         userIdColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -35,17 +40,28 @@ public class ManageUserPageController {
         loadUsers();
     }
 
-    public void handleToHomePageUser(ActionEvent actionEvent) throws Exception {
+    /**
+     * Navigates to the Admin home page.
+     *
+     * @param actionEvent The event triggered by the user action.
+     * @throws Exception If navigation fails.
+     */
+    public void handleToHomePageAdmin(ActionEvent actionEvent) throws Exception {
         LibraryManagementApp.showAdminPage();
     }
 
-    //add new User
+    /**
+     * Adds a new user with the given username and password.
+     * Displays alerts for successful or failed user creation.
+     *
+     * @param actionEvent The event triggered by the user action.
+     */
     public void handleAddUser(ActionEvent actionEvent) {
         String userName = userNameField.getText();
         String userPassword = userPasswordField.getText();
 
         if (userName.isEmpty() || userPassword.isEmpty()) {
-            System.out.println("Please fill in all the information!");
+            showAlert(AlertType.WARNING, "Input Error", "Please fill in all the information!");
             return;
         }
         User newUser = new NormalUser(0, userName, userPassword);
@@ -54,23 +70,31 @@ public class ManageUserPageController {
             userList.add(newUser);
             userNameField.clear();
             userPasswordField.clear();
-            System.out.println("User has been added successfully!");
+            showAlert(AlertType.INFORMATION, "Success", "User has been added successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Could not add user: " + e.getMessage());
+            showAlert(AlertType.ERROR, "Error", "Could not add user: " + e.getMessage());
         }
     }
 
+    /**
+     * Loads all users from the database and updates the user list.
+     */
     private void loadUsers() {
         try {
             userList.setAll(userDAO.getAllUsers());
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Could not load the user list: " + e.getMessage());
+            showAlert(AlertType.ERROR, "Error", "Could not load the user list: " + e.getMessage());
         }
     }
 
-
+    /**
+     * Deletes the selected user from the user list and database.
+     * Displays alerts for successful or failed deletion.
+     *
+     * @param actionEvent The event triggered by the user action.
+     */
     public void handleDeleteUser(ActionEvent actionEvent) {
         User selectedUser = userTable.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
@@ -83,7 +107,21 @@ public class ManageUserPageController {
             System.out.println("User has been deleted successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Could not delete user: " + e.getMessage());
+            showAlert(AlertType.ERROR, "Error", "Could not delete user: " + e.getMessage());
         }
+    }
+
+    /**
+     * Displays an alert with the specified type, title, and message.
+     *
+     * @param alertType The type of alert (e.g., ERROR, INFORMATION, WARNING).
+     * @param title The title of the alert window.
+     * @param message The message to be displayed in the alert.
+     */
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

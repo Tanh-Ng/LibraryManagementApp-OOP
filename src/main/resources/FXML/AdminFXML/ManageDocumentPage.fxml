@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.Boolean?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -13,37 +14,47 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.ManageDocumentController">
-   
    <children>
-      <AnchorPane layoutX="7.0" layoutY="6.0" prefHeight="524.0" prefWidth="290.0">
+      <AnchorPane layoutX="7.0" layoutY="6.0" prefHeight="700.0" prefWidth="286.0">
          <children>
             <TextField fx:id="titleField" layoutX="43.0" layoutY="209.0" promptText="Enter Document Title..." />
             <TextField fx:id="authorNameField" layoutX="42.0" layoutY="277.0" promptText="Enter Author Name..." />
-            <TextField fx:id="documentIDField" layoutX="43.0" layoutY="140.0" promptText="Enter Document Id..." />
-            <Label layoutX="48.0" layoutY="110.0" text="Document Id :" />
-            <Label layoutX="42.0" layoutY="175.0" text="Document Title :" />
-            <Label layoutX="47.0" layoutY="244.0" text="Author Name :" />
-            <Button layoutX="20.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleAddDocument" text="ADD" />
-            <Button layoutX="108.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleUpdateDocument" text="UPDATE" />
-            <Button layoutX="206.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleDeleteDocument" text="DELETE" />
-            <Label layoutX="43.0" layoutY="314.0" text="Type Of Document :" />
+            <TextField fx:id="documentIDField" layoutX="43.0" layoutY="140.0" promptText="Enter Document ID..." />
+            <Label layoutX="48.0" layoutY="110.0" text="Document ID:" />
+            <Label layoutX="42.0" layoutY="175.0" text="Document Title:" />
+            <Label layoutX="47.0" layoutY="244.0" text="Author Name:" />
+            <Button layoutX="22.0" layoutY="642.0" mnemonicParsing="false" onAction="#handleAddDocument" text="ADD" />
+            <Button layoutX="95.0" layoutY="642.0" mnemonicParsing="false" onAction="#handleUpdateDocument" text="UPDATE" />
+            <Button layoutX="192.0" layoutY="642.0" mnemonicParsing="false" onAction="#handleDeleteDocument" text="DELETE" />
             <Button layoutX="20.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleToHomePageAdmin" text="Back" />
             <Label layoutX="68.0" layoutY="63.0" text="Action For Admin">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="documentTypeField" layoutX="42.0" layoutY="338.0" prefWidth="150.0">
+            <TextField fx:id="isbnField" layoutX="41.0" layoutY="338.0" promptText="Enter ISBN..." />
+            <Label layoutX="45.0" layoutY="304.0" text="ISBN:" />
+            <ChoiceBox fx:id="isAvailableField" layoutX="42.0" layoutY="418.0" prefWidth="150.0">
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="Box" />
-                     <String fx:value="Thesis" />
+                     <Boolean fx:value="True" />
+                     <Boolean fx:value="False" />
                   </FXCollections>
                </items>
-               <opaqueInsets>
-                  <Insets bottom="10.0" />
-               </opaqueInsets>
             </ChoiceBox>
+            <Label layoutX="49.0" layoutY="378.0" text="Is Available:" />
+
+            <!-- New ChoiceBox for selecting Book Type -->
+            <ChoiceBox fx:id="bookTypeChoiceBox" layoutX="42.0" layoutY="470.0" prefWidth="150.0">
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="TEXTBOOK" />
+                     <String fx:value="ROMANCE" />
+                     <String fx:value="SCIENCE_FICTION" />
+                  </FXCollections>
+               </items>
+            </ChoiceBox>
+            <Label layoutX="49.0" layoutY="440.0" text="Book Type:" />
          </children>
       </AnchorPane>
       <Label layoutX="480.0" layoutY="46.0" prefHeight="28.0" prefWidth="171.0" text="Manage Documents" textAlignment="CENTER" textFill="#d41010">
@@ -51,16 +62,16 @@
             <Font name="Calibri Light Italic" size="20.0" />
          </font>
       </Label>
-      <TableView layoutX="313.0" layoutY="141.0" prefHeight="298.0" prefWidth="532.0">
-        <columns>
-          <TableColumn prefWidth="85.60003662109375" text="Document Id" />
-          <TableColumn prefWidth="167.199951171875" text="Document Title" />
-            <TableColumn prefWidth="110.39996337890625" text="Author" />
-            <TableColumn prefWidth="64.7999267578125" text="Type" />
-            <TableColumn prefWidth="98.39990234375" text="Quantity" />
-        </columns>
+      <TableView fx:id="documentTableView" layoutX="312.0" layoutY="143.0" prefHeight="298.0" prefWidth="750.0">
+         <columns>
+            <TableColumn fx:id="documentIdColumn" prefWidth="85.6" text="Document ID" />
+            <TableColumn fx:id="documentTitleColumn" prefWidth="167.2" text="Document Title" />
+            <TableColumn fx:id="authorColumn" prefWidth="110.4" text="Author" />
+            <TableColumn fx:id="isAvailableColumn" prefWidth="89.6" text="Is Available" />
+            <TableColumn fx:id="isbnColumn" prefWidth="105.6" text="ISBN" />
+         </columns>
       </TableView>
       <TextField layoutX="480.0" layoutY="92.0" />
-      <Label layoutX="402.0" layoutY="96.0" text="SEARCH :" />
+      <Label layoutX="402.0" layoutY="96.0" text="SEARCH:" />
    </children>
 </AnchorPane>
