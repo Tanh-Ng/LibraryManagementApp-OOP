@@ -7,12 +7,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.TextField?>
 <AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.librarymanagement.UI.HomePageUserController"
             prefHeight="800.0" prefWidth="1200.0">
    <children>
       <!-- Top bar -->
-      <VBox layoutX="0.0" layoutY="0.0" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: black;" />
+      <VBox layoutX="0.0" layoutY="0.0" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: black;" >
+         <children>
+            <!-- HBox for search bar -->
+            <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
+               <!-- Text Field for search -->
+               <TextField fx:id="searchStringField" promptText="Search documents..." prefWidth="500.0" />
+               <!-- Search Button (optional) -->
+               <Button text="Search" onAction="#handleSearchDocument" />
+            </HBox>
+         </children>
+      </VBox>
+
 
       <!-- Main ScrollPane -->
       <ScrollPane layoutX="0.0" layoutY="60.0" prefHeight="740.0" prefWidth="1200.0" fitToWidth="true" hbarPolicy="NEVER">
