@@ -3,7 +3,6 @@ package com.librarymanagement.dao;
 import com.librarymanagement.database.DatabaseConfig;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
-import com.librarymanagement.model.Thesis;
 import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
@@ -39,11 +38,11 @@ class DocumentDAOTest {
 
     @Test
     void testGetAllDocuments() throws SQLException {
-        Document book = new Book("Clean Code", "Robert C. Martin", "9780132350884");
-        Document thesis = new Thesis("AI in Healthcare", "Dr. Emily White", "Dr. John Doe");
+        Document book1 = new Book("Clean Code", "Robert C. Martin", "9780132350884");
+        Document book2 = new Book("Refactoring", "Martin Fowler", "9780201485677");
 
-        documentDAO.addDocument(book);
-        documentDAO.addDocument(thesis);
+        documentDAO.addDocument(book1);
+        documentDAO.addDocument(book2);
 
         List<Document> documents = documentDAO.getAllDocuments();
         assertEquals(2, documents.size());
@@ -133,11 +132,8 @@ class DocumentDAOTest {
         assertTrue(softDeletedBook.isDeleted()); // Assuming isDeleted() checks the deletion status
     }
 
-
-
     @AfterEach
     void afterEachTest() throws SQLException {
         clearTable(); // Ensures table is cleared after each test as well
     }
-
 }

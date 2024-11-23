@@ -91,8 +91,4 @@ public class Document {
     public void setIsDeleted(boolean isDeleted){
         this.isDeleted=isDeleted;
     }
-
-    public String getDocumentType() {
-        return this instanceof Book ? "Book" : this instanceof Thesis ? "Thesis" : "Unknown";
-    }
 }
