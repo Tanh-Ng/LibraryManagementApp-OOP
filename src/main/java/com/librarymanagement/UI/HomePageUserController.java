@@ -1,12 +1,16 @@
 package com.librarymanagement.UI;
 
+import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
+import  com.librarymanagement.dao.DocumentDAO;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
+
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import javafx.scene.layout.AnchorPane;
@@ -104,14 +108,36 @@ public class HomePageUserController {
         });
 
         resultListView.setOnMouseClicked(
-                event -> handlePickDocumnet(resultListView.getSelectionModel().getSelectedItem())
+                event -> handlePickDocument(resultListView.getSelectionModel().getSelectedItem())
         );
+    }
+
+    private void handlePickDocument(String documentTitleAuthor) {
+        Document pickedDocument = new Document("Null", "Null");
+        for (Document searchDocument : documents) {
+            if (searchDocument.getTitle().equalsIgnoreCase(documentTitleAuthor.split(" by ")[0])) {
+                pickedDocument = searchDocument;
+                break;
+            }
+        }
+        Stage stage = new Stage();
+        VBox vbox = new VBox();
+        Label titleLabel = new Label("Title: " + pickedDocument.getTitle());
+        Label authorLabel = new Label("Author: " + pickedDocument.getAuthor());
+
+        vbox.getChildren().addAll(titleLabel, authorLabel);
+        Scene scene = new Scene(vbox, 500, 500);
+
+        stage.setTitle("Document Details");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     private VBox itemsContainer; // The container for dynamic items (rows)
+    private DocumentDAO documentDAO;
 
-    public void initialize() {
+    public void initialize() throws SQLException {
 
         // Create 4 rows of AnchorPanes
         itemsContainer.getChildren().add(createRowWithButtons("Borrowed Documents"));
@@ -120,7 +146,9 @@ public class HomePageUserController {
         }
     }
 
-    private VBox createRowWithButtons(String categoryText) {
+    private VBox createRowWithButtons(String categoryText) throws SQLException {
+
+
         VBox vbox = new VBox(10);
         vbox.setStyle("-fx-padding: 10;");
 
@@ -154,9 +182,9 @@ public class HomePageUserController {
         HBox contentHBox = new HBox(10);
         contentHBox.setStyle("-fx-padding: 10;");
 
-        // Create and add AnchorPanes for content
-        for (int i = 0; i < 6; i++) {
-            AnchorPane anchorPane = createAnchorPane();
+        List<Document> documentsByType = documentDAO.getDocumentsByType(Book.BookType.valueOf(categoryText));
+        for (Document doc : documentsByType) {
+            AnchorPane anchorPane = createAnchorPane(doc);
             contentHBox.getChildren().add(anchorPane);
         }
 
@@ -172,7 +200,7 @@ public class HomePageUserController {
         return vbox;
     }
 
-    private AnchorPane createAnchorPane() {
+    private AnchorPane createAnchorPane(Document document) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 180px; -fx-pref-width: 160px;");
 
@@ -190,24 +218,5 @@ public class HomePageUserController {
 
 
 
-    private void handlePickDocumnet(String documentTitleAuthor) {
-        Document pickedDocument = new Document("Null", "Null");
-        for (Document searchDocument : documents) {
-            if (searchDocument.getTitle().equalsIgnoreCase(documentTitleAuthor.split(" by ")[0])) {
-                pickedDocument = searchDocument;
-                break;
-            }
-        }
-        Stage stage = new Stage();
-        VBox vbox = new VBox();
-        Label titleLabel = new Label("Title: " + pickedDocument.getTitle());
-        Label authorLabel = new Label("Author: " + pickedDocument.getAuthor());
 
-        vbox.getChildren().addAll(titleLabel, authorLabel);
-        Scene scene = new Scene(vbox, 500, 500);
-
-        stage.setTitle("Document Details");
-        stage.setScene(scene);
-        stage.show();
-    }
 }
