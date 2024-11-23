@@ -20,6 +20,7 @@ public class ManageDocumentController {
     @FXML private TextField documentIDField;
     @FXML private ChoiceBox<Boolean> isAvailableField;
     @FXML private TextField isbnField;
+    @FXML private ChoiceBox<Book.BookType> bookTypeChoiceBox; // ChoiceBox for book type
 
     @FXML private TableView<Document> documentTableView;
     @FXML private TableColumn<Document, Integer> documentIdColumn;
@@ -31,7 +32,7 @@ public class ManageDocumentController {
     private final DocumentDAO documentDAO = new DocumentDAO();
 
     /**
-     * Initializes the controller and sets up the table view.
+     * Initializes the controller and sets up the table view and book type choice box.
      */
     @FXML
     public void initialize() {
@@ -45,6 +46,9 @@ public class ManageDocumentController {
             }
             return new SimpleStringProperty("");
         });
+
+        // Initialize the book type choice box with available book types
+        bookTypeChoiceBox.getItems().setAll(Book.BookType.values());
 
         // Load document data into the table view
         loadDocumentData();
@@ -67,14 +71,15 @@ public class ManageDocumentController {
             String author = authorNameField.getText();
             String isbn = isbnField.getText();
             boolean isAvailable = isAvailableField.getValue();
+            Book.BookType bookType = bookTypeChoiceBox.getValue(); // Get selected book type
 
-            if (title.isEmpty() || author.isEmpty() || isbn.isEmpty()) {
+            if (title.isEmpty() || author.isEmpty() || isbn.isEmpty() || bookType == null) {
                 showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all required fields!");
                 return;
             }
 
-            // Create a new book
-            Document book = new Book(title, author, isbn);
+            // Create a new book with book type
+            Document book = new Book(title, author, isbn, bookType);
             book.setIsAvailable(isAvailable);
 
             // Add book to the database
@@ -101,6 +106,7 @@ public class ManageDocumentController {
         documentIDField.clear();
         isAvailableField.setValue(null);
         isbnField.clear();
+        bookTypeChoiceBox.setValue(null); // Clear book type choice box
     }
 
     /**
@@ -133,6 +139,13 @@ public class ManageDocumentController {
             String newAuthor = authorNameField.getText();
             String newIsbn = isbnField.getText();
             boolean newIsAvailable = isAvailableField.getValue();
+            Book.BookType newBookType = bookTypeChoiceBox.getValue(); // Get updated book type
+
+            // Validate that the book type is selected
+            if (newBookType == null) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Please select a book type.");
+                return;
+            }
 
             // Update in database
             documentDAO.changeTitle(selectedDocument.getId(), newTitle);
@@ -141,6 +154,7 @@ public class ManageDocumentController {
 
             if (selectedDocument instanceof Book) {
                 ((Book) selectedDocument).setIsbn(newIsbn);
+                ((Book) selectedDocument).setBookType(newBookType); // Update book type
             }
 
             // Update the table view and clear fields
