@@ -10,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
@@ -35,7 +37,7 @@ public class HomePageUserController {
 
     public List<Borrow> borrowedDocuments;
 
-    public void initialize() throws SQLException {
+    public void initialize() {
         try {
             // DAO initialization and data fetching
             borrowedDocuments = borrowDAO.getAllBorrowedDocuments();
@@ -218,14 +220,34 @@ public class HomePageUserController {
     private AnchorPane createAnchorPane(Document document) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 180px; -fx-pref-width: 160px;");
+        if (document instanceof Book book) {
+            // Create an ImageView for the book cover
+            ImageView coverImageView = new ImageView();
+            coverImageView.setFitHeight(180); // Set desired height
+            //coverImageView.setFitWidth(120); // Set desired width
+            coverImageView.setPreserveRatio(true);
 
-        // Borrow button at the bottom
-        Button borrowButton = new Button("Borrow");
-        borrowButton.setPrefWidth(100);
-        AnchorPane.setBottomAnchor(borrowButton, 10.0);
-        AnchorPane.setLeftAnchor(borrowButton, 30.0);
+            // Load the image from the URL
+            if (book.getImageUrl() != null) {
+                try {
+                    coverImageView.setImage(new Image(book.getImageUrl(), true)); // Asynchronous loading
+                } catch (Exception e) {
+                    System.out.println("Failed to load image for ISBN: " + book.getIsbn());
+                }
+            }
 
-        anchorPane.getChildren().add(borrowButton);
+            // Position the ImageView at the top center
+            AnchorPane.setTopAnchor(coverImageView, 10.0);
+            AnchorPane.setLeftAnchor(coverImageView, 20.0);
+
+            // Borrow button at the bottom
+            Button borrowButton = new Button("Borrow");
+            borrowButton.setPrefWidth(100);
+            AnchorPane.setBottomAnchor(borrowButton, 10.0);
+            AnchorPane.setLeftAnchor(borrowButton, 30.0);
+
+            anchorPane.getChildren().addAll(coverImageView, borrowButton);
+        }
         return anchorPane;
     }
 
