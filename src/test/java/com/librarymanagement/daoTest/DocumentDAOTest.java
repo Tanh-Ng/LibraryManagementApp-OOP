@@ -64,7 +64,7 @@ class DocumentDAOTest {
 
         // When: we fetch the document by ID
         Document savedBook = documentDAO.getAllDocuments().get(0);
-        Document retrievedBook = documentDAO.getDocumentById(savedBook.getId());
+        Document retrievedBook = documentDAO.getDocumentById(savedBook.getDocumentId());
 
         // Then: we assert the book details are correct
         assertNotNull(retrievedBook);
@@ -79,10 +79,10 @@ class DocumentDAOTest {
 
         // When: we change the title of the book
         Document savedBook = documentDAO.getAllDocuments().get(0);
-        documentDAO.changeTitle(savedBook.getId(), "New Title");
+        documentDAO.changeTitle(savedBook.getDocumentId(), "New Title");
 
         // Then: we assert that the title has been updated
-        Document updatedBook = documentDAO.getDocumentById(savedBook.getId());
+        Document updatedBook = documentDAO.getDocumentById(savedBook.getDocumentId());
         assertEquals("New Title", updatedBook.getTitle());
     }
 
@@ -94,10 +94,10 @@ class DocumentDAOTest {
 
         // When: we change the author of the book
         Document savedBook = documentDAO.getAllDocuments().get(0);
-        documentDAO.changeAuthor(savedBook.getId(), "New Author");
+        documentDAO.changeAuthor(savedBook.getDocumentId(), "New Author");
 
         // Then: we assert that the author has been updated
-        Document updatedBook = documentDAO.getDocumentById(savedBook.getId());
+        Document updatedBook = documentDAO.getDocumentById(savedBook.getDocumentId());
         assertEquals("New Author", updatedBook.getAuthor());
     }
 
@@ -109,10 +109,10 @@ class DocumentDAOTest {
 
         // When: we change the availability status of the book
         Document savedBook = documentDAO.getAllDocuments().get(0);
-        documentDAO.changeAvailable(savedBook.getId(), false);
+        documentDAO.changeAvailable(savedBook.getDocumentId(), false);
 
         // Then: we assert that the availability has been updated
-        Document updatedBook = documentDAO.getDocumentById(savedBook.getId());
+        Document updatedBook = documentDAO.getDocumentById(savedBook.getDocumentId());
         assertFalse(updatedBook.isAvailable());
     }
 
@@ -124,10 +124,10 @@ class DocumentDAOTest {
 
         // When: we delete the book
         Document savedBook = documentDAO.getAllDocuments().get(0);
-        documentDAO.deleteDocument(savedBook.getId());
+        documentDAO.deleteDocument(savedBook.getDocumentId());
 
         // Then: we assert that the document is deleted
-        Document deletedBook = documentDAO.getDocumentById(savedBook.getId());
+        Document deletedBook = documentDAO.getDocumentById(savedBook.getDocumentId());
         assertNull(deletedBook);
     }
 
@@ -139,10 +139,10 @@ class DocumentDAOTest {
 
         // When: we perform a soft delete
         Document savedBook = documentDAO.getAllDocuments().get(0);
-        documentDAO.softDelete(savedBook.getId());
+        documentDAO.softDelete(savedBook.getDocumentId());
 
         // Then: we assert that the document is marked as deleted
-        Document softDeletedBook = documentDAO.getDocumentById(savedBook.getId());
+        Document softDeletedBook = documentDAO.getDocumentById(savedBook.getDocumentId());
         assertNotNull(softDeletedBook);
         assertTrue(softDeletedBook.isDeleted(), "Document should be soft deleted.");
     }

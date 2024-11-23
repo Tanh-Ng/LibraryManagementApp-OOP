@@ -70,7 +70,7 @@ public class BorrowDAO {
             pstmt.setInt(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    Borrow borrow = new Borrow(rs.getInt("borrow_id"), rs.getInt("user_id"), rs.getInt("document_id"), rs.getDate("borrow_date"));
+                    Borrow borrow = new Borrow(rs.getInt("borrow_id"), rs.getInt("user_id"), rs.getInt("document_id"), rs.getTimestamp("borrow_date"));
                     borrowedDocuments.add(borrow);
                 }
             }
@@ -87,7 +87,7 @@ public class BorrowDAO {
             pstmt.setInt(1, borrowId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Borrow(rs.getInt("borrow_id"), rs.getInt("user_id"), rs.getInt("document_id"), rs.getDate("borrow_date"));
+                    return new Borrow(rs.getInt("borrow_id"), rs.getInt("user_id"), rs.getInt("document_id"), rs.getTimestamp("borrow_date"));
                 }
             }
         }
@@ -103,5 +103,37 @@ public class BorrowDAO {
             pstmt.setInt(1, borrowId);
             pstmt.executeUpdate();
         }
+    }
+
+    public int getTotalBorrowedDocuments() throws SQLException {
+        String sql = "SELECT COUNT(*) AS total FROM BorrowedDocuments";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        }
+        return 0;
+    }
+
+    public List<Borrow> getAllBorrowedDocuments() throws SQLException {
+        String sql = "SELECT * FROM BorrowedDocuments";
+        List<Borrow> borrowedDocuments = new ArrayList<>();
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Borrow borrow = new Borrow(
+                        rs.getInt("borrow_id"),
+                        rs.getInt("user_id"),
+                        rs.getInt("document_id"),
+                        rs.getTimestamp("borrow_date")
+                );
+                borrowedDocuments.add(borrow);
+            }
+        }
+        return borrowedDocuments;
     }
 }

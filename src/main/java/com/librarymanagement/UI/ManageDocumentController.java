@@ -32,6 +32,7 @@ public class ManageDocumentController {
     @FXML private TableColumn<Document, String> authorColumn;
     @FXML private TableColumn<Document, Boolean> isAvailableColumn;
     @FXML private TableColumn<Document, String> isbnColumn;
+    @FXML private TableColumn<Document, String> documentTypeColumn;
 
     @FXML
     private TextField isbnSearchField;
@@ -42,10 +43,11 @@ public class ManageDocumentController {
      */
     @FXML
     public void initialize() {
-        documentIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        documentIdColumn.setCellValueFactory(new PropertyValueFactory<>("DocumentId"));
         documentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         isAvailableColumn.setCellValueFactory(new PropertyValueFactory<>("available"));
+        documentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("BookType"));
         isbnColumn.setCellValueFactory(data -> {
             if (data.getValue() instanceof Book) {
                 return new SimpleStringProperty(((Book) data.getValue()).getIsbn());
@@ -154,9 +156,9 @@ public class ManageDocumentController {
             }
 
             // Update in database
-            documentDAO.changeTitle(selectedDocument.getId(), newTitle);
-            documentDAO.changeAuthor(selectedDocument.getId(), newAuthor);
-            documentDAO.changeAvailable(selectedDocument.getId(), newIsAvailable);
+            documentDAO.changeTitle(selectedDocument.getDocumentId(), newTitle);
+            documentDAO.changeAuthor(selectedDocument.getDocumentId(), newAuthor);
+            documentDAO.changeAvailable(selectedDocument.getDocumentId(), newIsAvailable);
 
             if (selectedDocument instanceof Book) {
                 ((Book) selectedDocument).setIsbn(newIsbn);
@@ -190,7 +192,7 @@ public class ManageDocumentController {
 
         try {
             // Delete from database
-            documentDAO.deleteDocument(selectedDocument.getId());
+            documentDAO.deleteDocument(selectedDocument.getDocumentId());
 
             // Remove from table view
             documentTableView.getItems().remove(selectedDocument);

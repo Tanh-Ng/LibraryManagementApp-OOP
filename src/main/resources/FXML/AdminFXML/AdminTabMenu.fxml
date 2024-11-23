@@ -3,13 +3,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="1" styleClass="menu-container" stylesheets="@../TabMenuStyle.css"
-      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.librarymanagement.UI.AdminTabMenuController">
+<VBox spacing="1" styleClass="menu-container" stylesheets="@../TabMenuStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.AdminTabMenuController">
 
-    <Button styleClass="menu-button" text="Home Page" onAction="#handleToAdminHomePage"/>
-    <Button styleClass="menu-button" text="Manage Documents" onAction="#handeToManageDocuments" />
-    <Button styleClass="menu-button" text="Manage Students" onAction="#handleToManageUsers"/>
-    <Button styleClass="menu-button" text="View Records"/>
-    <Button styleClass="menu-button" text="Logout" onAction="#handleLogout"/>
+    <Button onAction="#handleToAdminHomePage" styleClass="menu-button" text="Home Page" />
+    <Button onAction="#handeToManageDocuments" styleClass="menu-button" text="Manage Documents" />
+    <Button onAction="#handleToManageUsers" styleClass="menu-button" text="Manage Users" />
+    <Button styleClass="menu-button" text="View Records" />
+    <Button onAction="#handleLogout" styleClass="menu-button" text="Logout" />
 </VBox>
