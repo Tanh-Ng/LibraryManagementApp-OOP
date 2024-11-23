@@ -9,6 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -29,6 +33,8 @@ public class ManageDocumentController {
     @FXML private TableColumn<Document, Boolean> isAvailableColumn;
     @FXML private TableColumn<Document, String> isbnColumn;
 
+    @FXML
+    private TextField isbnSearchField;
     private final DocumentDAO documentDAO = new DocumentDAO();
 
     /**
@@ -196,6 +202,50 @@ public class ManageDocumentController {
         }
     }
 
+    @FXML
+    private void handleSearchByIsbn() {
+        // Get ISBN from the input field
+        String isbn = isbnSearchField.getText().trim();
+
+        if (isbn.isEmpty()) {
+            // Show an alert if ISBN is empty
+            showAlert(Alert.AlertType.WARNING, "Invalid Input", "ISBN cannot be empty.");
+            return;
+        }
+
+        // Create a new Book object with the ISBN
+        Book book = new Book(isbn);
+
+        // Fetch book details using the API
+        String bookDetails = book.fetchFromIsbn();
+
+        // If the book details were fetched successfully, show them in the popup
+        if (bookDetails.startsWith("Title:")) {
+            try {
+                // Load the BookDetails.fxml file
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+                HBox hbox = loader.load();
+
+                // Get the controller instance and set book details
+                BookDetailsController bookDetailsController = loader.getController();
+                bookDetailsController.setBookDetails(book);
+
+                // Create a new stage for the popup
+                Stage bookDetailsStage = new Stage();
+                Scene scene = new Scene(hbox);
+                bookDetailsStage.setTitle("Book Details");
+                bookDetailsStage.setScene(scene);
+                bookDetailsStage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Show an alert for any errors during the process
+                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while loading book details.");
+            }
+        } else {
+            // Show an alert if book details are not found
+            showAlert(Alert.AlertType.ERROR, "Error", bookDetails);
+        }
+    }
     /**
      * Displays an alert dialog with the specified details.
      */
