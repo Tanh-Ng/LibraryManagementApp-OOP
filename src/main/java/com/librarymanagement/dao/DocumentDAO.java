@@ -102,6 +102,40 @@ public class DocumentDAO {
         }
     }
 
+    // Method to get documents by book type
+    public List<Document> getDocumentsByType(Book.BookType bookType) throws SQLException {
+        List<Document> documents = new ArrayList<>();
+        String sql = "SELECT * FROM Documents WHERE book_type = ? AND is_deleted = false"; // Filter by book_type and is_deleted
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, bookType.name()); // Set the book type in the query
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    int documentId = rs.getInt("document_id");
+                    String title = rs.getString("title");
+                    String author = rs.getString("author");
+                    boolean isAvailable = rs.getBoolean("is_available");
+                    boolean isDeleted = rs.getBoolean("is_deleted");
+                    String isbn = rs.getString("isbn");
+
+                    // Map the book type from String to BookType enum
+                    String bookTypeString = rs.getString("book_type");
+                    Book.BookType type = Book.BookType.valueOf(bookTypeString);
+
+                    // Create a Book object (Document) and add it to the list
+                    Document document = new Book(documentId, title, author, isbn, type);
+                    document.setIsAvailable(isAvailable);
+                    document.setIsDeleted(isDeleted);
+                    documents.add(document);
+                }
+            }
+        }
+        return documents;
+    }
+
+
     // Method to update document's title
     public void changeTitle(int documentId, String newTitle) throws SQLException {
         String sql = "UPDATE Documents SET title = ? WHERE document_id = ?";
