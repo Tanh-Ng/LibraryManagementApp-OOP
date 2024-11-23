@@ -71,7 +71,9 @@
             <TableColumn fx:id="isbnColumn" prefWidth="105.6" text="ISBN" />
          </columns>
       </TableView>
-      <TextField layoutX="480.0" layoutY="92.0" />
+      <TextField fx:id="isbnSearchField"  layoutX="480.0" layoutY="92.0" promptText="SEARCH ISBN..." />
       <Label layoutX="402.0" layoutY="96.0" text="SEARCH:" />
+      <Button layoutX="640.0" layoutY="92.0" mnemonicParsing="false" onAction="#handleSearchByIsbn" text="SEARCH" />
+
    </children>
 </AnchorPane>

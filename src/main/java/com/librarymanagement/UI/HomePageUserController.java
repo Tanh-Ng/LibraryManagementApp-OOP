@@ -28,32 +28,6 @@ public class HomePageUserController {
 
     public static List<Document> documents;
 
-    //test
-    /**
-    static {
-        documents = new ArrayList<>();
-        documents.add(new Book(1,"Welcome to My World", "Bolacatu", "001"));
-        documents.add(new Book(2,"Exploring the Magical World", "Tanaka Hiroshi", "002"));
-        documents.add(new Book(3,"The Amazing Adventure", "Sato Ken", "003"));
-        documents.add(new Book(4,"Living Between Two Worlds", "Hashimoto Sachiko", "004"));
-        documents.add(new Book(5,"Journey to the Stars", "Kobayashi Ichiro", "005"));
-        documents.add(new Book(6,"The Miracle of Life", "Nakamura Yu", "006"));
-        documents.add(new Book(7,"Life at the Peak of the World", "Suzuki Akiko", "007"));
-        documents.add(new Book(8,"Overcoming the Storms", "Yamamoto Taro", "008"));
-        documents.add(new Book(9,"The Power of Belief", "Takahashi Ai", "009"));
-        documents.add(new Book(10,"My Dream", "Ogawa Mayu", "010"));
-        documents.add(new Book(11,"The Secret to Happiness", "Tanabe Sho", "011"));
-        documents.add(new Book(12,"Unconditional Love", "Ito Yuko", "012"));
-        documents.add(new Book(13,"The Miraculous Steps", "Matsuda Ryo", "013"));
-        documents.add(new Book(14,"The Path to Success", "Takatomi Sachiko", "014"));
-        documents.add(new Book(15,"The Legend of a Star", "Sasaki Hiroshi", "015"));
-        documents.add(new Book(16,"Advice from the Elders", "Murata Akira", "016"));
-        documents.add(new Book(17,"Autumn in My Heart", "Kawada Rie", "017"));
-        documents.add(new Book(18,"Island of the Gods", "Ito Shun", "018"));
-        documents.add(new Book(19,"Where the Stars Meet", "Suzuki Kenta", "019"));
-        documents.add(new Book(20,"Life After the Sorrows", "Kato Mika", "020"));
-    }
-     **/
     //Search document after clicked
     public void handleSearchDocument() throws Exception{
         /*

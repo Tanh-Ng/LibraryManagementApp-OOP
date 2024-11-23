@@ -23,6 +23,8 @@ public class Document {
         this.isAvailable = true;
         this.isDeleted=false;
     }
+    public Document(){
+    }
 
     /**
      * Get information about the document, including its title,
