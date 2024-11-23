@@ -60,6 +60,13 @@ public class ManageDocumentController {
 
         // Load document data into the table view
         loadDocumentData();
+        // Set up row selection listener
+        documentTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                // Fill the text fields with the selected document's details
+                fillFieldsWithSelectedDocument(newValue);
+            }
+        });
     }
 
     /**
@@ -159,7 +166,7 @@ public class ManageDocumentController {
             documentDAO.changeTitle(selectedDocument.getDocumentId(), newTitle);
             documentDAO.changeAuthor(selectedDocument.getDocumentId(), newAuthor);
             documentDAO.changeAvailable(selectedDocument.getDocumentId(), newIsAvailable);
-
+            documentDAO.changeBookType(selectedDocument.getDocumentId(), newBookType);
             if (selectedDocument instanceof Book) {
                 ((Book) selectedDocument).setIsbn(newIsbn);
                 ((Book) selectedDocument).setBookType(newBookType); // Update book type
@@ -170,7 +177,6 @@ public class ManageDocumentController {
             selectedDocument.setAuthor(newAuthor);
             selectedDocument.setIsAvailable(newIsAvailable);
             documentTableView.refresh();
-            clearFields();
 
             showAlert(Alert.AlertType.INFORMATION, "Success", "The book has been successfully updated!");
         } catch (SQLException e) {
@@ -257,4 +263,23 @@ public class ManageDocumentController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    private void fillFieldsWithSelectedDocument(Document selectedDocument) {
+        if (selectedDocument instanceof Book) {
+            Book selectedBook = (Book) selectedDocument;
+
+            // Set text fields with the document's details
+            titleField.setText(selectedBook.getTitle());
+            authorNameField.setText(selectedBook.getAuthor());
+            isbnField.setText(selectedBook.getIsbn());
+            isAvailableField.setValue(selectedBook.isAvailable());
+            bookTypeChoiceBox.setValue(selectedBook.getBookType()); // Set book type
+
+            // Optionally set document ID (if needed)
+            documentIDField.setText(String.valueOf(selectedBook.getDocumentId()));
+        } else {
+            // Clear the fields if the selected document is not a book
+            clearFields();
+        }
+    }
+
 }
