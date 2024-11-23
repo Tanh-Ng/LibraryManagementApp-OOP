@@ -55,7 +55,7 @@ public class Document {
         return title;
     }
 
-    public int getId() {
+    public int getDocumentId() {
         return DocumentId;
     }
 
