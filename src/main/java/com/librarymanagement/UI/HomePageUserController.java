@@ -27,6 +27,7 @@ public class HomePageUserController {
     public static List<Document> documents;
 
     //test
+    /**
     static {
         documents = new ArrayList<>();
         documents.add(new Book(1,"Welcome to My World", "Bolacatu", "001"));
@@ -50,6 +51,7 @@ public class HomePageUserController {
         documents.add(new Book(19,"Where the Stars Meet", "Suzuki Kenta", "019"));
         documents.add(new Book(20,"Life After the Sorrows", "Kato Mika", "020"));
     }
+     **/
     //Search document after clicked
     public void handleSearchDocument() throws Exception{
         /*

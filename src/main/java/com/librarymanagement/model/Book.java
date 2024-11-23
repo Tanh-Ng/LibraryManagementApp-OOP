@@ -5,62 +5,88 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Represents a Book, which is a specialized type of Document with an associated ISBN.
+ * Represents a Book, which is a specialized type of Document with an associated ISBN and book type.
  */
 public class Book extends Document {
 
     private String isbn;
-    private ApiClient apiClient;
-    public Book(String title, String author, String isbn) {
-        super(title, author); // Call to Document's constructor
-        this.isbn = isbn;
-        this.apiClient = new ApiClient(); // Initialize the API client
+    private BookType bookType;
+
+    // Enum for BookType
+    public enum BookType {
+        TEXTBOOKS,
+        ROMANCE,
+        SCIENCE_FICTION,
+        FANTASY,
+        BIOGRAPHY,
+        RELIGIOUS,
+        ART;
     }
 
-    public Book(int id, String title, String author, String isbn) {
+    // Constructors
+    public Book(String title, String author, String isbn, BookType bookType) {
+        super(title, author);
+        this.isbn = isbn;
+        this.bookType = bookType;
+    }
+
+    public Book(int id, String title, String author, String isbn, BookType bookType) {
         super(id, title, author);
         this.isbn = isbn;
-        this.apiClient = new ApiClient(); // Initialize the API client
+        this.bookType = bookType;
+    }
+
+    // Getters and Setters
+    public String getIsbn() {
+        return isbn;
     }
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public BookType getBookType() {
+        return bookType;
     }
 
+    public void setBookType(BookType bookType) {
+        this.bookType = bookType;
+    }
+
+    // Method to fetch details from ISBN (using ApiClient)
     public String fetchFromIsbn() {
         // Use the OpenLibraryApiClient to fetch the book details
         JSONObject bookData = ApiClient.fetchBookDetailsByIsbn(isbn);
 
         if (bookData != null) {
-            // Get book details (title, author, publisher, and publish date)
             String title = bookData.optString("title", "N/A");
-
-            // Handle authors (JSONArray of JSONObject)
-            String author = "Unknown";
-            JSONArray authorsArray = bookData.optJSONArray("authors");
-            if (authorsArray != null && authorsArray.length() > 0) {
-                JSONObject authorObject = authorsArray.getJSONObject(0);  // Get the first author
-                author = authorObject.optString("name", "Unknown");
-            }
-
-            // Handle publishers (JSONArray of String or JSONObject)
-            String publisher = "Unknown";
-            JSONArray publishersArray = bookData.optJSONArray("publishers");
-            if (publishersArray != null && publishersArray.length() > 0) {
-                JSONObject publisherObject = publishersArray.getJSONObject(0);  // Get the first publisher
-                publisher = publisherObject.optString("name", "Unknown");
-            }
-
-            // Handle publish date
+            String author = getAuthorFromJson(bookData);
+            String publisher = getPublisherFromJson(bookData);
             String publishDate = bookData.optString("publish_date", "Unknown");
 
             return String.format("Title: %s, Author: %s, Publisher: %s, Published on: %s", title, author, publisher, publishDate);
         } else {
             return "Book details not found for ISBN: " + isbn;
         }
+    }
+
+    // Helper method to extract author from JSON
+    private String getAuthorFromJson(JSONObject bookData) {
+        JSONArray authorsArray = bookData.optJSONArray("authors");
+        if (authorsArray != null && authorsArray.length() > 0) {
+            JSONObject authorObject = authorsArray.getJSONObject(0); // Get the first author
+            return authorObject.optString("name", "Unknown");
+        }
+        return "Unknown";
+    }
+
+    // Helper method to extract publisher from JSON
+    private String getPublisherFromJson(JSONObject bookData) {
+        JSONArray publishersArray = bookData.optJSONArray("publishers");
+        if (publishersArray != null && publishersArray.length() > 0) {
+            JSONObject publisherObject = publishersArray.getJSONObject(0); // Get the first publisher
+            return publisherObject.optString("name", "Unknown");
+        }
+        return "Unknown";
     }
 }
