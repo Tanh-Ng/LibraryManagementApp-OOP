@@ -52,18 +52,40 @@ public class HomePageUserController {
     }
 
     //Search document after clicked
-    public void handleSearchDocument() throws Exception{
-        /*
+    public void handleSearchDocument() throws Exception {
         DocumentDAO documentDao = new DocumentDAO();
         try {
             documents = documentDao.getAllDocuments();
         } catch (Exception e) {
-            errorLabel.setText("Error: " + e.getMessage());
+            resultListView.getItems().add("Error: " + e.getMessage());
         }
-         */
         searchStringField.textProperty().addListener(
-                (observable, oldValue, newValue) -> onSearch(newValue)
+                (observable, oldValue, newValue) -> {
+                    resultListView.getItems().clear();
+                    onSearch(newValue);
+                }
         );
+    }
+
+    public void handleOnClickSearch() {
+        String searchString = searchStringField.getText();
+        System.out.println(searchString);
+        searchStringField.setText("");
+        resultListView.setVisible(true);
+        //list search Document
+        for (Document searchDocument : documents) {
+            if(searchDocument.getTitle().toLowerCase().contains(searchString.toLowerCase())) {
+                resultListView.getItems().add(searchDocument.getTitle() + " by " + searchDocument.getAuthor());
+            }
+        }
+        //value if no Document
+        if (resultListView.getItems().isEmpty()) {
+            resultListView.getItems().add("No document found.");
+        }
+
+        //size of list view
+        resultListView.setFixedCellSize(23.75);
+        resultListView.setMinHeight(23.75 * resultListView.getItems().size() + 1.5);
     }
 
     private void onSearch(String newValue) {
@@ -72,13 +94,13 @@ public class HomePageUserController {
         }
         else {
             resultListView.setVisible(true);
-            String searchString = searchStringField.getText();
-            resultListView.getItems().clear();
+            //list search Document
             for (Document searchDocument : documents) {
-                if(searchDocument.getTitle().toLowerCase().contains(searchString.toLowerCase())) {
+                if(searchDocument.getTitle().toLowerCase().contains(newValue.toLowerCase())) {
                     resultListView.getItems().add(searchDocument.getTitle() + " by " + searchDocument.getAuthor());
                 }
             }
+            //value if no Document
             if (resultListView.getItems().isEmpty()) {
                 resultListView.getItems().add("No document found.");
             }
@@ -86,6 +108,7 @@ public class HomePageUserController {
             resultListView.setMinHeight(23.75 * resultListView.getItems().size() + 1.5);
         }
 
+        //event when mouse entered and exited
         resultListView.setCellFactory(ListView -> new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -117,17 +140,6 @@ public class HomePageUserController {
                 break;
             }
         }
-        Stage stage = new Stage();
-        VBox vbox = new VBox();
-        Label titleLabel = new Label("Title: " + pickedDocument.getTitle());
-        Label authorLabel = new Label("Author: " + pickedDocument.getAuthor());
-
-        vbox.getChildren().addAll(titleLabel, authorLabel);
-        Scene scene = new Scene(vbox, 500, 500);
-
-        stage.setTitle("Document Details");
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML
