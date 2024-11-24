@@ -18,9 +18,9 @@
             <!-- HBox for search bar -->
             <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
                <!-- Text Field for search -->
-               <TextField fx:id="searchStringField" promptText="Search documents..." prefWidth="500.0" />
+               <TextField fx:id="searchStringField" onKeyPressed="#handleSearchDocument" promptText="Search documents..." prefWidth="500.0" />
                <!-- Search Button (optional) -->
-               <Button text="Search" onAction="#handleSearchDocument" />
+               <Button text="Search" onAction="#handleOnClickSearch" />
             </HBox>
          </children>
       </VBox>
