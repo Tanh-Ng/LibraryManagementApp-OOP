@@ -69,7 +69,6 @@ public class HomePageUserController {
 
     public void handleOnClickSearch() {
         String searchString = searchStringField.getText();
-        System.out.println(searchString);
         searchStringField.setText("");
         resultListView.setVisible(true);
         //list search Document
