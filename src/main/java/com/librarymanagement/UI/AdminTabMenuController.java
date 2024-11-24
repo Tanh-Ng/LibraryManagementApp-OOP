@@ -3,12 +3,13 @@ package com.librarymanagement.UI;
 import com.librarymanagement.app.LibraryManagementApp;
 import javafx.event.ActionEvent;
 
+
 public class AdminTabMenuController {
     public void handleToAdminHomePage(ActionEvent actionEvent) throws Exception {
         LibraryManagementApp.showAdminPage();
     }
 
-    public void handeToManageDocuments(ActionEvent actionEvent) throws Exception {
+    public void handleToManageDocuments(ActionEvent actionEvent) throws Exception {
         LibraryManagementApp.showManageDocumentPage();
     }
 
