@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -30,6 +32,20 @@
             <VBox fx:id="itemsContainer" alignment="TOP_CENTER" spacing="50" style="-fx-padding: 20;" />
          </content>
       </ScrollPane>
-      <ListView fx:id="resultListView" layoutX="318.0" layoutY="35.0" prefHeight="1.0" prefWidth="500.0" visible="false" />
+      <ListView fx:id="resultListView" layoutX="318.0" layoutY="35.0" onMouseClicked="#handlePickDocument" prefHeight="1.0" prefWidth="500.0" visible="false" />
+      <HBox fx:id="bookDetailsBox" alignment="CENTER" prefHeight="247.0" prefWidth="500.0" spacing="20" style="-fx-background-color: white;" visible="false">
+         <!-- Book Cover on the Left -->
+         <ImageView fx:id="bookCoverImageView" fitHeight="220" fitWidth="150" preserveRatio="true" />
+         <!-- Book Details on the Right -->
+         <VBox alignment="TOP_LEFT" prefWidth="300" spacing="10">
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Book Details" />
+            <Label fx:id="titleLabel" style="-fx-font-size: 14px;" text="Title: " wrapText="true" />
+            <Label fx:id="authorLabel" style="-fx-font-size: 14px;" text="Author: " wrapText="true" />
+            <Label fx:id="publisherLabel" style="-fx-font-size: 14px;" text="Publisher: " wrapText="true" />
+            <Label fx:id="publishDateLabel" style="-fx-font-size: 14px;" text="Published Date: " wrapText="true" />
+            <Label style="-fx-font-size: 14px;" text="Scan to Access Document:" />
+            <ImageView fx:id="qrCodeImageView" fitHeight="150" fitWidth="150" preserveRatio="true" />
+         </VBox>
+      </HBox>
    </children>
 </AnchorPane>

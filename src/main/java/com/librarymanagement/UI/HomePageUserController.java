@@ -6,10 +6,13 @@ import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
 import  com.librarymanagement.dao.DocumentDAO;
+import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.sql.Date;
@@ -21,6 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import static com.librarymanagement.UI.ImageLoader.getImage;
 
@@ -66,7 +70,7 @@ public class HomePageUserController {
     }
 
     //Search document after clicked
-    public void handleSearchDocument() {
+    public void handleSearchDocument() throws Exception {
         DocumentDAO documentDao = new DocumentDAO();
         try {
             documents = documentDao.getAllDocuments();
@@ -74,31 +78,16 @@ public class HomePageUserController {
             resultListView.getItems().add("Error: " + e.getMessage());
         }
         searchStringField.textProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    resultListView.getItems().clear();
-                    onSearch(newValue);
-                }
+                (observable, oldValue, newValue) -> onSearch(newValue)
         );
     }
 
+    //Search button
     public void handleOnClickSearch() {
         String searchString = searchStringField.getText();
         searchStringField.setText("");
         resultListView.setVisible(true);
-        //list search Document
-        for (Document searchDocument : documents) {
-            if(searchDocument.getTitle().toLowerCase().contains(searchString.toLowerCase())) {
-                resultListView.getItems().add(searchDocument.getTitle() + " by " + searchDocument.getAuthor());
-            }
-        }
-        //value if no Document
-        if (resultListView.getItems().isEmpty()) {
-            resultListView.getItems().add("No document found.");
-        }
-
-        //size of list view
-        resultListView.setFixedCellSize(23.75);
-        resultListView.setMinHeight(23.75 * resultListView.getItems().size() + 1.5);
+        onSearch(searchString);
     }
 
     private void onSearch(String newValue) {
@@ -106,11 +95,12 @@ public class HomePageUserController {
             resultListView.setVisible(false);
         }
         else {
+            resultListView.getItems().clear();
             resultListView.setVisible(true);
             //list search Document
             for (Document searchDocument : documents) {
                 if(searchDocument.getTitle().toLowerCase().contains(newValue.toLowerCase())) {
-                    resultListView.getItems().add(searchDocument.getTitle() + " by " + searchDocument.getAuthor());
+                    resultListView.getItems().add(searchDocument.getTitle() + " ------ " + searchDocument.getAuthor());
                 }
             }
             //value if no Document
@@ -118,9 +108,9 @@ public class HomePageUserController {
                 resultListView.getItems().add("No document found.");
             }
             resultListView.setFixedCellSize(23.75);
-            resultListView.setMinHeight(23.75 * resultListView.getItems().size() + 1.5);
+            resultListView.setPrefHeight(23.75 * resultListView.getItems().size());
         }
-
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         //event when mouse entered and exited
         resultListView.setCellFactory(ListView -> new ListCell<>() {
             @Override
@@ -130,28 +120,84 @@ public class HomePageUserController {
                     setText(null);
                 } else {
                     setText(item);
-                    setOnMouseEntered(event -> {
+                    setOnMouseMoved(event -> {
                         setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
+                        pauseTransition.setOnFinished(e -> {
+                            showBookDetails(item, event);
+                        });
+                        pauseTransition.playFromStart();
                     });
                     setOnMouseExited(event -> {
                         setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black;");
+                        bookDetailsBox.setVisible(false);
+                        pauseTransition.stop();
                     });
                 }
             }
         });
-
-        resultListView.setOnMouseClicked(
-                event -> handlePickDocument(resultListView.getSelectionModel().getSelectedItem())
-        );
     }
 
-    private void handlePickDocument(String documentTitleAuthor) {
-        Document pickedDocument = new Document("Null", "Null");
+
+    private static Book pickedBook = new Book("NULL");
+    @FXML private ImageView bookCoverImageView;
+    @FXML private Label titleLabel;
+    @FXML private Label authorLabel;
+    @FXML private Label publisherLabel;
+    @FXML private Label publishDateLabel;
+    @FXML private ImageView qrCodeImageView;
+
+    // Set the book details into the popup
+    public void setBookDetails() {
+        // Set the cover image
+        Image coverImage = new Image(pickedBook.getImageUrl());
+        bookCoverImageView.setImage(coverImage);
+        setQrCodeImage(pickedBook.getInfoUrl());
+        // Set the book details
+        titleLabel.setText("Title: " + pickedBook.getTitle());
+        authorLabel.setText("Author: " + pickedBook.getAuthor());
+        publisherLabel.setText("Publisher: " + pickedBook.getPublisher());
+        publishDateLabel.setText("Published Date: " + pickedBook.getPublishDate());
+    }
+
+    // Fetch and set the barcode image
+    private void setQrCodeImage(String documentUrl) {
+        try {
+            // QR Code API URL
+            String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + documentUrl;
+
+            // Load the QR code image
+            Image qrCodeImage = new Image(qrCodeUrl);
+
+            // Set the QR code image
+            qrCodeImageView.setImage(qrCodeImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public HBox bookDetailsBox;
+
+    @FXML
+    private void handlePickDocument(MouseEvent event) {
+        String documentTitleAuthor = resultListView.getSelectionModel().getSelectedItem();
+        showBookDetails(documentTitleAuthor, event);
+    }
+
+    private void showBookDetails(String title, MouseEvent event) {
         for (Document searchDocument : documents) {
-            if (searchDocument.getTitle().equalsIgnoreCase(documentTitleAuthor.split(" by ")[0])) {
-                pickedDocument = searchDocument;
+            if (searchDocument.getTitle().equalsIgnoreCase(title.split(" ------ ")[0])){
+                pickedBook = (Book) searchDocument;
                 break;
             }
+        }
+        // Fetch book details using the API
+        String bookDetails = pickedBook.fetchFromIsbn();
+        // If the book details were fetched successfully, show them in the popup
+        if (bookDetails.startsWith("Title:") && !pickedBook.getIsbn().equals("NULL")) {
+            setBookDetails();
+            bookDetailsBox.setLayoutY(event.getSceneY()+5);
+            bookDetailsBox.setLayoutX(event.getSceneX()+5);
+            bookDetailsBox.setVisible(true);
         }
     }
 
