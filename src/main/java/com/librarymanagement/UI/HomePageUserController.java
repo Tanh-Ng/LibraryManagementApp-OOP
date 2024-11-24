@@ -54,7 +54,6 @@ public class HomePageUserController {
             // Load images beforehand using multi-thread
             documents.forEach(doc -> {
                 if (doc instanceof Book book) {
-                    book.fetchFromIsbn();
                     ImageLoader.preloadImage(book.getImageUrl());
                 }
             });
@@ -190,10 +189,8 @@ public class HomePageUserController {
                 break;
             }
         }
-        // Fetch book details using the API
-        String bookDetails = pickedBook.fetchFromIsbn();
         // If the book details were fetched successfully, show them in the popup
-        if (bookDetails.startsWith("Title:") && !pickedBook.getIsbn().equals("NULL")) {
+        if (!pickedBook.getIsbn().equals("NULL")) {
             setBookDetails();
             bookDetailsBox.setLayoutY(event.getSceneY()+5);
             bookDetailsBox.setLayoutX(event.getSceneX()+5);

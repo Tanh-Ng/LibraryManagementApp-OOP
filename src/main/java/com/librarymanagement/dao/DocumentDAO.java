@@ -80,11 +80,22 @@ public class DocumentDAO {
                 // Get the book type (mapping from String to BookType enum)
                 String bookTypeString = rs.getString("book_type");
                 Book.BookType bookType = Book.BookType.valueOf(bookTypeString); // Map to BookType enum
+                String imageUrl = rs.getString("image_url");
+                String infoUrl = rs.getString("info_url");
+                String publisher = rs.getString("publisher");
+                String publishDate = rs.getString("publish_date");
+
 
                 // Only create a Book object, since that's the only document type now
                 Document document = new Book(documentId, title, author, isbn, bookType);
                 document.setIsAvailable(isAvailable);
                 document.setIsDeleted(isDeleted);
+                if(document instanceof Book){
+                    ((Book) document).setImageUrl(imageUrl);
+                    ((Book) document).setInfoUrl(infoUrl);
+                    ((Book) document).setPublisher(publisher);
+                    ((Book) document).setPublishDate(publishDate);
+                }
                 documents.add(document);
             }
         }
@@ -109,12 +120,22 @@ public class DocumentDAO {
                     // Get the book type (mapping from String to BookType enum)
                     String bookTypeString = rs.getString("book_type");
                     Book.BookType bookType = Book.BookType.valueOf(bookTypeString);
+                    String imageUrl = rs.getString("image_url");
+                    String infoUrl = rs.getString("info_url");
+                    String publisher = rs.getString("publisher");
+                    String publishDate = rs.getString("publish_date");
 
                     // Return Book object as the only document type
                     Document document = new Book(title, author, isbn, bookType);
                     document.setIsAvailable(isAvailable);
                     document.setIsDeleted(isDeleted);
                     document.setId(documentId);
+                    if(document instanceof Book){
+                        ((Book) document).setImageUrl(imageUrl);
+                        ((Book) document).setInfoUrl(infoUrl);
+                        ((Book) document).setPublisher(publisher);
+                        ((Book) document).setPublishDate(publishDate);
+                    }
                     return document;
                 } else {
                     return null; // No document found
