@@ -137,7 +137,7 @@ public class Book extends Document {
         return "Unknown";
     }
 
-    private void fetchCoverUrl() {
+    public void fetchCoverUrl() {
         if (isbn != null && !isbn.isEmpty()) {
             // Generate the Open Library cover URL
             String coverUrl = "https://covers.openlibrary.org/b/isbn/" + isbn + "-M.jpg";

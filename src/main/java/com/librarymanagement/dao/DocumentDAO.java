@@ -39,7 +39,28 @@ public class DocumentDAO {
             }
         }
     }
+    public void addDisplayInformation(Document document) throws SQLException {
+        String sql = "UPDATE Documents SET image_url = ?, info_url = ?, publisher = ?, publish_date = ? WHERE document_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            // Set information for Book
+            if (document instanceof Book) {
+                pstmt.setString(1, ((Book) document).getImageUrl());
+                pstmt.setString(2, ((Book) document).getInfoUrl());
+                pstmt.setString(3, ((Book) document).getPublisher());
+                pstmt.setString(4, ((Book) document).getPublishDate());
+                pstmt.setInt(5, document.getDocumentId());
+            }
 
+            // Execute the update
+            int rowsAffected = pstmt.executeUpdate();
+
+            // Check if the update was successful
+            if (rowsAffected == 0) {
+                throw new SQLException("Failed to update document: " + document.getTitle());
+            }
+        }
+    }
     // Method to get all documents (Books only)
     public List<Document> getAllDocuments() throws SQLException {
         List<Document> documents = new ArrayList<>();
@@ -202,6 +223,38 @@ public class DocumentDAO {
 
             // Execute the delete
             pstmt.executeUpdate();
+        }
+    }
+    public void changeDocumentId(int oldDocumentId, int newDocumentId) throws SQLException {
+        // Start a transaction to ensure both operations are atomic
+        Connection conn = DatabaseConfig.getConnection();
+        try {
+            conn.setAutoCommit(false); // Start transaction
+
+            // Insert a new document with the new document_id
+            String insertSql = "INSERT INTO Documents (document_id, title, author, is_available, isbn, book_type, is_deleted) " +
+                    "SELECT ?, title, author, is_available, isbn, book_type, is_deleted FROM Documents WHERE document_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+                pstmt.setInt(1, newDocumentId); // New document_id
+                pstmt.setInt(2, oldDocumentId); // Old document_id to copy data from
+
+                pstmt.executeUpdate();
+            }
+
+            // Delete the old document
+            String deleteSql = "DELETE FROM Documents WHERE document_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
+                pstmt.setInt(1, oldDocumentId); // Old document_id to delete
+                pstmt.executeUpdate();
+            }
+
+            conn.commit(); // Commit transaction
+        } catch (SQLException e) {
+            conn.rollback(); // Rollback if anything goes wrong
+            throw e;
+        } finally {
+            conn.setAutoCommit(true); // Restore default autocommit
+            conn.close();
         }
     }
 

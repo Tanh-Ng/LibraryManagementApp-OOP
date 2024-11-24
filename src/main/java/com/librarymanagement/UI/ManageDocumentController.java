@@ -150,6 +150,7 @@ public class ManageDocumentController {
 
         try {
             // Get updated details from input fields
+            String newId = documentIDField.getText();
             String newTitle = titleField.getText();
             String newAuthor = authorNameField.getText();
             String newIsbn = isbnField.getText();
@@ -163,6 +164,16 @@ public class ManageDocumentController {
             }
 
             // Update in database
+
+            // Check if the new ID is different from the current ID
+            int currentDocumentId = selectedDocument.getDocumentId();
+            if (!newId.equals(String.valueOf(currentDocumentId))) {
+                // If the ID is different, update the document_id in the database
+                int newDocumentId = Integer.parseInt(newId); // Convert the new ID from String to Integer
+                documentDAO.changeDocumentId(currentDocumentId, newDocumentId);
+                selectedDocument.setId(newDocumentId); // Update the selectedDocument's ID
+            }
+
             documentDAO.changeTitle(selectedDocument.getDocumentId(), newTitle);
             documentDAO.changeAuthor(selectedDocument.getDocumentId(), newAuthor);
             documentDAO.changeAvailable(selectedDocument.getDocumentId(), newIsAvailable);
@@ -280,7 +291,10 @@ public class ManageDocumentController {
                 String fetchedIsbn = book.getIsbn();
                 Book.BookType bookType = Book.BookType.TEXTBOOKS;
                 boolean isAvailable = true;  // Default availability for fetched books
-
+                String imageUrl=book.getImageUrl();
+                String infoUrl=book.getInfoUrl();
+                String publisher=book.getPublisher();
+                String publishDate=book.getPublishDate();
                 if (title == null || author == null || bookType == null) {
                     showAlert(Alert.AlertType.ERROR, "Error", "Some required book details are missing.");
                     return;
@@ -289,10 +303,16 @@ public class ManageDocumentController {
                 // Create a new Book instance with fetched details
                 Book newBook = new Book(title, author, fetchedIsbn, bookType);
                 newBook.setIsAvailable(isAvailable);
+                newBook.setImageUrl(imageUrl);
+                newBook.setInfoUrl(infoUrl);
+                newBook.setPublisher(publisher);
+                newBook.setPublishDate(publishDate);
 
                 // Add the new book to the database
                 documentDAO.addDocument(newBook);
 
+                //
+                documentDAO.addDisplayInformation(newBook);
                 // Add the book to the table view
                 documentTableView.getItems().add(newBook);
 
@@ -331,7 +351,7 @@ public class ManageDocumentController {
             isbnField.setText(selectedBook.getIsbn());
             isAvailableField.setValue(selectedBook.isAvailable());
             bookTypeChoiceBox.setValue(selectedBook.getBookType()); // Set book type
-
+            isbnSearchField.setText(selectedBook.getIsbn());
             // Optionally set document ID (if needed)
             documentIDField.setText(String.valueOf(selectedBook.getDocumentId()));
         } else {
