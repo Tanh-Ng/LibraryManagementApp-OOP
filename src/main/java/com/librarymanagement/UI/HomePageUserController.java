@@ -1,15 +1,13 @@
 package com.librarymanagement.UI;
 
+import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
 import  com.librarymanagement.dao.DocumentDAO;
 import javafx.animation.PauseTransition;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -17,15 +15,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import static com.librarymanagement.UI.ImageLoader.getImage;
 
 public class HomePageUserController {
     private final DocumentDAO documentDAO = new DocumentDAO();
@@ -37,6 +38,9 @@ public class HomePageUserController {
     @FXML
     public ListView<String> resultListView;
 
+    @FXML
+    private VBox itemsContainer; // The container for dynamic items (rows)
+
     public static List<Document> documents;
 
     public List<Borrow> borrowedDocuments;
@@ -46,9 +50,19 @@ public class HomePageUserController {
             // DAO initialization and data fetching
             borrowedDocuments = borrowDAO.getAllBorrowedDocuments();
             documents = documentDAO.getAllDocuments();
+
+            // Load images beforehand using multi-thread
+            documents.forEach(doc -> {
+                if (doc instanceof Book book) {
+                    book.fetchFromIsbn();
+                    ImageLoader.preloadImage(book.getImageUrl());
+                }
+            });
+
             // Populate the rows
-            //itemsContainer.getChildren().add(createRowWithButtons("Borrowed Documents"));
+            itemsContainer.getChildren().add(createDocumentList("Borrowed Documents"));
             itemsContainer.getChildren().add(createDocumentList("FANTASY"));
+            itemsContainer.getChildren().add(createDocumentList("ROMANCE"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,7 +145,6 @@ public class HomePageUserController {
     @FXML private Label publisherLabel;
     @FXML private Label publishDateLabel;
     @FXML private ImageView qrCodeImageView;
-    @FXML private Button closeButton;
 
     // Set the book details into the popup
     public void setBookDetails() {
@@ -188,14 +201,7 @@ public class HomePageUserController {
         }
     }
 
-    public void closeBookDetailsBox() {
-        bookDetailsBox.setVisible(false);
-    }
-
-    @FXML
-    private VBox itemsContainer; // The container for dynamic items (rows)
-
-    private VBox createDocumentList(String categoryText) throws SQLException {
+    private VBox createDocumentList(String categoryText) {
         VBox vbox = new VBox(10);
         vbox.setStyle("-fx-padding: 10;");
 
@@ -225,7 +231,9 @@ public class HomePageUserController {
         contentHBox.setStyle("-fx-padding: 10;");
 
         // Get documents for this category
-        List<Document> documentsByType = documentDAO.getDocumentsByType(Book.BookType.valueOf(categoryText));
+        List<Document> documentsByType = categoryText.equals("Borrowed Documents")
+                ? getBorrowedDocumentsList()
+                : getDocumentListByType(categoryText);
         final int paneCount = 5; // Number of panes to show at a time
         final int[] currentIndex = {0}; // Keep track of the starting index
 
@@ -281,29 +289,36 @@ public class HomePageUserController {
 
     private AnchorPane createAnchorPane(Document document) {
         AnchorPane anchorPane = new AnchorPane();
-        anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 180px; -fx-pref-width: 160px;");
+        anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 220px; -fx-pref-width: 160px;");
         if (document instanceof Book book) {
+            // Preload the book's image in a background thread
+            String imageUrl = book.getImageUrl();
+            ImageLoader.preloadImage(imageUrl);
+
             // Create an ImageView for the book cover
             ImageView coverImageView = new ImageView();
-            coverImageView.setFitHeight(180); // Set desired height
+            coverImageView.setFitHeight(150); // Set desired height
             //coverImageView.setFitWidth(120); // Set desired width
             coverImageView.setPreserveRatio(true);
-
-            // Load the image from the URL
-            if (book.getImageUrl() != null) {
-                try {
-                    coverImageView.setImage(new Image(book.getImageUrl(), true)); // Asynchronous loading
-                } catch (Exception e) {
-                    System.out.println("Failed to load image for ISBN: " + book.getIsbn());
-                }
-            }
+            coverImageView.setImage(getImage(imageUrl)); // Retrieve preloaded image
 
             // Position the ImageView at the top center
             AnchorPane.setTopAnchor(coverImageView, 10.0);
-            AnchorPane.setLeftAnchor(coverImageView, 20.0);
+            AnchorPane.setLeftAnchor(coverImageView, 30.0);
 
             // Borrow button at the bottom
-            Button borrowButton = new Button("Borrow");
+            Button borrowButton = new Button();
+            updateBorrowButtonState(borrowButton, document);
+
+            borrowButton.setOnAction(event -> {
+                if (isBorrowed(document)) {
+                    returnDocument(document);
+                } else {
+                    borrowDocument(document);
+                }
+                updateBorrowButtonState(borrowButton, document);
+                refreshBorrowedDocumentsList();
+            });
             borrowButton.setPrefWidth(100);
             AnchorPane.setBottomAnchor(borrowButton, 10.0);
             AnchorPane.setLeftAnchor(borrowButton, 30.0);
@@ -320,5 +335,86 @@ public class HomePageUserController {
         return placeholderPane;
     }
 
+    private void updateBorrowButtonState(Button button, Document document) {
+        if (isBorrowed(document)) {
+            button.setText("Borrowed");
+            button.setStyle("-fx-background-color: #ff9999; -fx-text-fill: black;");
+        } else {
+            button.setText("Borrow");
+            button.setStyle("-fx-background-color: #99ff99; -fx-text-fill: black;");
+        }
+    }
+
+    private boolean isBorrowed(Document document) {
+        return borrowedDocuments.stream().anyMatch(b -> b.getDocumentId() == document.getDocumentId());
+    }
+
+    private void borrowDocument(Document document) {
+        try {
+            borrowDAO.addBorrow(LibraryManagementApp.getCurrentUser().getUserId(), document.getDocumentId(), new Date(System.currentTimeMillis()));
+            borrowedDocuments.add(new Borrow(borrowedDocuments.size(), LibraryManagementApp.getCurrentUser().getUserId()
+                    , document.getDocumentId(), new Timestamp(System.currentTimeMillis())));
+        } catch (Exception e) {
+            System.out.println("Error borrowing document: " + e.getMessage());
+        }
+    }
+
+    private void returnDocument(Document document) {
+        try {
+            Borrow borrow = borrowedDocuments.stream()
+                    .filter(b -> b.getDocumentId() == document.getDocumentId())
+                    .findFirst()
+                    .orElse(null);
+            if (borrow != null) {
+                borrowDAO.deleteBorrow(borrow.getBorrowId());
+                borrowedDocuments.remove(borrow);
+            }
+        } catch (Exception e) {
+            System.out.println("Error returning document: " + e.getMessage());
+        }
+    }
+
+    private void refreshBorrowedDocumentsList() {
+        try {
+            // Remove the first child (the Borrowed Documents section)
+            if (!itemsContainer.getChildren().isEmpty()) {
+                itemsContainer.getChildren().remove(0);
+            }
+
+            // Add the updated Borrowed Documents section
+            itemsContainer.getChildren().add(0, createDocumentList("Borrowed Documents"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private List<Document> getDocumentListByType(String categoryText) {
+        // Validate input and ensure the categoryText matches an enum value in BookType
+        if (categoryText == null || categoryText.isEmpty()) {
+            return null; // Return an empty list for invalid input
+        }
+
+        // Parse the categoryText into a BookType enum
+        Book.BookType selectedType;
+        try {
+            selectedType = Book.BookType.valueOf(categoryText.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid category: " + categoryText);
+            return null;
+        }
+
+        // Filter and sort documents by the selected BookType
+        return documents.stream()
+                .filter(doc -> doc instanceof Book && ((Book) doc).getBookType() == selectedType)
+                .toList();
+    }
+
+    private List<Document> getBorrowedDocumentsList() {
+        return documents.stream()
+                .filter(doc -> borrowedDocuments.stream()
+                        .anyMatch(borrow -> borrow.getDocumentId() == doc.getDocumentId()))
+                .toList();
+    }
 
 }
