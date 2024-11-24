@@ -1,12 +1,12 @@
 package com.librarymanagement.app;
 
+import com.librarymanagement.UI.ImageLoader;
 import com.librarymanagement.model.User;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class LibraryManagementApp extends Application {
     private static Stage primaryStage;
@@ -18,6 +18,14 @@ public class LibraryManagementApp extends Application {
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
         showLoginScreen();
+    }
+
+    @Override
+    public void stop() {
+        ImageLoader.shutdown();
+        Platform.exit();
+        System.out.println("Application is stopping...");
+        // Perform cleanup actions here
     }
 
     public static void showLoginScreen() throws Exception {
