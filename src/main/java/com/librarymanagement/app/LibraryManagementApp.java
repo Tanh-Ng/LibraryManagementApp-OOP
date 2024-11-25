@@ -1,6 +1,8 @@
 package com.librarymanagement.app;
 
+import com.librarymanagement.UI.BookDetailsController;
 import com.librarymanagement.UI.ImageLoader;
+import com.librarymanagement.model.Book;
 import com.librarymanagement.model.User;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -8,10 +10,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.Stack;
+
 public class LibraryManagementApp extends Application {
     private static Stage primaryStage;
     private static User currentUser;
+    private static Stack<Scene> scenesHistory = new Stack<>();
 
+    public static void goBack(){
+        primaryStage.setScene(scenesHistory.pop());
+        scenesHistory.add(primaryStage.getScene());
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -38,17 +48,20 @@ public class LibraryManagementApp extends Application {
 
     public static void showHomeScreen() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/HomeUserPage.fxml"));
-        primaryStage.setScene(new Scene(loader.load()));
+        Scene newScene = new Scene(loader.load());
+        scenesHistory.add(newScene);
+        primaryStage.setScene(newScene);
     }
 
     public static void showBorrowedDocumentsPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/BorrowedPage.fxml"));
-        primaryStage.setScene(new Scene(loader.load()));
+        Scene newScene = new Scene(loader.load());
+        scenesHistory.add(newScene);
+        primaryStage.setScene(newScene);
     }
 
-    public static void showAccountSetting() throws Exception {
-        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/AccountSetting.fxml"));
-        primaryStage.setScene(new Scene(loader.load()));
+    public static void showBookDetailsPage(Scene sence) throws Exception {
+        primaryStage.setScene(sence);
     }
 
     //Admins' Screen
@@ -60,7 +73,9 @@ public class LibraryManagementApp extends Application {
 
     public static void showManageDocumentPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/AdminFXML/ManageDocumentPage.fxml"));
-        primaryStage.setScene(new Scene(loader.load()));
+        Scene newScene = new Scene(loader.load());
+        scenesHistory.add(newScene);
+        primaryStage.setScene(newScene);
     }
 
     public static void showManageUserPage() throws Exception {

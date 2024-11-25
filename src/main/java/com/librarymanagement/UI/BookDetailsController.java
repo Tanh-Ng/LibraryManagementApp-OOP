@@ -1,5 +1,6 @@
 package com.librarymanagement.UI;
 
+import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.model.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -61,8 +62,7 @@ public class BookDetailsController {
 
     // Close the popup window
     @FXML
-    private void handleClose() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
+    private void handleClose(){
+        LibraryManagementApp.goBack();
     }
 }

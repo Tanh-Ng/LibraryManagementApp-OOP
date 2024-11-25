@@ -166,6 +166,7 @@ public class HomePageUserController {
 
 
     private static Book pickedBook = new Book("NULL");
+    private static boolean showDetailsPage = false;
     @FXML
     private ImageView bookCoverImageView;
     @FXML
@@ -212,9 +213,14 @@ public class HomePageUserController {
     public HBox bookDetailsBox;
 
     @FXML
-    private void handlePickDocument(MouseEvent event) {
+    private void handlePickDocument(MouseEvent event) throws Exception {
         String documentTitleAuthor = resultListView.getSelectionModel().getSelectedItem();
         showBookDetails(documentTitleAuthor, event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+        BookDetailsController controller = loader.getController();
+        controller.setBookDetails(pickedBook);
+        Scene scene = new Scene(loader.load());
+        LibraryManagementApp.showBookDetailsPage(scene);
     }
 
     private void showBookDetails(String title, MouseEvent event) {
@@ -357,6 +363,19 @@ public class HomePageUserController {
                         "-fx-pref-height: 220px; -fx-pref-width: 160px;");
                 bookDetailsBox.setVisible(false);
                 pauseTransition.stop();
+            });
+
+            // When mouse clicked -> show page details
+            anchorPane.setOnMouseClicked(event -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+                    BookDetailsController controller = loader.getController();
+                    controller.setBookDetails(book);
+                    Scene scene = new Scene(loader.load());
+                    LibraryManagementApp.showBookDetailsPage(scene);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             });
 
             // Borrow button at the bottom
