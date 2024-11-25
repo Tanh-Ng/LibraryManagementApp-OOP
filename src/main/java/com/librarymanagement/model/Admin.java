@@ -8,16 +8,16 @@ public class Admin extends User {
     /**
      * Constructs an Admin user with a userId, name, and password.
      *
-     * @param userId The ID of the admin.
-     * @param name The name of the admin.
+     * @param userId   The ID of the admin.
+     * @param name     The name of the admin.
      * @param password The password for the admin.
      */
     public Admin(int userId, String name, String password) {
         super(userId, name, password);  // Call to User's constructor
     }
 
-    public Admin( String name, String password) {
-        super( name, password);  // Call to User's constructor
+    public Admin(String name, String password) {
+        super(name, password);  // Call to User's constructor
     }
 
     /**
@@ -26,7 +26,7 @@ public class Admin extends User {
      * @param document the document to be added
      */
     public void addDocument(Document document) {
-        Library.addDocument(document,this);
+        Library.addDocument(document, this);
     }
 
     /**
@@ -35,7 +35,7 @@ public class Admin extends User {
      * @param document the document to be removed.
      */
     public void removeDocument(Document document) {
-        Library.removeDocument(document,this);
+        Library.removeDocument(document, this);
     }
 
     /**

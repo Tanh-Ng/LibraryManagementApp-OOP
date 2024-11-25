@@ -17,16 +17,25 @@ import javafx.scene.control.Alert.AlertType;
 import java.sql.SQLException;
 
 public class ManageUserPageController {
-    @FXML public TextField userIdField;
-    @FXML public TextField userNameField;
-    @FXML public PasswordField userPasswordField;
-    @FXML public TableView<User> userTable;
-    @FXML public TableColumn<User, Integer> userIdColumn;
-    @FXML public TableColumn<User, String> userNameColumn;
-    @FXML public TableColumn<User, String> userPasswordColumn;
+    @FXML
+    public TextField userIdField;
+    @FXML
+    public TextField userNameField;
+    @FXML
+    public PasswordField userPasswordField;
+    @FXML
+    public TableView<User> userTable;
+    @FXML
+    public TableColumn<User, Integer> userIdColumn;
+    @FXML
+    public TableColumn<User, String> userNameColumn;
+    @FXML
+    public TableColumn<User, String> userPasswordColumn;
 
-    @FXML private ObservableList<User> userList = FXCollections.observableArrayList();
-    @FXML private UserDAO userDAO = new UserDAO();
+    @FXML
+    private ObservableList<User> userList = FXCollections.observableArrayList();
+    @FXML
+    private UserDAO userDAO = new UserDAO();
 
     /**
      * Initializes the user management page by setting up the table columns
@@ -82,7 +91,7 @@ public class ManageUserPageController {
             e.printStackTrace();
             showAlert(AlertType.ERROR, "Error", "Could not add user: " + e.getMessage());
         }
-        
+
     }
 
     /**
@@ -115,8 +124,8 @@ public class ManageUserPageController {
             }
 
             // Update the user in the database
-            userDAO.changeName(newUserId,userName);
-            userDAO.changePassword(newUserId,userPassword);
+            userDAO.changeName(newUserId, userName);
+            userDAO.changePassword(newUserId, userPassword);
             selectedUser.setPassword(userPassword);
             selectedUser.setName(userName);
             userTable.refresh();
@@ -165,8 +174,9 @@ public class ManageUserPageController {
             e.printStackTrace();
             showAlert(AlertType.ERROR, "Error", "Could not delete user: " + e.getMessage());
         }
-        
+
     }
+
     private void fillFieldsWithSelectedUser(User selectedUser) {
         userIdField.setText(String.valueOf(selectedUser.getUserId()));
         userNameField.setText(selectedUser.getName());
@@ -177,8 +187,8 @@ public class ManageUserPageController {
      * Displays an alert with the specified type, title, and message.
      *
      * @param alertType The type of alert (e.g., ERROR, INFORMATION, WARNING).
-     * @param title The title of the alert window.
-     * @param message The message to be displayed in the alert.
+     * @param title     The title of the alert window.
+     * @param message   The message to be displayed in the alert.
      */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);

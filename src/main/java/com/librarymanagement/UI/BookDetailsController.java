@@ -10,13 +10,20 @@ import javafx.stage.Stage;
 
 public class BookDetailsController {
 
-    @FXML private ImageView bookCoverImageView;
-    @FXML private Label titleLabel;
-    @FXML private Label authorLabel;
-    @FXML private Label publisherLabel;
-    @FXML private Label publishDateLabel;
-    @FXML private ImageView qrCodeImageView;
-    @FXML private Button closeButton;
+    @FXML
+    private ImageView bookCoverImageView;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label authorLabel;
+    @FXML
+    private Label publisherLabel;
+    @FXML
+    private Label publishDateLabel;
+    @FXML
+    private ImageView qrCodeImageView;
+    @FXML
+    private Button closeButton;
 
     private Book book;
 

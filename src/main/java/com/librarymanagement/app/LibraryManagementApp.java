@@ -13,7 +13,6 @@ public class LibraryManagementApp extends Application {
     private static User currentUser;
 
 
-
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
@@ -42,7 +41,7 @@ public class LibraryManagementApp extends Application {
         primaryStage.setScene(new Scene(loader.load()));
     }
 
-    public static void showBorrowedDocumentsPage () throws  Exception {
+    public static void showBorrowedDocumentsPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/BorrowedPage.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
     }
@@ -70,10 +69,14 @@ public class LibraryManagementApp extends Application {
     }
 
     //User setter
-    public static void setCurrentUser(User loggedInUser) { currentUser = loggedInUser; }
+    public static void setCurrentUser(User loggedInUser) {
+        currentUser = loggedInUser;
+    }
 
     //User getter
-    public static User getCurrentUser() { return currentUser; }
+    public static User getCurrentUser() {
+        return currentUser;
+    }
 
 
     public static void main(String[] args) {

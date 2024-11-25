@@ -6,47 +6,60 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="713.0" prefWidth="187.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.AdminTabMenuController">
-   <children>
-      <Button layoutY="68.0" mnemonicParsing="false" onAction="#handleToAdminHomePage" prefHeight="62.0" prefWidth="187.0" style="-fx-background-color: BLACK;" text="          HOMEPAGE" textFill="#efe2e2">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Button>
-      <Button layoutY="155.0" mnemonicParsing="false" onAction="#handleToManageDocuments" prefHeight="62.0" prefWidth="187.0" style="-fx-background-color: BLACK;" text="    &#10;        MANAGE&#10;       DOCUMENTS" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Button>
-      <Button layoutY="264.0" mnemonicParsing="false" onAction="#handleToManageUsers" prefHeight="62.0" prefWidth="187.0" style="-fx-background-color: BLACK;" text="           MANAGE USERS" textFill="#f2ebeb">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Button>
-      <Button layoutY="559.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="62.0" prefWidth="187.0" style="-fx-background-color: BLACK;" text="              LOGOUT" textAlignment="RIGHT" textFill="#efe5e5">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Button>
-      <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="25.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../adminIcons/icons8_Exit_26px.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="38.0" fitWidth="51.0" layoutX="14.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../adminIcons/icons8_Library_26px_1.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="14.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../adminIcons/icons8_Book_26px.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="14.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../adminIcons/icons8_Read_Online_26px.png" />
-         </image>
-      </ImageView>
-   </children>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="713.0"
+      prefWidth="187.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.AdminTabMenuController">
+    <children>
+        <Button layoutY="68.0" mnemonicParsing="false" onAction="#handleToAdminHomePage" prefHeight="62.0"
+                prefWidth="187.0" style="-fx-background-color: BLACK;" text="          HOMEPAGE" textFill="#efe2e2">
+            <font>
+                <Font name="System Bold" size="13.0"/>
+            </font>
+        </Button>
+        <Button layoutY="155.0" mnemonicParsing="false" onAction="#handleToManageDocuments" prefHeight="62.0"
+                prefWidth="187.0" style="-fx-background-color: BLACK;"
+                text="    &#10;        MANAGE&#10;       DOCUMENTS" textAlignment="CENTER" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="13.0"/>
+            </font>
+        </Button>
+        <Button layoutY="264.0" mnemonicParsing="false" onAction="#handleToManageUsers" prefHeight="62.0"
+                prefWidth="187.0" style="-fx-background-color: BLACK;" text="           MANAGE USERS"
+                textFill="#f2ebeb">
+            <font>
+                <Font name="System Bold" size="13.0"/>
+            </font>
+        </Button>
+        <Button layoutY="559.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="62.0" prefWidth="187.0"
+                style="-fx-background-color: BLACK;" text="              LOGOUT" textAlignment="RIGHT"
+                textFill="#efe5e5">
+            <font>
+                <Font name="System Bold" size="13.0"/>
+            </font>
+        </Button>
+        <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="25.0" layoutY="571.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../../adminIcons/icons8_Exit_26px.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="38.0" fitWidth="51.0" layoutX="14.0" layoutY="80.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../../adminIcons/icons8_Library_26px_1.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="14.0" layoutY="179.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../../adminIcons/icons8_Book_26px.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="14.0" layoutY="276.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../../adminIcons/icons8_Read_Online_26px.png"/>
+            </image>
+        </ImageView>
+    </children>
 </Pane>

@@ -16,7 +16,7 @@ public class Library {
      * Adds a new document to the library.
      *
      * @param document the document to be added to the library
-     * @param admin the admin performing the action
+     * @param admin    the admin performing the action
      */
     public static void addDocument(Document document, Admin admin) {
         documents.add(document);
@@ -36,7 +36,7 @@ public class Library {
      * Removes a document from the library.
      *
      * @param document the document to be removed from the library
-     * @param admin the admin performing the action
+     * @param admin    the admin performing the action
      */
     public static void removeDocument(Document document, Admin admin) {
         documents.remove(document);
@@ -46,16 +46,16 @@ public class Library {
     /**
      * Updates the information of an existing document in the library.
      *
-     * @param targetDocument the document to be updated
+     * @param targetDocument  the document to be updated
      * @param updatedDocument the updated document
-     * @param admin the admin performing the action
+     * @param admin           the admin performing the action
      */
     public static void updateDocument(Document targetDocument, Document updatedDocument, Admin admin) {
         for (int i = 0; i < documents.size(); i++) {
             if (documents.get(i).equals(targetDocument)) {
                 documents.set(i, updatedDocument);
-                System.out.println("Document " + targetDocument.getTitle() + " updated by " 
-                                    + admin.getName() + " to" + updatedDocument.getTitle() + ".");
+                System.out.println("Document " + targetDocument.getTitle() + " updated by "
+                        + admin.getName() + " to" + updatedDocument.getTitle() + ".");
                 return;
             }
         }
@@ -64,7 +64,7 @@ public class Library {
     /**
      * Allows a user to borrow a document from the library.
      *
-     * @param user the user borrowing the document
+     * @param user     the user borrowing the document
      * @param document the document being borrowed
      */
     public void borrowDocument(User user, Document document) {
@@ -85,7 +85,7 @@ public class Library {
     /**
      * Allows a user to return a previously borrowed document to the library.
      *
-     * @param user the user returning the document
+     * @param user     the user returning the document
      * @param document the document being returned
      */
     public void returnDocument(User user, Document document) {

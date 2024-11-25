@@ -15,20 +15,21 @@ public class User {
     /**
      * Constructor to initialize the user.
      *
-     * @param name      The name of the user.
-     * @param password  The password for the user.
+     * @param name     The name of the user.
+     * @param password The password for the user.
      */
     public User(String name, String password) {
         this.name = name;
         this.password = password;
         this.borrowedDocuments = new ArrayList<>();
     }
+
     /**
      * Constructor to initialize the user 2.
      *
-     * @param userId    The ID of the user.
-     * @param name      The name of the user.
-     * @param password  The password for the user.
+     * @param userId   The ID of the user.
+     * @param name     The name of the user.
+     * @param password The password for the user.
      */
     public User(int userId, String name, String password) {
         this.userId = userId;
@@ -85,7 +86,7 @@ public class User {
     }
 
     //Getters
-    public int getUserId() {    
+    public int getUserId() {
         return userId;
     }
 

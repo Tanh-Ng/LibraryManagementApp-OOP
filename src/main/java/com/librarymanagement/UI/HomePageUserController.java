@@ -5,7 +5,7 @@ import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
-import  com.librarymanagement.dao.DocumentDAO;
+import com.librarymanagement.dao.DocumentDAO;
 
 import javafx.fxml.FXML;
 import javafx.animation.PauseTransition;
@@ -121,13 +121,12 @@ public class HomePageUserController {
     private void onSearch(String newValue) {
         if (Objects.equals(newValue, "")) {
             resultListView.setVisible(false);
-        }
-        else {
+        } else {
             resultListView.getItems().clear();
             resultListView.setVisible(true);
             //list search Document
             for (Document searchDocument : documents) {
-                if(searchDocument.getTitle().toLowerCase().contains(newValue.toLowerCase())) {
+                if (searchDocument.getTitle().toLowerCase().contains(newValue.toLowerCase())) {
                     resultListView.getItems().add(searchDocument.getTitle() + " ------ " + searchDocument.getAuthor());
                 }
             }
@@ -167,12 +166,18 @@ public class HomePageUserController {
 
 
     private static Book pickedBook = new Book("NULL");
-    @FXML private ImageView bookCoverImageView;
-    @FXML private Label titleLabel;
-    @FXML private Label authorLabel;
-    @FXML private Label publisherLabel;
-    @FXML private Label publishDateLabel;
-    @FXML private ImageView qrCodeImageView;
+    @FXML
+    private ImageView bookCoverImageView;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label authorLabel;
+    @FXML
+    private Label publisherLabel;
+    @FXML
+    private Label publishDateLabel;
+    @FXML
+    private ImageView qrCodeImageView;
 
     // Set the book details into the popup
     public void setBookDetails() {
@@ -202,6 +207,7 @@ public class HomePageUserController {
             e.printStackTrace();
         }
     }
+
     @FXML
     public HBox bookDetailsBox;
 
@@ -213,7 +219,7 @@ public class HomePageUserController {
 
     private void showBookDetails(String title, MouseEvent event) {
         for (Document searchDocument : documents) {
-            if (searchDocument.getTitle().equalsIgnoreCase(title.split(" ------ ")[0])){
+            if (searchDocument.getTitle().equalsIgnoreCase(title.split(" ------ ")[0])) {
                 pickedBook = (Book) searchDocument;
                 break;
             }
@@ -221,8 +227,8 @@ public class HomePageUserController {
         // If the book details were fetched successfully, show them in the popup
         if (!pickedBook.getIsbn().equals("NULL")) {
             setBookDetails();
-            bookDetailsBox.setLayoutY(event.getSceneY()+5);
-            bookDetailsBox.setLayoutX(event.getSceneX()+5);
+            bookDetailsBox.setLayoutY(event.getSceneY() + 5);
+            bookDetailsBox.setLayoutX(event.getSceneX() + 5);
             bookDetailsBox.setVisible(true);
         }
     }

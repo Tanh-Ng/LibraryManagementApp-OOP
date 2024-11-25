@@ -3,19 +3,20 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.librarymanagement.UI.BookDetailsController">
+<HBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8.0.171"
+      fx:controller="com.librarymanagement.UI.BookDetailsController">
     <!-- Book Cover on the Left -->
-    <ImageView fx:id="bookCoverImageView" fitWidth="150" fitHeight="220" preserveRatio="true" />
+    <ImageView fx:id="bookCoverImageView" fitWidth="150" fitHeight="220" preserveRatio="true"/>
 
     <!-- Book Details on the Right -->
     <VBox alignment="TOP_LEFT" spacing="10" prefWidth="300">
-        <Label text="Book Details" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-        <Label fx:id="titleLabel" text="Title: " wrapText="true" style="-fx-font-size: 14px;" />
-        <Label fx:id="authorLabel" text="Author: " wrapText="true" style="-fx-font-size: 14px;" />
-        <Label fx:id="publisherLabel" text="Publisher: " wrapText="true" style="-fx-font-size: 14px;" />
-        <Label fx:id="publishDateLabel" text="Published Date: " wrapText="true" style="-fx-font-size: 14px;" />
-        <Label text="Scan to Access Document:" style="-fx-font-size: 14px;" />
-        <ImageView fx:id="qrCodeImageView" fitWidth="150" fitHeight="150" preserveRatio="true" />
-        <Button text="Close" fx:id="closeButton" style="-fx-alignment: center;" />
+        <Label text="Book Details" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <Label fx:id="titleLabel" text="Title: " wrapText="true" style="-fx-font-size: 14px;"/>
+        <Label fx:id="authorLabel" text="Author: " wrapText="true" style="-fx-font-size: 14px;"/>
+        <Label fx:id="publisherLabel" text="Publisher: " wrapText="true" style="-fx-font-size: 14px;"/>
+        <Label fx:id="publishDateLabel" text="Published Date: " wrapText="true" style="-fx-font-size: 14px;"/>
+        <Label text="Scan to Access Document:" style="-fx-font-size: 14px;"/>
+        <ImageView fx:id="qrCodeImageView" fitWidth="150" fitHeight="150" preserveRatio="true"/>
+        <Button text="Close" fx:id="closeButton" style="-fx-alignment: center;"/>
     </VBox>
 </HBox>
