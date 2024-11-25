@@ -137,7 +137,7 @@ public class HomePageUserController {
             resultListView.setFixedCellSize(23.75);
             resultListView.setPrefHeight(23.75 * resultListView.getItems().size());
         }
-        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(0.5));
         //event when mouse entered and exited
         resultListView.setCellFactory(ListView -> new ListCell<>() {
             @Override
@@ -324,6 +324,7 @@ public class HomePageUserController {
     private AnchorPane createAnchorPane(Document document) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 220px; -fx-pref-width: 160px;");
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(0.5));
         if (document instanceof Book book) {
             // Preload the book's image in a background thread
             String imageUrl = book.getImageUrl();
@@ -339,6 +340,24 @@ public class HomePageUserController {
             // Position the ImageView at the top center
             AnchorPane.setTopAnchor(coverImageView, 10.0);
             AnchorPane.setLeftAnchor(coverImageView, 30.0);
+
+            // Event when mouse move -> show details
+            anchorPane.setOnMouseMoved(event -> {
+                anchorPane.setStyle("-fx-background-color: #ffcccc; " +
+                        "-fx-pref-height: 220px; -fx-pref-width: 160px;");
+                pauseTransition.setOnFinished(e -> {
+                    showBookDetails(book.getTitle() + " ------ ", event);
+                });
+                pauseTransition.playFromStart();
+            });
+
+            // When mouse exited -> delete book details screen
+            anchorPane.setOnMouseExited(event -> {
+                anchorPane.setStyle("-fx-background-color: lightgray; " +
+                        "-fx-pref-height: 220px; -fx-pref-width: 160px;");
+                bookDetailsBox.setVisible(false);
+                pauseTransition.stop();
+            });
 
             // Borrow button at the bottom
             Button borrowButton = new Button();

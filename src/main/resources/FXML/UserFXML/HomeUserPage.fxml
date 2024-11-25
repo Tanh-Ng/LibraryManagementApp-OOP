@@ -44,7 +44,11 @@
             <VBox fx:id="itemsContainer" alignment="TOP_CENTER" spacing="50" style="-fx-padding: 20;" />
          </content>
       </ScrollPane>
-      <ListView fx:id="resultListView" layoutX="318.0" layoutY="35.0" onMouseClicked="#handlePickDocument" prefHeight="1.0" prefWidth="500.0" visible="false" />
+
+      <!-- Result search -->
+      <ListView fx:id="resultListView" layoutX="284.0" layoutY="41.0" onMouseClicked="#handlePickDocument" prefHeight="0.0" prefWidth="500.0" visible="false" />
+
+      <!-- Book details box -->
       <HBox fx:id="bookDetailsBox" alignment="CENTER" prefHeight="247.0" prefWidth="500.0" spacing="20" style="-fx-background-color: white;" visible="false">
          <!-- Book Cover on the Left -->
          <ImageView fx:id="bookCoverImageView" fitHeight="220" fitWidth="150" preserveRatio="true" />
