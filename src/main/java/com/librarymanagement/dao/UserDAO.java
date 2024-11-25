@@ -163,4 +163,45 @@ public class UserDAO {
             throw new SQLException("Error deleting user with ID " + userId, e);
         }
     }
+    // Method to change a user's ID
+    public void changeUserId(int oldUserId, int newUserId) throws SQLException {
+        // Get database connection
+        Connection conn = DatabaseConfig.getConnection();
+        try {
+            // Start transaction
+            conn.setAutoCommit(false);
+
+            // Insert a new user record with the new user_id
+            String insertSql = "INSERT INTO Users (user_id, name, password, user_type) " +
+                    "SELECT ?, name, password, user_type FROM Users WHERE user_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+                pstmt.setInt(1, newUserId); // New user ID
+                pstmt.setInt(2, oldUserId); // Old user ID to copy data from
+
+                // Execute insert
+                pstmt.executeUpdate();
+            }
+
+            // Delete the old user record
+            String deleteSql = "DELETE FROM Users WHERE user_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
+                pstmt.setInt(1, oldUserId); // Old user ID to delete
+
+                // Execute delete
+                pstmt.executeUpdate();
+            }
+
+            // Commit transaction
+            conn.commit();
+        } catch (SQLException e) {
+            // Rollback transaction in case of error
+            conn.rollback();
+            throw new SQLException("Error changing user ID from " + oldUserId + " to " + newUserId, e);
+        } finally {
+            // Restore default autocommit behavior and close connection
+            conn.setAutoCommit(true);
+            conn.close();
+        }
+    }
+
 }

@@ -103,11 +103,20 @@ public class ManageUserPageController {
         }
 
         try {
-            int userId = Integer.parseInt(userIdStr); // Convert the userId to an integer
+            int newUserId = Integer.parseInt(userIdStr); // Convert the userId to an integer
+
+            int currentUserId = selectedUser.getUserId(); // Get the current user ID
+
+            // Update the user ID if it's different
+            if (newUserId != currentUserId) {
+                UserDAO userDAO = new UserDAO();
+                userDAO.changeUserId(currentUserId, newUserId); // Update the user ID in the database
+                selectedUser.setUserId(newUserId); // Update the user's ID in the UI
+            }
 
             // Update the user in the database
-            userDAO.changeName(userId,userName);
-            userDAO.changePassword(userId,userPassword);
+            userDAO.changeName(newUserId,userName);
+            userDAO.changePassword(newUserId,userPassword);
             selectedUser.setPassword(userPassword);
             selectedUser.setName(userName);
             userTable.refresh();
