@@ -96,10 +96,22 @@
             <TableColumn fx:id="documentTypeColumn" prefWidth="119.199951171875" text="Document Type" />
         </columns>
       </TableView>
-      <Label layoutX="226.0" layoutY="63.0" text="No. Of Documents :" />
-      <Label layoutX="476.0" layoutY="63.0" text="No. Of Users :" />
-      <Label layoutX="737.0" layoutY="63.0" text="Issued Documents :" />
-      <Label layoutX="995.0" layoutY="63.0" text="Type Of Documents :" />
+      <Label layoutX="226.0" layoutY="63.0" text="No. Of Documents :">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Label>
+      <Label layoutX="476.0" layoutY="63.0" text="No. Of Users :">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Label>
+      <Label layoutX="737.0" layoutY="63.0" text="Issued Documents :">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Label>
+      <Label layoutX="995.0" layoutY="63.0" text="Type Of Documents :">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Label>
       <Label layoutX="497.0" layoutY="189.0" prefHeight="26.0" prefWidth="103.0" text="USER DETAILS" textFill="#6b8427">
          <font>
             <Font name="Eras Bold ITC" size="13.0" />

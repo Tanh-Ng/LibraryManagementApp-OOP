@@ -7,40 +7,54 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.ManageUserPageController">
+<AnchorPane prefHeight="614.0" prefWidth="1150.0" style="-fx-background-color: MediumAquamarine;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.ManageUserPageController">
    <children>
-      <AnchorPane prefHeight="596.0" prefWidth="311.0" style="-fx-background-color: thistle;">
+      <AnchorPane prefHeight="614.0" prefWidth="290.0" style="-fx-background-color: PaleTurquoise;">
          <children>
-            <Button layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleToHomePageAdmin" text="Back" />
-            <Label layoutX="47.0" layoutY="161.0" text="User Id :" />
-            <Label layoutX="50.0" layoutY="253.0" text="Username :" />
-            <Label layoutX="51.0" layoutY="348.0" text="Password :" />
-            <TextField fx:id="userIdField" layoutX="47.0" layoutY="203.0" promptText="Enter User Id..." />
-            <TextField fx:id="userNameField" layoutX="47.0" layoutY="298.0" promptText="Enter Username..." />
-            <PasswordField fx:id="userPasswordField" layoutX="47.0" layoutY="385.0" promptText="Enter Password..." />
-            <Button layoutX="53.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleAddUser" text="Add" />
-            <Button layoutX="152.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleDeleteUser" text="Delete" />
-            <Button layoutX="251.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleUpdateUser" text="Update" /> <!-- Added Update button -->
-            <Label layoutX="75.0" layoutY="103.0" text="Action For Admin">
+            <Button layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleToHomePageAdmin" style="-fx-background-color: Bisque;" text="Back" />
+            <Label layoutX="50.0" layoutY="188.0" text="User Id :" textFill="#b17521">
                <font>
-                  <Font size="20.0" />
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="49.0" layoutY="282.0" text="Username :" textFill="#b17521">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="51.0" layoutY="372.0" text="Password :" textFill="#b17521">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <TextField fx:id="userIdField" layoutX="47.0" layoutY="231.0" promptText="Enter User Id..." />
+            <TextField fx:id="userNameField" layoutX="47.0" layoutY="324.0" promptText="Enter Username..." />
+            <PasswordField fx:id="userPasswordField" layoutX="47.0" layoutY="413.0" promptText="Enter Password..." />
+            <Button layoutX="14.0" layoutY="507.0" mnemonicParsing="false" onAction="#handleAddUser" style="-fx-background-color: Bisque;" text="ADD" />
+            <Button layoutX="197.0" layoutY="507.0" mnemonicParsing="false" onAction="#handleDeleteUser" style="-fx-background-color: Bisque;" text="DELETE" />
+            <Button layoutX="100.0" layoutY="507.0" mnemonicParsing="false" onAction="#handleUpdateUser" style="-fx-background-color: Bisque;" text="UPDATE" /> <!-- Added Update button -->
+            <Label layoutX="75.0" layoutY="103.0" text="ADMIN ACTION" textFill="#f73d3d">
+               <font>
+                  <Font name="System Bold" size="19.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <Label layoutX="478.0" layoutY="120.0" prefHeight="36.0" prefWidth="238.0" text="Manage Users Table">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Label>
-      <TableView fx:id="userTable" layoutX="328.0" layoutY="227.0" prefHeight="200.0" prefWidth="519.0">
+      <TableView fx:id="userTable" layoutX="392.0" layoutY="216.0" prefHeight="242.0" prefWidth="661.0">
          <columns>
-            <TableColumn fx:id="userIdColumn" prefWidth="136.0" text="userIdColumn" />
-            <TableColumn fx:id="userNameColumn" prefWidth="123.19998168945312" text="userNameColumn" />
-            <TableColumn fx:id="userPasswordColumn" prefWidth="258.39990234375" text="userPasswordColumn" />
+            <TableColumn fx:id="userIdColumn" prefWidth="136.0" text="User ID" />
+            <TableColumn fx:id="userNameColumn" prefWidth="223.20001220703125" text="User Name" />
+            <TableColumn fx:id="userPasswordColumn" prefWidth="299.19989013671875" text="User Password" />
          </columns>
       </TableView>
+      <Pane layoutX="292.0" prefHeight="84.0" prefWidth="858.0" style="-fx-background-color: IndianRed;">
+         <children>
+            <Label layoutX="363.0" layoutY="24.0" prefHeight="36.0" prefWidth="205.0" text="MANAGE USERS" textFill="#c6d427">
+               <font>
+                  <Font name="Comic Sans MS Bold" size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
