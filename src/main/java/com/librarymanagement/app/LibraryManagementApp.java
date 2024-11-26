@@ -48,9 +48,7 @@ public class LibraryManagementApp extends Application {
 
     public static void showHomeScreen() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/HomeUserPage.fxml"));
-        Scene newScene = new Scene(loader.load());
-        scenesHistory.add(newScene);
-        primaryStage.setScene(newScene);
+        primaryStage.setScene(new Scene(loader.load()));
     }
 
     public static void showBorrowedDocumentsPage() throws Exception {
@@ -61,6 +59,7 @@ public class LibraryManagementApp extends Application {
     }
 
     public static void showBookDetailsPage(Scene sence) throws Exception {
+        scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(sence);
     }
 
@@ -73,9 +72,7 @@ public class LibraryManagementApp extends Application {
 
     public static void showManageDocumentPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/AdminFXML/ManageDocumentPage.fxml"));
-        Scene newScene = new Scene(loader.load());
-        scenesHistory.add(newScene);
-        primaryStage.setScene(newScene);
+        primaryStage.setScene(new Scene(loader.load()));
     }
 
     public static void showManageUserPage() throws Exception {

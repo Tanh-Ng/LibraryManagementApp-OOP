@@ -215,11 +215,17 @@ public class HomePageUserController {
     @FXML
     private void handlePickDocument(MouseEvent event) throws Exception {
         String documentTitleAuthor = resultListView.getSelectionModel().getSelectedItem();
+        //Get picked book
         showBookDetails(documentTitleAuthor, event);
+
+        //Show pages
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+        AnchorPane anchorPane = loader.load();
+        Scene scene= new Scene(anchorPane);
+
+        //Set book to show
         BookDetailsController controller = loader.getController();
         controller.setBookDetails(pickedBook);
-        Scene scene = new Scene(loader.load());
         LibraryManagementApp.showBookDetailsPage(scene);
     }
 
@@ -369,10 +375,16 @@ public class HomePageUserController {
             anchorPane.setOnMouseClicked(event -> {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+                    AnchorPane bookDetialsPane = loader.load();
+
+                    // Choose book
                     BookDetailsController controller = loader.getController();
                     controller.setBookDetails(book);
-                    Scene scene = new Scene(loader.load());
+
+                    //Load in App
+                    Scene scene = new Scene(bookDetialsPane);
                     LibraryManagementApp.showBookDetailsPage(scene);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

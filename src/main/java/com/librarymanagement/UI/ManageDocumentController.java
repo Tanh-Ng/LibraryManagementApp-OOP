@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -243,18 +244,16 @@ public class ManageDocumentController {
             try {
                 // Load the BookDetails.fxml file
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
-                HBox hbox = loader.load();
+                AnchorPane anchorPane = loader.load();
 
                 // Get the controller instance and set book details
                 BookDetailsController bookDetailsController = loader.getController();
                 bookDetailsController.setBookDetails(book);
 
                 // Create a new stage for the popup
-                Stage bookDetailsStage = new Stage();
-                Scene scene = new Scene(hbox);
-                bookDetailsStage.setTitle(book.getInfoUrl());
-                bookDetailsStage.setScene(scene);
-                bookDetailsStage.show();
+                Scene scene = new Scene(anchorPane);
+                LibraryManagementApp.showBookDetailsPage(scene);
+
             } catch (Exception e) {
                 e.printStackTrace();
                 // Show an alert for any errors during the process
