@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.HomePageUserController">
+<AnchorPane prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.HomePageUserController">
    <children>
       <!-- Top bar -->
       <VBox layoutX="0.0" layoutY="0.0" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: black;">
@@ -39,7 +39,7 @@
 
 
       <!-- Main ScrollPane -->
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="0.0" layoutY="60.0" prefHeight="740.0" prefWidth="1200.0">
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="58.0" prefHeight="700.0" prefWidth="1200.0">
          <content>
             <VBox fx:id="itemsContainer" alignment="TOP_CENTER" spacing="50" style="-fx-padding: 20;" />
          </content>

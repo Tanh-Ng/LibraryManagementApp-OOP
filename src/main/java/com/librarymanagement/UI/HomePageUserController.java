@@ -150,7 +150,9 @@ public class HomePageUserController {
                     setOnMouseMoved(event -> {
                         setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
                         pauseTransition.setOnFinished(e -> {
-                            showBookDetails(item, event);
+                            if (!Objects.equals(item, "No document found.")) {
+                                showBookDetails(item, event);
+                            }
                         });
                         pauseTransition.playFromStart();
                     });
@@ -215,18 +217,21 @@ public class HomePageUserController {
     @FXML
     private void handlePickDocument(MouseEvent event) throws Exception {
         String documentTitleAuthor = resultListView.getSelectionModel().getSelectedItem();
-        //Get picked book
-        showBookDetails(documentTitleAuthor, event);
 
-        //Show pages
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
-        AnchorPane anchorPane = loader.load();
-        Scene scene= new Scene(anchorPane);
+        if (!Objects.equals(documentTitleAuthor, "No document found.")) {
+            //Get picked book
+            showBookDetails(documentTitleAuthor, event);
 
-        //Set book to show
-        BookDetailsController controller = loader.getController();
-        controller.setBookDetails(pickedBook);
-        LibraryManagementApp.showBookDetailsPage(scene);
+            //Show pages
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+            AnchorPane anchorPane = loader.load();
+            Scene scene= new Scene(anchorPane);
+
+            //Set book to show
+            BookDetailsController controller = loader.getController();
+            controller.setBookDetails(pickedBook);
+            LibraryManagementApp.showBookDetailsPage(scene);
+        }
     }
 
     private void showBookDetails(String title, MouseEvent event) {
@@ -239,8 +244,22 @@ public class HomePageUserController {
         // If the book details were fetched successfully, show them in the popup
         if (!pickedBook.getIsbn().equals("NULL")) {
             setBookDetails();
-            bookDetailsBox.setLayoutY(event.getSceneY() + 5);
-            bookDetailsBox.setLayoutX(event.getSceneX() + 5);
+            double mouseX = event.getSceneX();
+            double mouseY = event.getSceneY();
+
+            //position for box
+            if (mouseX + bookDetailsBox.getWidth() > 1200) {
+                bookDetailsBox.setLayoutX(mouseX - bookDetailsBox.getWidth() - 5);
+            } else {
+                bookDetailsBox.setLayoutX(mouseX + 5);
+            }
+
+             if (mouseY + bookDetailsBox.getHeight() > 700){
+                 bookDetailsBox.setLayoutY(mouseY - bookDetailsBox.getHeight() - 5);
+             } else {
+                 bookDetailsBox.setLayoutY(mouseY + 5);
+             }
+
             bookDetailsBox.setVisible(true);
         }
     }
