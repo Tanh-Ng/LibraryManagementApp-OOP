@@ -137,7 +137,7 @@ public class HomePageUserController {
             resultListView.setFixedCellSize(23.75);
             resultListView.setPrefHeight(23.75 * resultListView.getItems().size());
         }
-        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(0.5));
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         //event when mouse entered and exited
         resultListView.setCellFactory(ListView -> new ListCell<>() {
             @Override
@@ -336,7 +336,7 @@ public class HomePageUserController {
     private AnchorPane createAnchorPane(Document document) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 220px; -fx-pref-width: 160px;");
-        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(0.5));
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         if (document instanceof Book book) {
             // Preload the book's image in a background thread
             String imageUrl = book.getImageUrl();

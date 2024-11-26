@@ -58,9 +58,9 @@ public class LibraryManagementApp extends Application {
         primaryStage.setScene(newScene);
     }
 
-    public static void showBookDetailsPage(Scene sence) throws Exception {
+    public static void showBookDetailsPage(Scene scene) throws Exception {
         scenesHistory.add(primaryStage.getScene());
-        primaryStage.setScene(sence);
+        primaryStage.setScene(scene);
     }
 
     //Admins' Screen
