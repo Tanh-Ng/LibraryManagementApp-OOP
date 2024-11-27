@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.BookDetailsController">
-    <ImageView fx:id="bookCoverImageView" fitHeight="361.0" fitWidth="357.0" layoutX="86.0" layoutY="29.0" preserveRatio="true" />
+    <ImageView fx:id="bookCoverImageView" fitHeight="361.0" fitWidth="266.0" layoutX="86.0" layoutY="29.0" preserveRatio="true" />
      <ImageView fx:id="qrCodeImageView" fitHeight="183.0" fitWidth="206.0" layoutX="497.0" layoutY="217.0" preserveRatio="true" />
      <Button fx:id="closeButton" layoutX="22.0" layoutY="14.0" onAction="#handleClose" style="-fx-alignment: center;" text="BACK" />
 
@@ -19,4 +19,5 @@
         <Label fx:id="publishDateLabel" style="-fx-font-size: 14px;" text="Published Date: " wrapText="true" />
         <Label style="-fx-font-size: 14px;" text="Scan to Access Document:" />
     </VBox>
+   <Button fx:id="borrowButton" layoutX="165.0" layoutY="400.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Borrow" />
 </AnchorPane>

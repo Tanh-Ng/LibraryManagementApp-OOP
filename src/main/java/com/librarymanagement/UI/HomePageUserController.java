@@ -54,7 +54,7 @@ public class HomePageUserController {
     public void initialize() {
         try {
             // DAO initialization and data fetching
-            borrowedDocuments = borrowDAO.getAllBorrowedDocuments();
+            borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(LibraryManagementApp.getCurrentUser().getUserId());
             documents = documentDAO.getAllDocuments();
 
             // Load images beforehand using multi-thread
@@ -115,15 +115,18 @@ public class HomePageUserController {
         String searchString = searchStringField.getText();
         searchStringField.setText("");
         resultListView.setVisible(true);
+        resultListView.setDisable(false);
         onSearch(searchString);
     }
 
     private void onSearch(String newValue) {
         if (Objects.equals(newValue, "")) {
             resultListView.setVisible(false);
+            resultListView.setDisable(true);
         } else {
             resultListView.getItems().clear();
             resultListView.setVisible(true);
+            resultListView.setDisable(false);
             //list search Document
             for (Document searchDocument : documents) {
                 if (searchDocument.getTitle().toLowerCase().contains(newValue.toLowerCase())) {
@@ -159,6 +162,7 @@ public class HomePageUserController {
                     setOnMouseExited(event -> {
                         setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black;");
                         bookDetailsBox.setVisible(false);
+                        bookDetailsBox.setDisable(true);
                         pauseTransition.stop();
                     });
                 }
@@ -261,6 +265,7 @@ public class HomePageUserController {
              }
 
             bookDetailsBox.setVisible(true);
+            bookDetailsBox.setDisable(false);
         }
     }
 
@@ -387,6 +392,7 @@ public class HomePageUserController {
                 anchorPane.setStyle("-fx-background-color: lightgray; " +
                         "-fx-pref-height: 220px; -fx-pref-width: 160px;");
                 bookDetailsBox.setVisible(false);
+                bookDetailsBox.setDisable(true);
                 pauseTransition.stop();
             });
 

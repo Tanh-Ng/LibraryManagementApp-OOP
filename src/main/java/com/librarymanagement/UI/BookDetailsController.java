@@ -2,6 +2,8 @@ package com.librarymanagement.UI;
 
 import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.model.Book;
+import com.librarymanagement.model.NormalUser;
+import com.librarymanagement.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -26,11 +28,25 @@ public class BookDetailsController {
     @FXML
     private Button closeButton;
 
+    @FXML
+    private Button borrowButton;
+
     private Book book;
+    private User currentUser;
 
     // Set the book details into the popup
     public void setBookDetails(Book book) {
         this.book = book;
+        this.currentUser = LibraryManagementApp.getCurrentUser();
+
+        //Borrow button
+        if(currentUser instanceof NormalUser) {
+            borrowButton.setVisible(true);
+            borrowButton.setDisable(false);
+        } else {
+            borrowButton.setDisable(true);
+            borrowButton.setVisible(false);
+        }
 
         // Set the cover image
         Image coverImage = new Image(book.getImageUrl());
