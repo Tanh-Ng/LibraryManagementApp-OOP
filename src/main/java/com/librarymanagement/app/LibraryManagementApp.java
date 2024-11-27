@@ -22,7 +22,7 @@ public class LibraryManagementApp extends Application {
         primaryStage.setScene(scenesHistory.pop());
         scenesHistory.add(primaryStage.getScene());
     }
-
+  
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;

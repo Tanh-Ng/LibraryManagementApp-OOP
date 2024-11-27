@@ -54,7 +54,7 @@ public class HomePageUserController {
     public void initialize() {
         try {
             // DAO initialization and data fetching
-            borrowedDocuments = borrowDAO.getAllBorrowedDocuments();
+            borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(LibraryManagementApp.getCurrentUser().getUserId());
             documents = documentDAO.getAllDocuments();
 
             // Load images beforehand using multi-thread
