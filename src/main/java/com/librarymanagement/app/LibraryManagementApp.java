@@ -12,8 +12,6 @@ public class LibraryManagementApp extends Application {
     private static Stage primaryStage;
     private static User currentUser;
 
-
-
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;

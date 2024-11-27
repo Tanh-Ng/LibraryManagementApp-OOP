@@ -32,14 +32,14 @@ public class LoginController {
             User user = userDAO.authenticateUser(username, password);
 
             if (user != null) {
+                // Set the current user in the application
+                LibraryManagementApp.setCurrentUser(user);
                 // Navigate to the appropriate screen based on user type
                 if (user instanceof NormalUser) {
                     LibraryManagementApp.showHomeScreen();
                 } else if (user instanceof Admin) {
                     LibraryManagementApp.showAdminPage();
                 }
-                // Set the current user in the application
-                LibraryManagementApp.setCurrentUser(user);
             } else {
                 errorLabel.setText("Invalid username or password.");
             }
