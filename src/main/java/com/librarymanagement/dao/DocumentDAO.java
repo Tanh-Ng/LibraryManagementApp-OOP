@@ -39,6 +39,7 @@ public class DocumentDAO {
             }
         }
     }
+
     public void addDisplayInformation(Document document) throws SQLException {
         String sql = "UPDATE Documents SET image_url = ?, info_url = ?, publisher = ?, publish_date = ? WHERE document_id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
@@ -61,6 +62,7 @@ public class DocumentDAO {
             }
         }
     }
+
     // Method to get all documents (Books only)
     public List<Document> getAllDocuments() throws SQLException {
         List<Document> documents = new ArrayList<>();
@@ -90,7 +92,7 @@ public class DocumentDAO {
                 Document document = new Book(documentId, title, author, isbn, bookType);
                 document.setIsAvailable(isAvailable);
                 document.setIsDeleted(isDeleted);
-                if(document instanceof Book){
+                if (document instanceof Book) {
                     ((Book) document).setImageUrl(imageUrl);
                     ((Book) document).setInfoUrl(infoUrl);
                     ((Book) document).setPublisher(publisher);
@@ -130,7 +132,7 @@ public class DocumentDAO {
                     document.setIsAvailable(isAvailable);
                     document.setIsDeleted(isDeleted);
                     document.setId(documentId);
-                    if(document instanceof Book){
+                    if (document instanceof Book) {
                         ((Book) document).setImageUrl(imageUrl);
                         ((Book) document).setInfoUrl(infoUrl);
                         ((Book) document).setPublisher(publisher);
@@ -219,6 +221,7 @@ public class DocumentDAO {
             pstmt.executeUpdate();
         }
     }
+
     // Method to update document's book type
     public void changeBookType(int documentId, Book.BookType newBookType) throws SQLException {
         String sql = "UPDATE Documents SET book_type = ? WHERE document_id = ?";
@@ -246,6 +249,7 @@ public class DocumentDAO {
             pstmt.executeUpdate();
         }
     }
+
     public void changeDocumentId(int oldDocumentId, int newDocumentId) throws SQLException {
         // Start a transaction to ensure both operations are atomic
         Connection conn = DatabaseConfig.getConnection();

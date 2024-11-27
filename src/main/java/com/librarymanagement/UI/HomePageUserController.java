@@ -5,7 +5,7 @@ import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
-import  com.librarymanagement.dao.DocumentDAO;
+import com.librarymanagement.dao.DocumentDAO;
 
 import javafx.fxml.FXML;
 import javafx.animation.PauseTransition;
@@ -121,13 +121,12 @@ public class HomePageUserController {
     private void onSearch(String newValue) {
         if (Objects.equals(newValue, "")) {
             resultListView.setVisible(false);
-        }
-        else {
+        } else {
             resultListView.getItems().clear();
             resultListView.setVisible(true);
             //list search Document
             for (Document searchDocument : documents) {
-                if(searchDocument.getTitle().toLowerCase().contains(newValue.toLowerCase())) {
+                if (searchDocument.getTitle().toLowerCase().contains(newValue.toLowerCase())) {
                     resultListView.getItems().add(searchDocument.getTitle() + " ------ " + searchDocument.getAuthor());
                 }
             }
@@ -151,7 +150,9 @@ public class HomePageUserController {
                     setOnMouseMoved(event -> {
                         setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
                         pauseTransition.setOnFinished(e -> {
-                            showBookDetails(item, event);
+                            if (!Objects.equals(item, "No document found.")) {
+                                showBookDetails(item, event);
+                            }
                         });
                         pauseTransition.playFromStart();
                     });
@@ -167,12 +168,19 @@ public class HomePageUserController {
 
 
     private static Book pickedBook = new Book("NULL");
-    @FXML private ImageView bookCoverImageView;
-    @FXML private Label titleLabel;
-    @FXML private Label authorLabel;
-    @FXML private Label publisherLabel;
-    @FXML private Label publishDateLabel;
-    @FXML private ImageView qrCodeImageView;
+    private static boolean showDetailsPage = false;
+    @FXML
+    private ImageView bookCoverImageView;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label authorLabel;
+    @FXML
+    private Label publisherLabel;
+    @FXML
+    private Label publishDateLabel;
+    @FXML
+    private ImageView qrCodeImageView;
 
     // Set the book details into the popup
     public void setBookDetails() {
@@ -202,18 +210,33 @@ public class HomePageUserController {
             e.printStackTrace();
         }
     }
+
     @FXML
     public HBox bookDetailsBox;
 
     @FXML
-    private void handlePickDocument(MouseEvent event) {
+    private void handlePickDocument(MouseEvent event) throws Exception {
         String documentTitleAuthor = resultListView.getSelectionModel().getSelectedItem();
-        showBookDetails(documentTitleAuthor, event);
+
+        if (!Objects.equals(documentTitleAuthor, "No document found.")) {
+            //Get picked book
+            showBookDetails(documentTitleAuthor, event);
+
+            //Show pages
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+            AnchorPane anchorPane = loader.load();
+            Scene scene= new Scene(anchorPane);
+
+            //Set book to show
+            BookDetailsController controller = loader.getController();
+            controller.setBookDetails(pickedBook);
+            LibraryManagementApp.showBookDetailsPage(scene);
+        }
     }
 
     private void showBookDetails(String title, MouseEvent event) {
         for (Document searchDocument : documents) {
-            if (searchDocument.getTitle().equalsIgnoreCase(title.split(" ------ ")[0])){
+            if (searchDocument.getTitle().equalsIgnoreCase(title.split(" ------ ")[0])) {
                 pickedBook = (Book) searchDocument;
                 break;
             }
@@ -221,8 +244,22 @@ public class HomePageUserController {
         // If the book details were fetched successfully, show them in the popup
         if (!pickedBook.getIsbn().equals("NULL")) {
             setBookDetails();
-            bookDetailsBox.setLayoutY(event.getSceneY()+5);
-            bookDetailsBox.setLayoutX(event.getSceneX()+5);
+            double mouseX = event.getSceneX();
+            double mouseY = event.getSceneY();
+
+            //position for box
+            if (mouseX + bookDetailsBox.getWidth() > 1200) {
+                bookDetailsBox.setLayoutX(mouseX - bookDetailsBox.getWidth() - 5);
+            } else {
+                bookDetailsBox.setLayoutX(mouseX + 5);
+            }
+
+             if (mouseY + bookDetailsBox.getHeight() > 700){
+                 bookDetailsBox.setLayoutY(mouseY - bookDetailsBox.getHeight() - 5);
+             } else {
+                 bookDetailsBox.setLayoutY(mouseY + 5);
+             }
+
             bookDetailsBox.setVisible(true);
         }
     }
@@ -318,6 +355,7 @@ public class HomePageUserController {
     private AnchorPane createAnchorPane(Document document) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 220px; -fx-pref-width: 160px;");
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         if (document instanceof Book book) {
             // Preload the book's image in a background thread
             String imageUrl = book.getImageUrl();
@@ -333,6 +371,43 @@ public class HomePageUserController {
             // Position the ImageView at the top center
             AnchorPane.setTopAnchor(coverImageView, 10.0);
             AnchorPane.setLeftAnchor(coverImageView, 30.0);
+
+            // Event when mouse move -> show details
+            anchorPane.setOnMouseMoved(event -> {
+                anchorPane.setStyle("-fx-background-color: #ffcccc; " +
+                        "-fx-pref-height: 220px; -fx-pref-width: 160px;");
+                pauseTransition.setOnFinished(e -> {
+                    showBookDetails(book.getTitle() + " ------ ", event);
+                });
+                pauseTransition.playFromStart();
+            });
+
+            // When mouse exited -> delete book details screen
+            anchorPane.setOnMouseExited(event -> {
+                anchorPane.setStyle("-fx-background-color: lightgray; " +
+                        "-fx-pref-height: 220px; -fx-pref-width: 160px;");
+                bookDetailsBox.setVisible(false);
+                pauseTransition.stop();
+            });
+
+            // When mouse clicked -> show page details
+            anchorPane.setOnMouseClicked(event -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+                    AnchorPane bookDetialsPane = loader.load();
+
+                    // Choose book
+                    BookDetailsController controller = loader.getController();
+                    controller.setBookDetails(book);
+
+                    //Load in App
+                    Scene scene = new Scene(bookDetialsPane);
+                    LibraryManagementApp.showBookDetailsPage(scene);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
             // Borrow button at the bottom
             Button borrowButton = new Button();

@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,30 +22,51 @@ import java.sql.SQLException;
 
 public class HomePageAdminController {
 
-    @FXML private TableView<User> userDetails;
-    @FXML private TableColumn<User, Integer> userIdColumn;
-    @FXML private TableColumn<User, String> userNameColumn;
-    @FXML private TableColumn<User, String> userPasswordColumn;
+    @FXML
+    private TableView<User> userDetails;
+    @FXML
+    private TableColumn<User, Integer> userIdColumn;
+    @FXML
+    private TableColumn<User, String> userNameColumn;
+    @FXML
+    private TableColumn<User, String> userPasswordColumn;
 
-    @FXML private TableView<Document> documentDetails;
-    @FXML private TableColumn<Document, Integer> documentIdColumn;
-    @FXML private TableColumn<Document, String> documentTitleColumn;
-    @FXML private TableColumn<Document, String> authorColumn;
-    @FXML private TableColumn<Document, Boolean> isAvailableColumn;
-    @FXML private TableColumn<Document, String> isbnColumn;
-    @FXML private TableColumn<Document, String> documentTypeColumn;
+    @FXML
+    private TableView<Document> documentDetails;
+    @FXML
+    private TableColumn<Document, Integer> documentIdColumn;
+    @FXML
+    private TableColumn<Document, String> documentTitleColumn;
+    @FXML
+    private TableColumn<Document, String> authorColumn;
+    @FXML
+    private TableColumn<Document, Boolean> isAvailableColumn;
+    @FXML
+    private TableColumn<Document, String> isbnColumn;
+    @FXML
+    private TableColumn<Document, String> documentTypeColumn;
 
-    @FXML private TableView<Borrow> borrowedTable;
-    @FXML private TableColumn<Borrow, Integer> borrowIdColumn;
-    @FXML private TableColumn<Borrow, Integer> userIDColumn;
-    @FXML private TableColumn<Borrow, Integer> documentIDColumn;
-    @FXML private TableColumn<Borrow, Date> borrowDateColumn;
-    @FXML private TextField searchField;
+    @FXML
+    private TableView<Borrow> borrowedTable;
+    @FXML
+    private TableColumn<Borrow, Integer> borrowIdColumn;
+    @FXML
+    private TableColumn<Borrow, Integer> userIDColumn;
+    @FXML
+    private TableColumn<Borrow, Integer> documentIDColumn;
+    @FXML
+    private TableColumn<Borrow, Date> borrowDateColumn;
+    @FXML
+    private TextField searchField;
 
-    @FXML private Label numberOfDocuments;
-    @FXML private Label numberOfUsers;
-    @FXML private Label numberOfType;
-    @FXML private Label numberOfIssued;
+    @FXML
+    private Label numberOfDocuments;
+    @FXML
+    private Label numberOfUsers;
+    @FXML
+    private Label numberOfType;
+    @FXML
+    private Label numberOfIssued;
 
     private final UserDAO userDAO = new UserDAO();
     private final DocumentDAO documentDAO = new DocumentDAO();

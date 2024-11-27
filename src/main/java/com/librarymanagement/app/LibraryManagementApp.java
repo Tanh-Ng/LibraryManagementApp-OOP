@@ -1,6 +1,8 @@
 package com.librarymanagement.app;
 
+import com.librarymanagement.UI.BookDetailsController;
 import com.librarymanagement.UI.ImageLoader;
+import com.librarymanagement.model.Book;
 import com.librarymanagement.model.User;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -8,10 +10,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.Stack;
+
 public class LibraryManagementApp extends Application {
     private static Stage primaryStage;
     private static User currentUser;
+    private static Stack<Scene> scenesHistory = new Stack<>();
 
+    public static void goBack(){
+        primaryStage.setScene(scenesHistory.pop());
+        scenesHistory.add(primaryStage.getScene());
+    }
+  
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
@@ -40,14 +51,16 @@ public class LibraryManagementApp extends Application {
         primaryStage.setScene(new Scene(loader.load()));
     }
 
-    public static void showBorrowedDocumentsPage () throws  Exception {
+    public static void showBorrowedDocumentsPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/BorrowedPage.fxml"));
-        primaryStage.setScene(new Scene(loader.load()));
+        Scene newScene = new Scene(loader.load());
+        scenesHistory.add(newScene);
+        primaryStage.setScene(newScene);
     }
 
-    public static void showAccountSetting() throws Exception {
-        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/AccountSetting.fxml"));
-        primaryStage.setScene(new Scene(loader.load()));
+    public static void showBookDetailsPage(Scene scene) throws Exception {
+        scenesHistory.add(primaryStage.getScene());
+        primaryStage.setScene(scene);
     }
 
     //Admins' Screen
@@ -68,10 +81,14 @@ public class LibraryManagementApp extends Application {
     }
 
     //User setter
-    public static void setCurrentUser(User loggedInUser) { currentUser = loggedInUser; }
+    public static void setCurrentUser(User loggedInUser) {
+        currentUser = loggedInUser;
+    }
 
     //User getter
-    public static User getCurrentUser() { return currentUser; }
+    public static User getCurrentUser() {
+        return currentUser;
+    }
 
 
     public static void main(String[] args) {

@@ -18,7 +18,7 @@ public class AccountSettingController {
     private PasswordField reEnterNewPasswordField;
 
     public void handleChangePassword(ActionEvent actionEvent) throws SQLException {
-        if(oldPasswordField.getText().equals(LibraryManagementApp.getCurrentUser().getPassword())
+        if (oldPasswordField.getText().equals(LibraryManagementApp.getCurrentUser().getPassword())
                 || newPasswordField.equals(reEnterNewPasswordField)) {
             return;
         }

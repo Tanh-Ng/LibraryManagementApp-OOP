@@ -13,7 +13,7 @@ public class Document {
         this.title = title;
         this.author = author;
         this.isAvailable = true; // Default to available when created
-        this.isDeleted=false;
+        this.isDeleted = false;
     }
 
     public Document(int DocumentId, String title, String author) {
@@ -21,9 +21,10 @@ public class Document {
         this.title = title;
         this.author = author;
         this.isAvailable = true;
-        this.isDeleted=false;
+        this.isDeleted = false;
     }
-    public Document(){
+
+    public Document() {
     }
 
     /**
@@ -90,7 +91,7 @@ public class Document {
         this.DocumentId = DocumentId;
     }
 
-    public void setIsDeleted(boolean isDeleted){
-        this.isDeleted=isDeleted;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

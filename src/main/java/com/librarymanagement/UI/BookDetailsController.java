@@ -1,5 +1,6 @@
 package com.librarymanagement.UI;
 
+import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.model.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -10,13 +11,20 @@ import javafx.stage.Stage;
 
 public class BookDetailsController {
 
-    @FXML private ImageView bookCoverImageView;
-    @FXML private Label titleLabel;
-    @FXML private Label authorLabel;
-    @FXML private Label publisherLabel;
-    @FXML private Label publishDateLabel;
-    @FXML private ImageView qrCodeImageView;
-    @FXML private Button closeButton;
+    @FXML
+    private ImageView bookCoverImageView;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label authorLabel;
+    @FXML
+    private Label publisherLabel;
+    @FXML
+    private Label publishDateLabel;
+    @FXML
+    private ImageView qrCodeImageView;
+    @FXML
+    private Button closeButton;
 
     private Book book;
 
@@ -54,8 +62,7 @@ public class BookDetailsController {
 
     // Close the popup window
     @FXML
-    private void handleClose() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
+    private void handleClose(){
+        LibraryManagementApp.goBack();
     }
 }

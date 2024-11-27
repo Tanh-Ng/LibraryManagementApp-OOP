@@ -14,6 +14,7 @@ public class NormalUser extends User {
     public NormalUser(int userId, String name, String password) {
         super(userId, name, password);
     }
+
     public NormalUser(String name, String password) {
         super(name, password);
     }
