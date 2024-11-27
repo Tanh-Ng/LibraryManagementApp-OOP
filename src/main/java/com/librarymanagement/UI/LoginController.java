@@ -43,7 +43,6 @@ public class LoginController {
                 } else if (user instanceof Admin) {
                     LibraryManagementApp.showAdminPage();
                 }
-
             } else {
                 errorLabel.setText("Invalid username or password.");
             }
