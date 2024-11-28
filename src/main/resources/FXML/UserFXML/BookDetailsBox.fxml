@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Book details box -->
+<HBox prefHeight="400.0" prefWidth="567.0" spacing="5" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.General.BookDetailsController">
+    <!-- Book Cover on the Left -->
+    <ImageView fx:id="bookCoverImageView" fitHeight="220" fitWidth="150" preserveRatio="true" />
+    <!-- Book Details on the Right -->
+    <VBox alignment="TOP_LEFT" prefWidth="300" spacing="10">
+        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Book Details" />
+        <Label fx:id="titleLabel" style="-fx-font-size: 14px;" text="Title: " wrapText="true" />
+        <Label fx:id="authorLabel" style="-fx-font-size: 14px;" text="Author: " wrapText="true" />
+        <Label fx:id="publisherLabel" style="-fx-font-size: 14px;" text="Publisher: " wrapText="true" />
+        <Label fx:id="publishDateLabel" style="-fx-font-size: 14px;" text="Published Date: " wrapText="true" />
+        <Label style="-fx-font-size: 14px;" text="Scan to Access Document:" />
+        <ImageView fx:id="qrCodeImageView" fitHeight="150" fitWidth="150" preserveRatio="true" />
+    </VBox>
+</HBox>

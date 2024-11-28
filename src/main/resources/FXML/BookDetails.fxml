@@ -19,5 +19,5 @@
         <Label fx:id="publishDateLabel" style="-fx-font-size: 14px;" text="Published Date: " wrapText="true" />
         <Label style="-fx-font-size: 14px;" text="Scan to Access Document:" />
     </VBox>
-   <Button fx:id="borrowButton" layoutX="165.0" layoutY="400.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Borrow" />
+   <Button fx:id="borrowButton" layoutX="165.0" layoutY="400.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" />
 </AnchorPane>

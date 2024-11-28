@@ -40,15 +40,13 @@ public class HomePageUserController {
     private final BorrowDAO borrowDAO = new BorrowDAO();
 
     private BorrowingButtonEvent borrowingButtonEvent;
-
-    @FXML
-    public TextField searchStringField;
-
-    @FXML
-    public ListView<String> resultListView;
+    private TopBar topBar;
 
     @FXML
     private VBox itemsContainer; // The container for dynamic items (rows)
+
+    @FXML
+    private  AnchorPane mainAnchorPane;
 
     public static List<Document> documents;
 
@@ -59,6 +57,7 @@ public class HomePageUserController {
             // DAO initialization and data fetching
             borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(LibraryManagementApp.getCurrentUser().getUserId());
             documents = documentDAO.getAllDocuments();
+            topBar.setDocuments(documents);
             borrowingButtonEvent = new BorrowingButtonEvent(borrowDAO, borrowedDocuments);
 
             // Load images beforehand using multi-thread
@@ -83,166 +82,10 @@ public class HomePageUserController {
         }
     }
 
-    /// Menu tab
-    // Logout
-    public void handleLogout() throws Exception {
-        LibraryManagementApp.showLoginScreen();
-    }
-
-    // Change password
-    public void handleAccountSettings() throws IOException {
-        // Load the FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/AccountSetting.fxml"));
-        AnchorPane anchorPane = loader.load();
-
-        // Create a new pop-up window;
-        Stage stage = new Stage();
-        stage.setTitle("Account Settings");
-        Scene scene = new Scene(anchorPane);
-        stage.setScene(scene);
-
-        // Show the stage
-        stage.show();
-    }
-
-
-    /// Search function
-    //Search document after clicked
-    public void handleSearchDocument() throws Exception {
-        searchStringField.textProperty().addListener(
-                (observable, oldValue, newValue) -> onSearch(newValue)
-        );
-    }
-
-    //Search button
-    public void handleOnClickSearch() {
-        String searchString = searchStringField.getText();
-        searchStringField.setText("");
-        resultListView.setVisible(true);
-        resultListView.setDisable(false);
-        onSearch(searchString);
-    }
-
-    private void onSearch(String newValue) {
-        if (Objects.equals(newValue, "")) {
-            resultListView.setVisible(false);
-            resultListView.setDisable(true);
-        } else {
-            resultListView.getItems().clear();
-            resultListView.setVisible(true);
-            resultListView.setDisable(false);
-            //list search Document
-            for (Document searchDocument : documents) {
-                if (searchDocument.getTitle().toLowerCase().contains(newValue.toLowerCase())) {
-                    resultListView.getItems().add(searchDocument.getTitle() + " ------ " + searchDocument.getAuthor());
-                }
-            }
-            //value if no Document
-            if (resultListView.getItems().isEmpty()) {
-                resultListView.getItems().add("No document found.");
-            }
-            resultListView.setFixedCellSize(23.75);
-            resultListView.setPrefHeight(23.75 * resultListView.getItems().size());
-        }
-        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
-        //event when mouse entered and exited
-        resultListView.setCellFactory(ListView -> new ListCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item);
-                    setOnMouseMoved(event -> {
-                        setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
-                        pauseTransition.setOnFinished(e -> {
-                            if (!Objects.equals(item, "No document found.")) {
-                                showBookDetails(item, event);
-                            }
-                        });
-                        pauseTransition.playFromStart();
-                    });
-                    setOnMouseExited(event -> {
-                        setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black;");
-                        bookDetailsBox.setVisible(false);
-                        bookDetailsBox.setDisable(true);
-                        pauseTransition.stop();
-                    });
-                }
-            }
-        });
-    }
-
-
-    private static Book pickedBook = new Book("NULL");
-    private static boolean showDetailsPage = false;
-    @FXML
-    private ImageView bookCoverImageView;
-    @FXML
-    private Label titleLabel;
-    @FXML
-    private Label authorLabel;
-    @FXML
-    private Label publisherLabel;
-    @FXML
-    private Label publishDateLabel;
-    @FXML
-    private ImageView qrCodeImageView;
-
-    // Set the book details into the popup
-    public void setBookDetails() {
-        // Set the cover image
-        Image coverImage = new Image(pickedBook.getImageUrl());
-        bookCoverImageView.setImage(coverImage);
-        setQrCodeImage(pickedBook.getInfoUrl());
-        // Set the book details
-        titleLabel.setText("Title: " + pickedBook.getTitle());
-        authorLabel.setText("Author: " + pickedBook.getAuthor());
-        publisherLabel.setText("Publisher: " + pickedBook.getPublisher());
-        publishDateLabel.setText("Published Date: " + pickedBook.getPublishDate());
-    }
-
-    // Fetch and set the barcode image
-    private void setQrCodeImage(String documentUrl) {
-        try {
-            // QR Code API URL
-            String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + documentUrl;
-
-            // Load the QR code image
-            Image qrCodeImage = new Image(qrCodeUrl);
-
-            // Set the QR code image
-            qrCodeImageView.setImage(qrCodeImage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public HBox bookDetailsBox;
-
-    @FXML
-    private void handlePickDocument(MouseEvent event) throws Exception {
-        String documentTitleAuthor = resultListView.getSelectionModel().getSelectedItem();
-
-        if (!Objects.equals(documentTitleAuthor, "No document found.")) {
-            //Get picked book
-            showBookDetails(documentTitleAuthor, event);
-
-            //Show pages
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
-            AnchorPane anchorPane = loader.load();
-            Scene scene= new Scene(anchorPane);
-
-            //Set book to show
-            BookDetailsController controller = loader.getController();
-            controller.setBookDetails(pickedBook);
-            LibraryManagementApp.showBookDetailsPage(scene);
-        }
-    }
-
-    private void showBookDetails(String title, MouseEvent event) {
+    public void showBookDetails(String title, MouseEvent event) throws Exception{
+        Book pickedBook =new Book("Null");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookDetailsBox.fxml"));
+        HBox bookDetailsBox = loader.load();
         for (Document searchDocument : documents) {
             if (searchDocument.getTitle().equalsIgnoreCase(title.split(" ------ ")[0])) {
                 pickedBook = (Book) searchDocument;
@@ -251,25 +94,30 @@ public class HomePageUserController {
         }
         // If the book details were fetched successfully, show them in the popup
         if (!pickedBook.getIsbn().equals("NULL")) {
-            setBookDetails();
+            //setBookDetails();
             double mouseX = event.getSceneX();
             double mouseY = event.getSceneY();
 
+            //Set picked book
+            bookDetailsBox.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black;");
+            BookDetailsController controller = loader.getController();
+            controller.setBookDetails(pickedBook);
+
             //position for box
-            if (mouseX + bookDetailsBox.getWidth() > 1200) {
-                bookDetailsBox.setLayoutX(mouseX - bookDetailsBox.getWidth() - 5);
+            if (mouseX + 567 > 1200) {
+                bookDetailsBox.setLayoutX(mouseX - 567 - 5);
             } else {
                 bookDetailsBox.setLayoutX(mouseX + 5);
             }
 
-             if (mouseY + bookDetailsBox.getHeight() > 700){
-                 bookDetailsBox.setLayoutY(mouseY - bookDetailsBox.getHeight() - 5);
-             } else {
-                 bookDetailsBox.setLayoutY(mouseY + 5);
-             }
+            if (mouseY + 400.0 > 700){
+                bookDetailsBox.setLayoutY(mouseY - 400 - 5);
+            } else {
+                bookDetailsBox.setLayoutY(mouseY + 5);
+            }
 
-            bookDetailsBox.setVisible(true);
-            bookDetailsBox.setDisable(false);
+            //Print
+            mainAnchorPane.getChildren().set(mainAnchorPane.getChildren().size() - 1, bookDetailsBox);
         }
     }
 
@@ -386,7 +234,12 @@ public class HomePageUserController {
                 anchorPane.setStyle("-fx-background-color: #ffcccc; " +
                         "-fx-pref-height: 220px; -fx-pref-width: 160px;");
                 pauseTransition.setOnFinished(e -> {
-                    showBookDetails(book.getTitle() + " ------ ", event);
+                    try {
+                        showBookDetails(book.getTitle() + " ------ ", event);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                 });
                 pauseTransition.playFromStart();
             });
@@ -395,8 +248,7 @@ public class HomePageUserController {
             anchorPane.setOnMouseExited(event -> {
                 anchorPane.setStyle("-fx-background-color: lightgray; " +
                         "-fx-pref-height: 220px; -fx-pref-width: 160px;");
-                bookDetailsBox.setVisible(false);
-                bookDetailsBox.setDisable(true);
+                mainAnchorPane.getChildren().set(mainAnchorPane.getChildren().size() - 1, new HBox());
                 pauseTransition.stop();
             });
 

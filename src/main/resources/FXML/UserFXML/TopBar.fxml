@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      prefHeight="60.0" prefWidth="1200.0" alignment="CENTER" spacing="10" style="-fx-background-color: black; -fx-padding: 10;"
-      fx:controller="com.librarymanagement.UI.UserUI.TopBar">
-<!-- Text Field for search -->
-<TextField fx:id="searchStringField" onKeyPressed="#handleSearchDocument" prefWidth="500.0" promptText="Search documents..." />
+<AnchorPane fx:id="mainAnchorPane" prefHeight="60" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.UserUI.TopBar">
+    <HBox alignment="CENTER" prefHeight="60.0" prefWidth="1200.0" spacing="10" style="-fx-background-color: black; -fx-padding: 10;">
+        <!-- Text Field for search -->
+        <TextField fx:id="searchStringField" onKeyPressed="#handleSearchDocument" prefHeight="26.0" prefWidth="500.0" promptText="Search documents..." />
 
-<!-- Search Button -->
-<Button onAction="#handleOnClickSearch" text="Search" />
+        <!-- MenuButton for profile actions -->
+        <MenuButton style="-fx-font-size: 16px; -fx-text-fill: white;" text="☰">
+            <items>
+                <!-- Logout Menu Item -->
+                <MenuItem onAction="#handleLogout" text="Logout" />
+                <!-- Account Settings Menu Item -->
+                <MenuItem onAction="#handleAccountSettings" text="Account Settings" />
+            </items>
+        </MenuButton>
+    </HBox>
+    <!-- ListView for search suggestions -->
+    <ListView fx:id="resultListView" layoutX="316.0" layoutY="44.0" onMouseClicked="#handlePickDocument" prefHeight="0.0" prefWidth="500.0" visible="false" />
 
-<!-- MenuButton for profile actions -->
-<MenuButton style="-fx-font-size: 16px; -fx-text-fill: white;" text="☰">
-    <items>
-        <!-- Logout Menu Item -->
-        <MenuItem onAction="#handleLogout" text="Logout" />
-        <!-- Account Settings Menu Item -->
-        <MenuItem onAction="#handleAccountSettings" text="Account Settings" />
-    </items>
-</MenuButton>
-</HBox>
+    <!-- Details box -->
+    <HBox prefHeight="2.0" prefWidth="200.0" />
 
+</AnchorPane>

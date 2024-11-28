@@ -39,10 +39,10 @@ public class BookDetailsController {
         this.currentUser = LibraryManagementApp.getCurrentUser();
 
         //Borrow button
-        if(currentUser instanceof NormalUser) {
+        if(currentUser instanceof NormalUser && borrowButton != null) {
             borrowButton.setVisible(true);
             borrowButton.setDisable(false);
-        } else {
+        } else if(borrowButton != null) {
             borrowButton.setDisable(true);
             borrowButton.setVisible(false);
         }
