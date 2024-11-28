@@ -12,7 +12,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.HomePageUserController">
+<AnchorPane prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.librarymanagement.UI.UserUI.HomePageUserController">
    <children>
       <!-- Top bar -->
       <VBox layoutX="0.0" layoutY="0.0" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: black;">

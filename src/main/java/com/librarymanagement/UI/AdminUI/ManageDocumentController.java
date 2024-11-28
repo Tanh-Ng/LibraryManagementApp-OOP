@@ -1,5 +1,6 @@
-package com.librarymanagement.UI;
+package com.librarymanagement.UI.AdminUI;
 
+import com.librarymanagement.UI.General.BookDetailsController;
 import com.librarymanagement.app.LibraryManagementApp;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -10,8 +11,6 @@ import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 

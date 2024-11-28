@@ -1,4 +1,4 @@
-package com.librarymanagement.UI;
+package com.librarymanagement.UI.General;
 
 import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.dao.UserDAO;

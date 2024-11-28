@@ -1,10 +1,9 @@
-package com.librarymanagement.UI;
+package com.librarymanagement.UI.General;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.librarymanagement.model.Book;
 import javafx.scene.image.Image;
 
 public class ImageLoader {

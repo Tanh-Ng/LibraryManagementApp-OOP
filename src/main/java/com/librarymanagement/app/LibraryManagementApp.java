@@ -1,8 +1,6 @@
 package com.librarymanagement.app;
 
-import com.librarymanagement.UI.BookDetailsController;
-import com.librarymanagement.UI.ImageLoader;
-import com.librarymanagement.model.Book;
+import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.model.User;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Stack;
 
 public class LibraryManagementApp extends Application {

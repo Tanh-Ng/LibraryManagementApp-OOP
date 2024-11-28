@@ -1,4 +1,4 @@
-package com.librarymanagement.UI;
+package com.librarymanagement.UI.General;
 
 import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.model.Book;
@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 public class BookDetailsController {
 

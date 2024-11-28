@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.BookDetailsController">
+<AnchorPane prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.General.BookDetailsController">
     <ImageView fx:id="bookCoverImageView" fitHeight="361.0" fitWidth="266.0" layoutX="86.0" layoutY="29.0" preserveRatio="true" />
      <ImageView fx:id="qrCodeImageView" fitHeight="183.0" fitWidth="206.0" layoutX="497.0" layoutY="217.0" preserveRatio="true" />
      <Button fx:id="closeButton" layoutX="22.0" layoutY="14.0" onAction="#handleClose" style="-fx-alignment: center;" text="BACK" />

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="406.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.AccountSettingController">
+<AnchorPane prefHeight="406.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.UserUI.AccountSettingController">
 
     <children>
         <Label layoutX="197.0" layoutY="61.0" prefHeight="49.0" prefWidth="144.0" text="Change Password" textAlignment="CENTER">

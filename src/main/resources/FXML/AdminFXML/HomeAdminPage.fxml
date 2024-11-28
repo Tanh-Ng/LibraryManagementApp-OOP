@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1280.0" style="-fx-background-color: MediumAquamarine;"
             xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.librarymanagement.UI.HomePageAdminController">
+            fx:controller="com.librarymanagement.UI.AdminUI.HomePageAdminController">
     <children>
         <fx:include source="AdminTabMenu.fxml"/>
         <Pane layoutX="226.0" layoutY="91.0" prefHeight="83.0" prefWidth="180.0" style="-fx-background-color: pink;">

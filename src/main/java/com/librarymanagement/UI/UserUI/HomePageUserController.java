@@ -1,5 +1,7 @@
-package com.librarymanagement.UI;
+package com.librarymanagement.UI.UserUI;
 
+import com.librarymanagement.UI.General.BookDetailsController;
+import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.model.Book;
@@ -9,7 +11,6 @@ import com.librarymanagement.dao.DocumentDAO;
 
 import javafx.fxml.FXML;
 import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,11 +33,13 @@ import java.util.Objects;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import static com.librarymanagement.UI.ImageLoader.getImage;
+import static com.librarymanagement.UI.General.ImageLoader.getImage;
 
 public class HomePageUserController {
     private final DocumentDAO documentDAO = new DocumentDAO();
     private final BorrowDAO borrowDAO = new BorrowDAO();
+
+    private BorrowingButtonEvent borrowingButtonEvent;
 
     @FXML
     public TextField searchStringField;
@@ -56,6 +59,7 @@ public class HomePageUserController {
             // DAO initialization and data fetching
             borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(LibraryManagementApp.getCurrentUser().getUserId());
             documents = documentDAO.getAllDocuments();
+            borrowingButtonEvent = new BorrowingButtonEvent(borrowDAO, borrowedDocuments);
 
             // Load images beforehand using multi-thread
             documents.forEach(doc -> {
@@ -417,15 +421,10 @@ public class HomePageUserController {
 
             // Borrow button at the bottom
             Button borrowButton = new Button();
-            updateBorrowButtonState(borrowButton, document);
+            borrowingButtonEvent.updateBorrowButtonState(borrowButton, document);
 
             borrowButton.setOnAction(event -> {
-                if (isBorrowed(document)) {
-                    returnDocument(document);
-                } else {
-                    borrowDocument(document);
-                }
-                updateBorrowButtonState(borrowButton, document);
+                borrowingButtonEvent.buttonClicked(borrowButton, document);
                 refreshBorrowedDocumentsList(String.valueOf(book.getBookType()));
             });
             borrowButton.setPrefWidth(100);
@@ -440,57 +439,12 @@ public class HomePageUserController {
     // Create a placeholder AnchorPane for empty spaces
     private AnchorPane createPlaceholderPane() {
         AnchorPane placeholderPane = new AnchorPane();
-        placeholderPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 220px; -fx-pref-width: 160px;");
+        placeholderPane.setStyle("-fx-background-color: white; -fx-pref-height: 220px; -fx-pref-width: 160px;");
         return placeholderPane;
-    }
-
-    private void updateBorrowButtonState(Button button, Document document) {
-        if (!isAvailable(document)) {
-            button.setText("Unavailable");
-            button.setDisable(true);
-            button.setStyle("-fx-background-color: #ffcc66; -fx-text-fill: black;"); // Yellow-orange background
-        } else if (isBorrowed(document)) {
-            button.setText("Borrowed");
-            button.setDisable(false);
-            button.setStyle("-fx-background-color: #ff9999; -fx-text-fill: black;");
-        } else {
-            button.setText("Borrow");
-            button.setDisable(false);
-            button.setStyle("-fx-background-color: #99ff99; -fx-text-fill: black;");
-        }
-    }
-
-    private boolean isAvailable(Document document) {
-        return document.isAvailable();
     }
 
     private boolean isBorrowed(Document document) {
         return borrowedDocuments.stream().anyMatch(b -> b.getDocumentId() == document.getDocumentId());
-    }
-
-    private void borrowDocument(Document document) {
-        try {
-            borrowDAO.addBorrow(LibraryManagementApp.getCurrentUser().getUserId(), document.getDocumentId(), new Date(System.currentTimeMillis()));
-            borrowedDocuments.add(new Borrow(borrowedDocuments.size(), LibraryManagementApp.getCurrentUser().getUserId()
-                    , document.getDocumentId(), new Timestamp(System.currentTimeMillis())));
-        } catch (Exception e) {
-            System.out.println("Error borrowing document: " + e.getMessage());
-        }
-    }
-
-    private void returnDocument(Document document) {
-        try {
-            Borrow borrow = borrowedDocuments.stream()
-                    .filter(b -> b.getDocumentId() == document.getDocumentId())
-                    .findFirst()
-                    .orElse(null);
-            if (borrow != null) {
-                borrowDAO.deleteBorrow(borrow.getBorrowId());
-                borrowedDocuments.remove(borrow);
-            }
-        } catch (Exception e) {
-            System.out.println("Error returning document: " + e.getMessage());
-        }
     }
 
     // Refresh the VBox of borrowed documents list after borrowing or returning

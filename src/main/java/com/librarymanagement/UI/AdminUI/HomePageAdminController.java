@@ -1,4 +1,4 @@
-package com.librarymanagement.UI;
+package com.librarymanagement.UI.AdminUI;
 
 import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.dao.DocumentDAO;
