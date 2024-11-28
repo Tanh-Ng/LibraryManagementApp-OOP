@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Represents a user in the library.
  */
-public class User {
+public abstract class User {
     private int userId;
     private String name;
     private String password;

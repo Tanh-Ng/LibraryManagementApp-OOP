@@ -10,7 +10,7 @@ public class DocumentTest {
 
     @BeforeEach
     public void setUp() {
-        document = new Document("Effective Java", "Joshua Bloch");
+        document = new Book("Effective Java", "Joshua Bloch","123456", Book.BookType.TEXTBOOKS);
     }
 
     @Test

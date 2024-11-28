@@ -66,7 +66,7 @@ public class DocumentDAO {
     // Method to get all documents (Books only)
     public List<Document> getAllDocuments() throws SQLException {
         List<Document> documents = new ArrayList<>();
-        String sql = "SELECT * FROM Documents WHERE is_deleted = false"; // No need for document_type filter
+        String sql = "SELECT * FROM Documents"; // No need for document_type filter
         try (Connection conn = DatabaseConfig.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -76,7 +76,6 @@ public class DocumentDAO {
                 String title = rs.getString("title");
                 String author = rs.getString("author");
                 boolean isAvailable = rs.getBoolean("is_available");
-                boolean isDeleted = rs.getBoolean("is_deleted");
                 String isbn = rs.getString("isbn");
 
                 // Get the book type (mapping from String to BookType enum)
@@ -91,7 +90,6 @@ public class DocumentDAO {
                 // Only create a Book object, since that's the only document type now
                 Document document = new Book(documentId, title, author, isbn, bookType);
                 document.setIsAvailable(isAvailable);
-                document.setIsDeleted(isDeleted);
                 if (document instanceof Book) {
                     ((Book) document).setImageUrl(imageUrl);
                     ((Book) document).setInfoUrl(infoUrl);
@@ -116,7 +114,6 @@ public class DocumentDAO {
                     String title = rs.getString("title");
                     String author = rs.getString("author");
                     boolean isAvailable = rs.getBoolean("is_available");
-                    boolean isDeleted = rs.getBoolean("is_deleted");
                     String isbn = rs.getString("isbn");
 
                     // Get the book type (mapping from String to BookType enum)
@@ -130,7 +127,6 @@ public class DocumentDAO {
                     // Return Book object as the only document type
                     Document document = new Book(title, author, isbn, bookType);
                     document.setIsAvailable(isAvailable);
-                    document.setIsDeleted(isDeleted);
                     document.setId(documentId);
                     if (document instanceof Book) {
                         ((Book) document).setImageUrl(imageUrl);
@@ -149,7 +145,7 @@ public class DocumentDAO {
     // Method to get documents by book type
     public List<Document> getDocumentsByType(Book.BookType bookType) throws SQLException {
         List<Document> documents = new ArrayList<>();
-        String sql = "SELECT * FROM Documents WHERE book_type = ? AND is_deleted = false"; // Filter by book_type and is_deleted
+        String sql = "SELECT * FROM Documents WHERE book_type = ? "; // Filter by book_type
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -161,7 +157,6 @@ public class DocumentDAO {
                     String title = rs.getString("title");
                     String author = rs.getString("author");
                     boolean isAvailable = rs.getBoolean("is_available");
-                    boolean isDeleted = rs.getBoolean("is_deleted");
                     String isbn = rs.getString("isbn");
 
                     // Map the book type from String to BookType enum
@@ -171,7 +166,6 @@ public class DocumentDAO {
                     // Create a Book object (Document) and add it to the list
                     Document document = new Book(documentId, title, author, isbn, type);
                     document.setIsAvailable(isAvailable);
-                    document.setIsDeleted(isDeleted);
                     documents.add(document);
                 }
             }
@@ -257,8 +251,8 @@ public class DocumentDAO {
             conn.setAutoCommit(false); // Start transaction
 
             // Insert a new document with the new document_id
-            String insertSql = "INSERT INTO Documents (document_id, title, author, is_available, isbn, book_type, is_deleted) " +
-                    "SELECT ?, title, author, is_available, isbn, book_type, is_deleted FROM Documents WHERE document_id = ?";
+            String insertSql = "INSERT INTO Documents (document_id, title, author, is_available, isbn, book_type) " +
+                    "SELECT ?, title, author, is_available, isbn, book_type FROM Documents WHERE document_id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
                 pstmt.setInt(1, newDocumentId); // New document_id
                 pstmt.setInt(2, oldDocumentId); // Old document_id to copy data from
@@ -284,16 +278,4 @@ public class DocumentDAO {
     }
 
 
-    // Method to soft delete a document by ID
-    public void softDelete(int documentId) throws SQLException {
-        String sql = "UPDATE Documents SET is_deleted = 1 WHERE document_id = ?";
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, documentId);
-
-            // Execute the soft delete
-            pstmt.executeUpdate();
-        }
-    }
 }
