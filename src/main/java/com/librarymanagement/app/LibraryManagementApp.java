@@ -80,6 +80,11 @@ public class LibraryManagementApp extends Application {
         primaryStage.setScene(new Scene(loader.load()));
     }
 
+    public static void showManageBorrowPage() throws Exception {
+        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/AdminFXML/ManageBorrowPage.fxml"));
+        primaryStage.setScene(new Scene(loader.load()));
+    }
+
     //User setter
     public static void setCurrentUser(User loggedInUser) {
         currentUser = loggedInUser;
