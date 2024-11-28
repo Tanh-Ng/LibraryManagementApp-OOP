@@ -13,8 +13,8 @@ public class UserTest {
     @BeforeEach
     void setUp() {
         // Create a user with userId, name, and password
-        user = new User(1, "John Doe", "password123");
-        document = new Document("Sample Title", "Sample Author");
+        user = new NormalUser(1, "John Doe", "password123");
+        document = new Book("Sample Title", "Sample Author","12345", Book.BookType.TEXTBOOKS);
     }
 
     @Test
