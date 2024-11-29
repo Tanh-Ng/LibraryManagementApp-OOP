@@ -200,7 +200,7 @@ public class BorrowDAO {
             pstmt.executeUpdate();
         }
 
-        // After the duration is updated, set extend_duration_request to false
+        // After the duration is updated, set extend_duration_request to 0
         String updateExtendRequestSql = "UPDATE BorrowedDocuments SET extend_duration_request = 0 WHERE borrow_id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(updateExtendRequestSql)) {
@@ -217,5 +217,15 @@ public class BorrowDAO {
             pstmt.executeUpdate();
         }
     }
+
+    public void denyExtendRequest(int borrowId) throws SQLException {
+        String sql = "UPDATE BorrowedDocuments SET extend_duration_request = 0 WHERE borrow_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, borrowId);
+            statement.executeUpdate();
+        }
+    }
+
 
 }

@@ -2,12 +2,15 @@ package com.librarymanagement.app;
 
 import com.librarymanagement.UI.BookDetailsController;
 import com.librarymanagement.UI.ImageLoader;
+import com.librarymanagement.UI.ManageBorrowController;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.User;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,6 +30,11 @@ public class LibraryManagementApp extends Application {
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
         showLoginScreen();
+
+        primaryStage.setOnCloseRequest(event -> {
+            event.consume();
+            confirmExit();
+        });
     }
 
     @Override
@@ -35,6 +43,13 @@ public class LibraryManagementApp extends Application {
         Platform.exit();
         System.out.println("Application is stopping...");
         // Perform cleanup actions here
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                ManageBorrowController.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
     public static void showLoginScreen() throws Exception {
@@ -83,6 +98,20 @@ public class LibraryManagementApp extends Application {
     public static void showManageBorrowPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/AdminFXML/ManageBorrowPage.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
+    }
+
+    private void confirmExit() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Exit Confirmation");
+            alert.setHeaderText("Are you sure you want to exit?");
+
+
+            if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+                ImageLoader.shutdown();
+                Platform.exit();
+            }
+        });
     }
 
     //User setter
