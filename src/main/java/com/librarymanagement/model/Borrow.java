@@ -8,7 +8,7 @@ public class Borrow {
     private int documentId;
     private Timestamp borrowDate;
     private int durationDays = 1; // in days
-    private boolean extendDurationRequest;
+    private int extendDurationRequest = 0;
 
     public Borrow(int borrowId, int userId, int documentId, Timestamp borrowDate) {
         this.borrowId = borrowId;
@@ -18,7 +18,7 @@ public class Borrow {
 
     }
     // use this to borrow
-    public Borrow(int borrowId, int userId, int documentId, Timestamp borrowDate,int durationDays,boolean extendDurationRequest) {
+    public Borrow(int borrowId, int userId, int documentId, Timestamp borrowDate,int durationDays,int extendDurationRequest) {
         this.borrowId = borrowId;
         this.userId = userId;
         this.documentId = documentId;
@@ -47,7 +47,7 @@ public class Borrow {
         return durationDays;
     }
 
-    public boolean isExtendDurationRequest() {
+    public int getExtendDurationRequest() {
         return extendDurationRequest;
     }
 
@@ -70,7 +70,7 @@ public class Borrow {
         this.durationDays = durationDays;
     }
 
-    public void setExtendDurationRequest(boolean extendDurationRequest) {
+    public void setExtendDurationRequest(int extendDurationRequest) {
         this.extendDurationRequest = extendDurationRequest;
     }
 }
