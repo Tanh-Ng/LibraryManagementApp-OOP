@@ -1,7 +1,7 @@
 package com.librarymanagement.app;
 
-import com.librarymanagement.UI.BookDetailsController;
-import com.librarymanagement.UI.ImageLoader;
+import com.librarymanagement.UI.General.BookDetailsController;
+import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.UI.ManageBorrowController;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.User;
@@ -23,7 +23,6 @@ public class LibraryManagementApp extends Application {
 
     public static void goBack(){
         primaryStage.setScene(scenesHistory.pop());
-        scenesHistory.add(primaryStage.getScene());
     }
   
     @Override
@@ -74,6 +73,10 @@ public class LibraryManagementApp extends Application {
     }
 
     public static void showBookDetailsPage(Scene scene) throws Exception {
+        scenesHistory.add(primaryStage.getScene());
+        primaryStage.setScene(scene);
+    }
+    public static void showBookByTypePage(Scene scene) throws Exception {
         scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(scene);
     }
