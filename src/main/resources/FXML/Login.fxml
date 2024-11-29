@@ -9,43 +9,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="411.0"
-            prefWidth="815.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.librarymanagement.UI.General.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="411.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.LoginController">
     <children>
-        <TextField fx:id="usernameField" layoutX="558.0" layoutY="121.0" prefHeight="26.0" prefWidth="180.0"
-                   promptText="Enter UserName..."/>
-        <PasswordField fx:id="passwordField" layoutX="558.0" layoutY="178.0" prefHeight="26.0" prefWidth="180.0"
-                       promptText="Enter Password..."/>
-        <Button layoutX="565.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleLogin" text="Login"/>
-        <Label layoutX="459.0" layoutY="125.0" text="UserName :"/>
-        <Label layoutX="462.0" layoutY="182.0" text="Password :"/>
-        <Label layoutX="500.0" layoutY="43.0" prefHeight="34.0" prefWidth="247.0" text="Login To Online Library"
-               textFill="#e11919">
+        <TextField fx:id="usernameField" layoutX="558.0" layoutY="121.0" prefHeight="26.0" prefWidth="180.0" promptText="Enter UserName..." />
+        <PasswordField fx:id="passwordField" layoutX="558.0" layoutY="178.0" prefHeight="26.0" prefWidth="180.0" promptText="Enter Password..." />
+        <Button layoutX="565.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
+        <Label layoutX="459.0" layoutY="125.0" text="UserName :" />
+        <Label layoutX="462.0" layoutY="182.0" text="Password :" />
+        <Label layoutX="500.0" layoutY="43.0" prefHeight="34.0" prefWidth="247.0" text="Login To Online Library" textFill="#e11919">
             <font>
-                <Font size="23.0"/>
+                <Font size="23.0" />
             </font>
         </Label>
-        <Button layoutX="518.0" layoutY="293.0" mnemonicParsing="false" text="Forgot your password ?"
-                textFill="#2c52dc"/>
-        <ImageView fitHeight="45.0" fitWidth="50.0" layoutX="385.0" layoutY="111.0" pickOnBounds="true"
-                   preserveRatio="true">
+        <Button layoutX="518.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleForgotPassword" text="Forgot your password ?" textFill="#2c52dc" />
+        <ImageView fitHeight="45.0" fitWidth="50.0" layoutX="385.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../icons/icons8_Account_50px.png"/>
+                <Image url="@../icons/icons8_Account_50px.png" />
             </image>
         </ImageView>
-        <ImageView fitHeight="34.0" fitWidth="45.0" layoutX="390.0" layoutY="174.0" pickOnBounds="true"
-                   preserveRatio="true">
+        <ImageView fitHeight="34.0" fitWidth="45.0" layoutX="390.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../icons/icons8_Forgot_Password_50px_4.png"/>
+                <Image url="@../icons/icons8_Forgot_Password_50px_4.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="557.0" fitWidth="378.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../icons/signup-library-icon.png"/>
+                <Image url="@../icons/signup-library-icon.png" />
             </image>
         </ImageView>
-        <Label fx:id="errorLabel" layoutX="476.0" layoutY="216.0" prefHeight="18.0" prefWidth="262.0"
-               textFill="#ea0f0f"/>
+        <Label fx:id="errorLabel" layoutX="464.0" layoutY="216.0" prefHeight="18.0" prefWidth="341.0" textFill="#ea0f0f" />
     </children>
 </AnchorPane>

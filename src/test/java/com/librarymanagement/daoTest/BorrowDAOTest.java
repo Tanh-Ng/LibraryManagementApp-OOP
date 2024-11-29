@@ -127,4 +127,61 @@ class BorrowDAOTest {
             stmt.execute("DELETE FROM Users"); // Clears Documents table before each test
         }
     }
+
+
+    @Test
+    void testUpdateBorrowDuration() throws SQLException {
+        // Insert a borrow record with default duration of 1 day
+        int userId = DUMMY_USER_ID;
+        int documentId = DUMMY_DOCUMENT_ID;
+        Date borrowDate = new Date(System.currentTimeMillis());
+        int request = 5;
+        borrowDAO.addBorrow(userId, documentId, borrowDate);
+
+        // Get the borrow ID
+        List<Borrow> borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(userId);
+        int borrowId = borrowedDocuments.get(0).getBorrowId();
+
+        // Check the initial state of the extend_duration_request flag (it should be false initially)
+        Borrow borrowBeforeUpdate = borrowDAO.getBorrowById(borrowId);
+        assertEquals(borrowBeforeUpdate.getExtendDurationRequest(),0, "Initially, the extend_duration_request should be 0.");
+
+        // Set the extend_duration_request to true (this simulates a user requesting an extension)
+        borrowDAO.setExtendDurationRequest(borrowId,request);
+
+        // Verify that the extend_duration_request flag is true after the request
+        Borrow borrowAfterRequest = borrowDAO.getBorrowById(borrowId);
+        assertNotEquals(borrowAfterRequest.getExtendDurationRequest(),0, "After the request, the extend_duration_request should not be 0.");
+
+        // Extend the borrow duration by 5 days and process the request
+        borrowDAO.updateBorrowDuration(borrowId, request);
+
+        // Fetch the updated borrow record
+        Borrow updatedBorrow = borrowDAO.getBorrowById(borrowId);
+
+        // Verify the duration has increased by 5 days (default duration is 1 day, so it should now be 6 days)
+        assertEquals(6, updatedBorrow.getDurationDays(), "The borrow duration should be extended by "+request+" days.");
+
+        // Verify that the extend_duration_request flag is now false after the extension is processed
+        assertEquals(updatedBorrow.getExtendDurationRequest(),0, "The extend_duration_request should be set to 0 after the extension.");
+    }
+
+    void testDeleteExpiredBorrow() throws SQLException {
+        // Insert a borrow record with a borrow date that is far in the past
+        int userId = DUMMY_USER_ID;
+        int documentId = DUMMY_DOCUMENT_ID;
+        Date borrowDate = new Date(System.currentTimeMillis() - 100000000L);  // 100 million milliseconds ago
+        borrowDAO.addBorrow(userId, documentId, borrowDate);
+
+        // Fetch the borrow record before deletion
+        List<Borrow> borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(userId);
+        int borrowId = borrowedDocuments.get(0).getBorrowId();
+
+        // Execute the deletion of expired borrow records
+        borrowDAO.deleteExpiredBorrow();
+
+        // Verify that the record was deleted
+        Borrow deletedBorrow = borrowDAO.getBorrowById(borrowId);
+        assertNull(deletedBorrow, "Expired borrow record should be deleted.");
+    }
 }

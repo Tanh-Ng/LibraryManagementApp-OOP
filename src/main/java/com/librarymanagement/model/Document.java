@@ -1,11 +1,10 @@
 package com.librarymanagement.model;
 
-public class Document {
+public abstract class Document {
     private int DocumentId;
     private String title;
     private String author;
     protected boolean isAvailable;
-    private boolean isDeleted;
 
 
     // Constructor
@@ -13,7 +12,6 @@ public class Document {
         this.title = title;
         this.author = author;
         this.isAvailable = true; // Default to available when created
-        this.isDeleted = false;
     }
 
     public Document(int DocumentId, String title, String author) {
@@ -21,7 +19,6 @@ public class Document {
         this.title = title;
         this.author = author;
         this.isAvailable = true;
-        this.isDeleted = false;
     }
 
     public Document() {
@@ -70,9 +67,6 @@ public class Document {
         return isAvailable;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
 
     // Setters
     public void setTitle(String title) {
@@ -89,9 +83,5 @@ public class Document {
 
     public void setId(int DocumentId) {
         this.DocumentId = DocumentId;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 }
