@@ -135,6 +135,7 @@ class BorrowDAOTest {
         int userId = DUMMY_USER_ID;
         int documentId = DUMMY_DOCUMENT_ID;
         Date borrowDate = new Date(System.currentTimeMillis());
+        int request = 5;
         borrowDAO.addBorrow(userId, documentId, borrowDate);
 
         // Get the borrow ID
@@ -143,26 +144,26 @@ class BorrowDAOTest {
 
         // Check the initial state of the extend_duration_request flag (it should be false initially)
         Borrow borrowBeforeUpdate = borrowDAO.getBorrowById(borrowId);
-        assertFalse(borrowBeforeUpdate.isExtendDurationRequest(), "Initially, the extend_duration_request should be false.");
+        assertEquals(borrowBeforeUpdate.getExtendDurationRequest(),0, "Initially, the extend_duration_request should be 0.");
 
         // Set the extend_duration_request to true (this simulates a user requesting an extension)
-        borrowDAO.setExtendDurationRequest(borrowId, true);
+        borrowDAO.setExtendDurationRequest(borrowId,request);
 
         // Verify that the extend_duration_request flag is true after the request
         Borrow borrowAfterRequest = borrowDAO.getBorrowById(borrowId);
-        assertTrue(borrowAfterRequest.isExtendDurationRequest(), "After the request, the extend_duration_request should be true.");
+        assertNotEquals(borrowAfterRequest.getExtendDurationRequest(),0, "After the request, the extend_duration_request should not be 0.");
 
-        // Extend the borrow duration by 3 days and process the request
-        borrowDAO.updateBorrowDuration(borrowId, 3);
+        // Extend the borrow duration by 5 days and process the request
+        borrowDAO.updateBorrowDuration(borrowId, request);
 
         // Fetch the updated borrow record
         Borrow updatedBorrow = borrowDAO.getBorrowById(borrowId);
 
-        // Verify the duration has increased by 3 days (default duration is 1 day, so it should now be 4 days)
-        assertEquals(4, updatedBorrow.getDurationDays(), "The borrow duration should be extended by 3 days.");
+        // Verify the duration has increased by 5 days (default duration is 1 day, so it should now be 6 days)
+        assertEquals(6, updatedBorrow.getDurationDays(), "The borrow duration should be extended by "+request+" days.");
 
         // Verify that the extend_duration_request flag is now false after the extension is processed
-        assertFalse(updatedBorrow.isExtendDurationRequest(), "The extend_duration_request should be set to false after the extension.");
+        assertEquals(updatedBorrow.getExtendDurationRequest(),0, "The extend_duration_request should be set to 0 after the extension.");
     }
 
     void testDeleteExpiredBorrow() throws SQLException {

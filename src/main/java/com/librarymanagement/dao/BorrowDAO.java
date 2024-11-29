@@ -76,7 +76,7 @@ public class BorrowDAO {
                             rs.getInt("document_id"),
                             rs.getTimestamp("borrow_date"),
                             rs.getInt("duration_days"),  // Get the duration_days field
-                            rs.getBoolean("extend_duration_request") // Get the extend_duration_request field
+                            rs.getInt("extend_duration_request") // Get the extend_duration_request field
                     );
                     borrowedDocuments.add(borrow);
                 }
@@ -101,7 +101,7 @@ public class BorrowDAO {
                             rs.getInt("document_id"),
                             rs.getTimestamp("borrow_date"),
                             rs.getInt("duration_days"),  // Get the duration_days field
-                            rs.getBoolean("extend_duration_request") // Get the extend_duration_request field
+                            rs.getInt("extend_duration_request") // Get the extend_duration_request field
                     );
                 }
             }
@@ -146,7 +146,7 @@ public class BorrowDAO {
                         rs.getInt("document_id"),
                         rs.getTimestamp("borrow_date"),
                         rs.getInt("duration_days"),  // Retrieve duration_days
-                        rs.getBoolean("extend_duration_request") // Retrieve extend_duration_request flag
+                        rs.getInt("extend_duration_request") // Retrieve extend_duration_request flag
                 );
                 borrowedDocuments.add(borrow);
             }
@@ -177,31 +177,31 @@ public class BorrowDAO {
         return borrowId; // Return the borrow_id or -1 if no matching record found
     }
 
-    public void setExtendDurationRequest(int borrowId, boolean request) throws SQLException {
+    public void setExtendDurationRequest(int borrowId, int request) throws SQLException {
         String sql = "UPDATE BorrowedDocuments SET extend_duration_request = ? WHERE borrow_id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setBoolean(1, request);  // Set the extend_duration_request flag
+            pstmt.setInt(1, request);  // Set the extend_duration_request flag
             pstmt.setInt(2, borrowId);     // Specify the borrow record
             pstmt.executeUpdate();
         }
     }
 
-    public void updateBorrowDuration(int borrowId, int additionalDays) throws SQLException {
+    public void updateBorrowDuration(int borrowId, int request) throws SQLException {
         // Extend the borrow duration (without modifying the request flag)
         String sql = "UPDATE BorrowedDocuments SET duration_days = duration_days + ? WHERE borrow_id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, additionalDays);  // Increase the duration
+            pstmt.setInt(1, request);  // Increase the duration
             pstmt.setInt(2, borrowId);         // Specify the borrow record
             pstmt.executeUpdate();
         }
 
         // After the duration is updated, set extend_duration_request to false
-        String updateExtendRequestSql = "UPDATE BorrowedDocuments SET extend_duration_request = FALSE WHERE borrow_id = ?";
+        String updateExtendRequestSql = "UPDATE BorrowedDocuments SET extend_duration_request = 0 WHERE borrow_id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(updateExtendRequestSql)) {
             pstmt.setInt(1, borrowId);  // Specify the borrow record
