@@ -17,7 +17,6 @@ public class LibraryManagementApp extends Application {
 
     public static void goBack(){
         primaryStage.setScene(scenesHistory.pop());
-        scenesHistory.add(primaryStage.getScene());
     }
   
     @Override
@@ -56,6 +55,11 @@ public class LibraryManagementApp extends Application {
     }
 
     public static void showBookDetailsPage(Scene scene) throws Exception {
+        scenesHistory.add(primaryStage.getScene());
+        primaryStage.setScene(scene);
+    }
+
+    public static void showBookByTypePage(Scene scene) throws Exception {
         scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(scene);
     }

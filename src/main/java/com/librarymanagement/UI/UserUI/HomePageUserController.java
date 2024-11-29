@@ -27,6 +27,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,8 +40,9 @@ public class HomePageUserController {
     private final DocumentDAO documentDAO = new DocumentDAO();
     private final BorrowDAO borrowDAO = new BorrowDAO();
 
-    private BorrowingButtonEvent borrowingButtonEvent;
-    private TopBar topBar;
+    private static BorrowingButtonEvent borrowingButtonEvent;
+
+    private static TopBar topBar = new TopBar();
 
     @FXML
     private VBox itemsContainer; // The container for dynamic items (rows)
@@ -48,9 +50,14 @@ public class HomePageUserController {
     @FXML
     private  AnchorPane mainAnchorPane;
 
-    public static List<Document> documents;
+    @FXML
+    private  ScrollPane mainScrollPane;
+    private boolean isAdjustingScroll = false;
+    private boolean mouseScroll = false;
 
-    public List<Borrow> borrowedDocuments;
+    public static List<Document> documents = new ArrayList<>();
+
+    public static List<Borrow> borrowedDocuments = new ArrayList<>();
 
     public void initialize() {
         try {
@@ -58,6 +65,7 @@ public class HomePageUserController {
             borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(LibraryManagementApp.getCurrentUser().getUserId());
             documents = documentDAO.getAllDocuments();
             topBar.setDocuments(documents);
+            mainScrollPane.toBack();
             borrowingButtonEvent = new BorrowingButtonEvent(borrowDAO, borrowedDocuments);
 
             // Load images beforehand using multi-thread
@@ -66,6 +74,18 @@ public class HomePageUserController {
                     ImageLoader.preloadImage(book.getImageUrl());
                 }
             });
+
+            //Keep scroll pane
+            mainScrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+                if (!isAdjustingScroll && !mouseScroll) {
+                    isAdjustingScroll = true;
+                    mainScrollPane.setVvalue(oldValue.doubleValue());
+                    isAdjustingScroll = false;
+                }
+            });
+
+            mainScrollPane.setOnScroll(event -> mouseScroll = true);
+            mainScrollPane.setOnMouseEntered(event ->  mouseScroll = true);
 
             // Populate the rows
             itemsContainer.getChildren().add(createDocumentList("Borrowed Documents"));
@@ -82,7 +102,7 @@ public class HomePageUserController {
         }
     }
 
-    public void showBookDetails(String title, MouseEvent event) throws Exception{
+    private void showBookDetails(String title, MouseEvent event, AnchorPane mainAnchorPane) throws Exception{
         Book pickedBook =new Book("Null");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookDetailsBox.fxml"));
         HBox bookDetailsBox = loader.load();
@@ -104,14 +124,14 @@ public class HomePageUserController {
             controller.setBookDetails(pickedBook);
 
             //position for box
-            if (mouseX + 567 > 1200) {
-                bookDetailsBox.setLayoutX(mouseX - 567 - 5);
+            if (mouseX > 633) {
+                bookDetailsBox.setLayoutX(mouseX - 572);
             } else {
                 bookDetailsBox.setLayoutX(mouseX + 5);
             }
 
-            if (mouseY + 400.0 > 700){
-                bookDetailsBox.setLayoutY(mouseY - 400 - 5);
+            if (mouseY > 300){
+                bookDetailsBox.setLayoutY(mouseY - 405);
             } else {
                 bookDetailsBox.setLayoutY(mouseY + 5);
             }
@@ -123,7 +143,10 @@ public class HomePageUserController {
 
     /// Generate Document Lists
     // Create a VBox consist of Documents based on its type
-    private VBox createDocumentList(String categoryText) {
+    public VBox createDocumentList(String categoryText) {
+        return createDocumentList(categoryText, mainAnchorPane);
+    }
+    public VBox createDocumentList(String categoryText, AnchorPane mainAnchorPane) {
         VBox vbox = new VBox(10);
         vbox.setStyle("-fx-padding: 10;");
 
@@ -160,20 +183,36 @@ public class HomePageUserController {
         final int[] currentIndex = {0}; // Keep track of the starting index
 
         // Initialize content for the first view
-        updateContent(contentHBox, documentsByType, currentIndex[0], paneCount, leftButton, rightButton);
+        updateContent(contentHBox, documentsByType, currentIndex[0], paneCount, leftButton, rightButton, mainAnchorPane);
 
         // Attach event handlers to buttons
         leftButton.setOnAction(event -> {
             if (currentIndex[0] - paneCount >= 0) {
                 currentIndex[0] -= paneCount;
-                updateContent(contentHBox, documentsByType, currentIndex[0], paneCount, leftButton, rightButton);
+                updateContent(contentHBox, documentsByType, currentIndex[0], paneCount, leftButton, rightButton, mainAnchorPane);
             }
+            mouseScroll = false;
         });
 
         rightButton.setOnAction(event -> {
             if (currentIndex[0] + paneCount < documentsByType.size()) {
                 currentIndex[0] += paneCount;
-                updateContent(contentHBox, documentsByType, currentIndex[0], paneCount, leftButton, rightButton);
+                updateContent(contentHBox, documentsByType, currentIndex[0], paneCount, leftButton, rightButton, mainAnchorPane);
+            }
+            mouseScroll = false;
+        });
+
+
+        seeMoreButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookByType.fxml"));
+                Scene newScene = new Scene(loader.load());
+                BookByTypeController controller = loader.getController();
+                controller.setTheme(categoryText);
+                controller.setListDocument(getDocumentListByType(categoryText));
+                LibraryManagementApp.showBookByTypePage(newScene);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
@@ -188,13 +227,13 @@ public class HomePageUserController {
     }
 
     // Method to update content in the HBox
-    private void updateContent(HBox contentHBox, List<Document> documents, int startIndex, int count, Button leftButton, Button rightButton) {
+    private void updateContent(HBox contentHBox, List<Document> documents, int startIndex, int count, Button leftButton, Button rightButton, AnchorPane mainAnchorPane) {
         contentHBox.getChildren().clear();
         int endIndex = Math.min(startIndex + count, documents.size());
 
         // Add actual panes for the documents in range
         for (int i = startIndex; i < endIndex; i++) {
-            AnchorPane anchorPane = createAnchorPane(documents.get(i));
+            AnchorPane anchorPane = createAnchorPane(documents.get(i), mainAnchorPane);
             contentHBox.getChildren().add(anchorPane);
         }
 
@@ -209,7 +248,7 @@ public class HomePageUserController {
         rightButton.setDisable(startIndex + count >= documents.size()); // Disable "right" if at the end
     }
 
-    private AnchorPane createAnchorPane(Document document) {
+    private AnchorPane createAnchorPane(Document document, AnchorPane mainAnchorPane) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 220px; -fx-pref-width: 160px;");
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
@@ -235,7 +274,7 @@ public class HomePageUserController {
                         "-fx-pref-height: 220px; -fx-pref-width: 160px;");
                 pauseTransition.setOnFinished(e -> {
                     try {
-                        showBookDetails(book.getTitle() + " ------ ", event);
+                        showBookDetails(book.getTitle() + " ------ ", event, mainAnchorPane);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -278,6 +317,7 @@ public class HomePageUserController {
             borrowButton.setOnAction(event -> {
                 borrowingButtonEvent.buttonClicked(borrowButton, document);
                 refreshBorrowedDocumentsList(String.valueOf(book.getBookType()));
+                mouseScroll = false;
             });
             borrowButton.setPrefWidth(100);
             AnchorPane.setBottomAnchor(borrowButton, 10.0);
@@ -328,7 +368,7 @@ public class HomePageUserController {
     }
 
     // Get document list by type
-    private List<Document> getDocumentListByType(String categoryText) {
+    public List<Document> getDocumentListByType(String categoryText) {
         // Validate input and ensure the categoryText matches an enum value in BookType
         if (categoryText == null || categoryText.isEmpty()) {
             return null; // Return an empty list for invalid input

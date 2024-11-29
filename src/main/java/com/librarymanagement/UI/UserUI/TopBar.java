@@ -72,7 +72,7 @@ public class TopBar {
             resultListView.setPrefHeight(23.75 * resultListView.getItems().size());
 
             // size of toolbar
-            mainAnchorPane.setPrefHeight(resultListView.getHeight());
+            mainAnchorPane.setPrefHeight(400);
         }
 
         //Duration for Mouse moving
@@ -162,14 +162,14 @@ public class TopBar {
             controller.setBookDetails(pickedBook);
 
             //position for box
-            if (mouseX + 567.0 > 1200) {
-                bookDetailsBox.setLayoutX(mouseX - 567 - 5);
+            if (mouseX > 633) {
+                bookDetailsBox.setLayoutX(mouseX - 572);
             } else {
                 bookDetailsBox.setLayoutX(mouseX + 5);
             }
 
-            if (mouseY + 400 > 700){
-                bookDetailsBox.setLayoutY(mouseY - 400 - 5);
+            if (mouseY > 300){
+                bookDetailsBox.setLayoutY(mouseY - 405);
             } else {
                 bookDetailsBox.setLayoutY(mouseY + 5);
             }

@@ -7,14 +7,13 @@
 
 <AnchorPane fx:id="mainAnchorPane" prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.UserUI.HomePageUserController">
    <children>
+      <fx:include source="TopBar.fxml" />
       <!-- Main ScrollPane -->
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="58.0" prefHeight="700.0" prefWidth="1200.0">
+      <ScrollPane fx:id="mainScrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutY="58.0" prefHeight="700.0" prefWidth="1200.0" pannable="false">
          <content>
             <VBox fx:id="itemsContainer" alignment="TOP_CENTER" spacing="50" style="-fx-padding: 20;" />
          </content>
       </ScrollPane>
-      <fx:include source="TopBar.fxml" />
-
       <!-- Book details box -->
       <HBox prefHeight="100.0" prefWidth="200.0" />
 
