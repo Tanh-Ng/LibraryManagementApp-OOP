@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="614.0" prefWidth="1150.0" style="-fx-background-color: MediumAquamarine;"
             xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.librarymanagement.UI.AdminUI.ManageUserPageController">
+            fx:controller="com.librarymanagement.UI.ManageUserPageController" stylesheets="@Design.css">
     <children>
         <AnchorPane prefHeight="614.0" prefWidth="290.0" style="-fx-background-color: PaleTurquoise;">
             <children>

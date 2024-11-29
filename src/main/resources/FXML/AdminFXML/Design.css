@@ -1,0 +1,17 @@
+.table-view {
+    -fx-background-color: PaleTurquoise;
+    -fx-border-color: #6b8427;
+    -fx-border-width: 2px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-padding: 5px;
+}
+
+.table-column-header {
+    -fx-background-radius: 15px 15px 0 0;
+    -fx-background-insets: 0, 1, 2;
+}
+
+.table-row-cell {
+    -fx-background-radius: 15px;
+}

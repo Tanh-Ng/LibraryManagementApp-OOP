@@ -100,8 +100,9 @@ public class Book extends Document {
     public String fetchFromIsbn() {
         // Use the OpenLibraryApiClient to fetch the book details
         JSONObject bookData = ApiClient.fetchBookDetailsByIsbn(isbn);
-        bookData.toString(2);
+
         if (bookData != null) {
+            bookData.toString(2);
             String title = bookData.optString("title", "N/A");
             String author = getAuthorFromJson(bookData);
             String publisher = getPublisherFromJson(bookData);

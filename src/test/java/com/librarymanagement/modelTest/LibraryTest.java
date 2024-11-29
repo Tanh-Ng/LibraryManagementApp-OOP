@@ -15,7 +15,7 @@ class LibraryTest {
     void setUp() {
         library = new Library();
         admin = new Admin(1, "Admin", "password123");
-        document = new Document("Sample Title", "Sample Author");
+        document = new Book("Sample Title", "Sample Author","12345", Book.BookType.TEXTBOOKS);
     }
 
     @Test
@@ -39,14 +39,14 @@ class LibraryTest {
         // Add document first
         library.addDocument(document, admin);
         // Create a new document with updated information
-        Document updatedDocument = new Document("Updated Title", "Updated Author");
+        Document updatedDocument = new Book("Updated Title", "Updated Author","12345", Book.BookType.TEXTBOOKS);
         library.updateDocument(document, updatedDocument, admin);
         assertTrue(library.getDocuments().contains(updatedDocument), "Document should be updated in the library");
     }
 
     @Test
     void testBorrowDocument() {
-        User user = new User(1, "John Doe", "password123");
+        User user = new NormalUser(1, "John Doe", "password123");
         // Add document to library
         library.addDocument(document, admin);
         // Borrow the document
@@ -57,7 +57,7 @@ class LibraryTest {
 
     @Test
     void testReturnDocument() {
-        User user = new User(1, "John Doe", "password123");
+        User user = new NormalUser(1, "John Doe", "password123");
         // Add document to library
         library.addDocument(document, admin);
         // Borrow and then return the document

@@ -20,4 +20,10 @@ public class AdminTabMenuController {
     public void handleLogout(ActionEvent actionEvent) throws Exception {
         LibraryManagementApp.showLoginScreen();
     }
+
+    public void handleToManageBorrow(ActionEvent actionEvent) throws Exception {
+        LibraryManagementApp.showManageBorrowPage();
+    }
+
+
 }

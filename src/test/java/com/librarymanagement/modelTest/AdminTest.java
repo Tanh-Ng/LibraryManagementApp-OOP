@@ -10,7 +10,7 @@ public class AdminTest {
     @Test
     void testAddDocument() {
         Admin admin = new Admin(1, "Admin", "password");
-        Document document = new Document("Sample Document", "Sample Author");
+        Document document = new Book("Sample Document", "Sample Author","12345", Book.BookType.TEXTBOOKS);
         Library library = new Library();
 
         // Assuming Admin adds document to the library
@@ -24,7 +24,7 @@ public class AdminTest {
     @Test
     void testRemoveDocument() {
         Admin admin = new Admin(1, "Admin", "password");
-        Document document = new Document("Sample Document", "Sample Author");
+        Document document = new Book("Sample Document", "Sample Author","124355", Book.BookType.TEXTBOOKS);
         Library library = new Library();
 
         // Adding document first
