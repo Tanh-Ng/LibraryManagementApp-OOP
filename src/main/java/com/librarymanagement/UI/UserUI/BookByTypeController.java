@@ -1,12 +1,17 @@
 package com.librarymanagement.UI.UserUI;
 
+import com.librarymanagement.UI.General.BookDetailsController;
 import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,6 +19,8 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.librarymanagement.UI.General.ImageLoader.getImage;
 
 public class BookByTypeController {
     private final HomePageUserController userController = new HomePageUserController();
@@ -31,23 +38,13 @@ public class BookByTypeController {
     @FXML
     private AnchorPane mainAnchorPane;
 
-    public List<Document> documents;
+    public static List<Document> documents = new ArrayList<>();
 
     @FXML
     private VBox itemsContainer;
 
     public void initialize() {
         try {
-            // DAO initialization and data fetching
-            topBar.setDocuments(documents);
-
-            // Load images beforehand using multi-thread
-//            documents.forEach(doc -> {
-//                if (doc instanceof Book book) {
-//                    ImageLoader.preloadImage(book.getImageUrl());
-//                }
-//            });
-
             //Keep scroll pane
             mainScrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
                 if (!isAdjustingScroll && !mouseScroll) {
@@ -59,10 +56,7 @@ public class BookByTypeController {
 
             mainScrollPane.setOnScroll(event -> mouseScroll = true);
             mainScrollPane.setOnMouseEntered(event ->  mouseScroll = true);
-            mainAnchorPane.toBack();
-
-            // Populate the rows
-            itemsContainer.getChildren().add(userController.createDocumentList("Borrowed Documents", mainAnchorPane));
+            mainScrollPane.toBack();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,10 +66,10 @@ public class BookByTypeController {
     public void setTheme(String typeOfBook) {
         theme.setText(typeOfBook);
         theme.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
-    }
-
-    public void setListDocument(List<Document> documents) {
-        this.documents = documents;
+        documents = userController.getDocumentListByType(typeOfBook);
+        for(Document document : documents) {
+            itemsContainer.getChildren().add(createBookDetailsLine(document));
+        }
     }
 
     public void handleClose() {
@@ -83,9 +77,82 @@ public class BookByTypeController {
     }
 
     public HBox createBookDetailsLine(Document document) {
-        HBox res = new HBox();
+        HBox hBox = new HBox();
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 220px; -fx-pref-width: 160px;");
-        return res;
+        if (document instanceof Book book) {
+            // Preload the book's image in a background thread
+            String imageUrl = book.getImageUrl();
+            ImageLoader.preloadImage(imageUrl);
+
+            // Create an ImageView for the book cover
+            ImageView coverImageView = new ImageView();
+            coverImageView.setFitHeight(150); // Set desired height
+            //coverImageView.setFitWidth(120); // Set desired width
+            coverImageView.setPreserveRatio(true);
+            coverImageView.setImage(getImage(imageUrl)); // Retrieve preloaded image
+
+            // Position the ImageView at the top center
+            AnchorPane.setTopAnchor(coverImageView, 10.0);
+            AnchorPane.setLeftAnchor(coverImageView, 30.0);
+
+            anchorPane.getChildren().addAll(coverImageView);
+
+            VBox details = new VBox();
+            details.getChildren().addAll(new Text("Title: " + book.getTitle()),
+                                              new Text("Author: " + book.getAuthor()),
+                                              new Text("Isbn:" + book.getIsbn()),
+                                              new Text("Publisher: " + book.getPublisher()),
+                                              new Text("Published Date: " + book.getPublishDate()));
+            details.setStyle("-fx-font-size: 20px;");
+            details.setMinWidth(600);
+            ImageView qrCodeImageView = new ImageView();
+            AnchorPane qrAnchorPane = new AnchorPane();
+            try {
+                // QR Code API URL
+                String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + book.getInfoUrl();
+
+                // Load the QR code image
+                Image qrCodeImage = new Image(qrCodeUrl);
+
+                // Set the QR code image
+                qrCodeImageView.setImage(qrCodeImage);
+                AnchorPane.setTopAnchor(qrCodeImageView, 30.0);
+                qrAnchorPane.getChildren().add(qrCodeImageView);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Failed to load QR code image for URL: " + book.getInfoUrl());
+            }
+            hBox.getChildren().addAll(anchorPane, details, qrAnchorPane);
+            hBox.setSpacing(10.0);
+
+            hBox.setOnMouseMoved(event -> {
+                hBox.setStyle("-fx-background-color: #ffcccc;");
+            });
+
+            hBox.setOnMouseExited(event -> {
+                hBox.setStyle("-fx-background-color: #FFFFFF;");
+            });
+
+            hBox.setOnMouseClicked(event -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+                    AnchorPane bookDetialsPane = loader.load();
+
+                    // Choose book
+                    BookDetailsController controller = loader.getController();
+                    controller.setBookDetails(book);
+
+                    //Load in App
+                    Scene scene = new Scene(bookDetialsPane);
+                    LibraryManagementApp.showBookDetailsPage(scene);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        return hBox;
     }
 }

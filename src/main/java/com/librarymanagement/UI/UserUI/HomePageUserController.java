@@ -202,19 +202,19 @@ public class HomePageUserController {
             mouseScroll = false;
         });
 
-
-        seeMoreButton.setOnAction(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookByType.fxml"));
-                Scene newScene = new Scene(loader.load());
-                BookByTypeController controller = loader.getController();
-                controller.setTheme(categoryText);
-                controller.setListDocument(getDocumentListByType(categoryText));
-                LibraryManagementApp.showBookByTypePage(newScene);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        if(!categoryText.equals("Borrowed Documents")) {
+            seeMoreButton.setOnAction(event -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookByType.fxml"));
+                    Scene newScene = new Scene(loader.load());
+                    BookByTypeController controller = loader.getController();
+                    controller.setTheme(categoryText);
+                    LibraryManagementApp.showBookByTypePage(newScene);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
 
         // Wrap the HBox and buttons in a ScrollPane
         HBox scrollButtonsHBox = new HBox(10, leftButton, contentHBox, rightButton);
