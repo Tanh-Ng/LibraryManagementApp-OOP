@@ -44,20 +44,29 @@ public class ManageBorrowController {
     @FXML
     private TextField searchField;
 
-    private ScheduledExecutorService scheduler;
+    private static  ScheduledExecutorService scheduler;
 
     private BorrowDAO borrowDAO = new BorrowDAO();
     private ObservableList<Borrow> borrowList = FXCollections.observableArrayList();
 
-
+    /**
+     * Initializes the controller by setting up the borrowed table and loading borrowed documents.
+     * Starts a background thread to periodically check for expired borrow records.
+     */
     public void initialize() {
         setupBorrowedTable();
         loadBorrowedDocuments();
 
         startExpirationCheck();
     }
+
+    /**
+     * Sets up the table view for borrowed documents.
+     * Configures the columns and formatting for displaying borrow data.
+     */
     @FXML
     private void setupBorrowedTable() {
+        // Set up column bindings
         borrowIdColumn.setCellValueFactory(new PropertyValueFactory<>("borrowId"));
         userIdColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
         documentIdColumn.setCellValueFactory(new PropertyValueFactory<>("documentId"));
@@ -83,9 +92,14 @@ public class ManageBorrowController {
                 };
             }
         });
+        // Set the items for the table view
         borrowTable.setItems(borrowList);
     }
 
+    /**
+     * Loads all borrowed documents from the database and updates the table view.
+     * Shows an error message if there is a problem with loading the data.
+     */
     private void loadBorrowedDocuments() {
         try {
             ObservableList<Borrow> updatedList = FXCollections.observableArrayList(borrowDAO.getAllBorrowedDocuments());
@@ -119,71 +133,79 @@ public class ManageBorrowController {
         LibraryManagementApp.showAdminPage();
     }
 
+    /**
+     * Handles the acceptance of a borrow duration extension request.
+     * Updates the borrow record if the request is valid.
+     */
     @FXML
     private void handleAcceptRequest(ActionEvent actionEvent) {
-        // Lấy bản ghi được chọn trong bảng
+        // Get the selected borrow record from the table
         Borrow selectedBorrow = borrowTable.getSelectionModel().getSelectedItem();
 
         if (selectedBorrow == null) {
-            // Hiển thị thông báo nếu không có bản ghi nào được chọn
+            // Show alert if no record is selected
             showAlert(Alert.AlertType.WARNING, "No Selection", "No Borrow Record Selected", "Please select a borrow record to accept the request.");
             return;
         }
 
-        // Kiểm tra giá trị của extendDurationRequest
+        // Check if there's an extend request
         int extendRequest = selectedBorrow.getExtendDurationRequest();
         if (extendRequest <= 0) {
-            // Hiển thị thông báo nếu không có yêu cầu gia hạn
+            // Show alert if there's no valid extend request
             showAlert(Alert.AlertType.INFORMATION, "No Request", "No Extend Request", "This borrow record does not have a valid extend request.");
             return;
         }
 
         try {
-            // Gọi DAO để cập nhật thời gian mượn và đặt lại request
+            // Update the borrow duration using DAO
             borrowDAO.updateBorrowDuration(selectedBorrow.getBorrowId(), extendRequest);
 
-            // Cập nhật lại danh sách hiển thị trên bảng
+            // Reload the documents list and update the table
             loadBorrowedDocuments();
 
-            // Hiển thị thông báo thành công
+            // Show success message
             showAlert(Alert.AlertType.INFORMATION, "Request Accepted", "Extend Duration Request Accepted", "The duration has been updated successfully.");
         } catch (SQLException e) {
-            // Xử lý lỗi SQL
+            // Handle SQL error
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Database Error", "An error occurred while updating the borrow record: " + e.getMessage());
         }
     }
 
+    /**
+     * Handles the denial of a borrow duration extension request.
+     * Sets the extend duration request value to zero.
+     */
     @FXML
     private void handleDenyRequest(ActionEvent actionEvent) {
-        // Lấy bản ghi được chọn trong bảng
+        // Get the selected borrow record from the table
         Borrow selectedBorrow = borrowTable.getSelectionModel().getSelectedItem();
 
         if (selectedBorrow == null) {
-            // Hiển thị thông báo nếu không có bản ghi nào được chọn
+            // Show alert if no record is selected
             showAlert(Alert.AlertType.WARNING, "No Selection", "No Borrow Record Selected", "Please select a borrow record to deny the request.");
             return;
         }
 
-        // Kiểm tra giá trị của extendDurationRequest
+        // Check if there's an extend request
         int extendRequest = selectedBorrow.getExtendDurationRequest();
         if (extendRequest <= 0) {
-            // Hiển thị thông báo nếu không có yêu cầu gia hạn
+            // Show alert if there's no valid extend request
             showAlert(Alert.AlertType.INFORMATION, "No Request", "No Extend Request", "This borrow record does not have a valid extend request.");
             return;
         }
 
         try {
-            // Gọi DAO để đặt giá trị extendDurationRequest về 0
+            // Deny the extend request by setting its value to 0
             borrowDAO.denyExtendRequest(selectedBorrow.getBorrowId());
 
-            // Cập nhật lại danh sách hiển thị trên bảng
+            // Reload the documents list and update the table
             loadBorrowedDocuments();
 
-            // Hiển thị thông báo thành công
+            // Show success message
             showAlert(Alert.AlertType.INFORMATION, "Request Denied", "Extend Duration Request Denied", "The extend duration request has been denied successfully.");
         } catch (SQLException e) {
-            // Xử lý lỗi SQL
+            // Handle SQL error
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Database Error", "An error occurred while denying the request: " + e.getMessage());
         }
@@ -233,6 +255,10 @@ public class ManageBorrowController {
         borrowTable.refresh();
     }
 
+    /**
+     * Starts a background thread that periodically checks for expired borrow records.
+     * Expired records are deleted from the database every minute.
+     */
     private void startExpirationCheck() {
         scheduler = Executors.newSingleThreadScheduledExecutor();
 
@@ -247,13 +273,13 @@ public class ManageBorrowController {
         }, 0, 1, TimeUnit.MINUTES);
     }
 
-    public void stopExpirationCheck() {
+    /**
+     * Stops the background thread that checks for expired borrow records.
+     */
+    public static void stopExpirationCheck() {
         if (scheduler != null && !scheduler.isShutdown()) {
             scheduler.shutdown();
         }
     }
 
-    public static void close() {
-        stopExpirationCheck();
-    }
 }

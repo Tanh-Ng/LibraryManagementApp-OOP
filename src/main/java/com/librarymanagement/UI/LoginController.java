@@ -52,7 +52,30 @@ public class LoginController {
     }
 
     public void handleForgotPassword() {
-        // Handle forgot password logic (to be implemented)
-        System.out.println("Forgot Password clicked");
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        if (username == null || username.isEmpty() && (password == null || password.isEmpty())) {
+            errorLabel.setText("Please enter your username to retrieve the password.");
+            return;
+        }
+
+        if (password != null && !password.isEmpty() && (username == null || username.isEmpty())) {
+            errorLabel.setText("Please enter your username to retrieve the password.");
+            return;
+        }
+
+        try {
+            User user = userDAO.authenticateUser(username, "");
+
+            if (user != null) {
+                errorLabel.setText("Your password is: " + user.getPassword());
+            } else {
+                errorLabel.setText("Username not found.");
+            }
+        } catch (Exception e) {
+            errorLabel.setText("Error: " + e.getMessage());
+        }
+
     }
 }

@@ -30,7 +30,7 @@
         </Button>
         <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="25.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../adminIcons/icons8_Exit_26px.png" />
+                <Image url="@../../adminIcons/icons8_Exit_26px_1.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="38.0" fitWidth="51.0" layoutX="14.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
@@ -48,10 +48,15 @@
                 <Image url="@../../adminIcons/icons8_Read_Online_26px.png" />
             </image>
         </ImageView>
-      <Button layoutY="372.0" mnemonicParsing="false" onAction="#handleToManageBorrow" prefHeight="62.0" prefWidth="187.0" style="-fx-background-color: BLACK;" text="MANAGE BORROW" textFill="#f2ebeb">
+      <Button layoutY="372.0" mnemonicParsing="false" onAction="#handleToManageBorrow" prefHeight="62.0" prefWidth="187.0" style="-fx-background-color: BLACK;" text="             MANAGE BORROW" textFill="#f2ebeb">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
+      <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="14.0" layoutY="384.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../adminIcons/icons8_Sell_50px.png" />
+         </image>
+      </ImageView>
     </children>
 </Pane>

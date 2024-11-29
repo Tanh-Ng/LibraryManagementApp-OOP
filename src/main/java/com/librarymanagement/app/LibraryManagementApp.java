@@ -45,7 +45,7 @@ public class LibraryManagementApp extends Application {
         // Perform cleanup actions here
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                ManageBorrowController.close();
+                ManageBorrowController.stopExpirationCheck();
             } catch (Exception e) {
                 e.printStackTrace();
             }
