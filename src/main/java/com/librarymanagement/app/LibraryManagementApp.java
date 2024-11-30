@@ -2,6 +2,7 @@ package com.librarymanagement.app;
 
 import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.UI.General.ManageBorrowController;
+import com.librarymanagement.UI.UserUI.HomePageUserController;
 import com.librarymanagement.model.User;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -59,7 +60,10 @@ public class LibraryManagementApp extends Application {
 
     public static void showHomeScreen() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/HomeUserPage.fxml"));
-        primaryStage.setScene(new Scene(loader.load()));
+        Scene scene = new Scene(loader.load());
+        HomePageUserController controller = loader.getController();
+        controller.setIsRefresh(true);
+        primaryStage.setScene(scene);
     }
 
     public static void showBorrowedDocumentsPage() throws Exception {
@@ -75,7 +79,6 @@ public class LibraryManagementApp extends Application {
     }
 
     public static void showBookByTypePage(Scene scene) throws Exception {
-        scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(scene);
     }
 

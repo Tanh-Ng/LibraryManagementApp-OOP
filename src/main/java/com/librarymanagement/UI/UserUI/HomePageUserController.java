@@ -9,6 +9,7 @@ import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
 import com.librarymanagement.dao.DocumentDAO;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -35,6 +36,9 @@ public class HomePageUserController {
     private final BorrowDAO borrowDAO = new BorrowDAO();
 
     private BorrowingButtonEvent borrowingButtonEvent;
+    private static volatile Thread refreshThread;
+
+    public volatile boolean isRefresh;
 
     @FXML
     private VBox itemsContainer; // The container for dynamic items (rows)
@@ -56,7 +60,6 @@ public class HomePageUserController {
             documents = documentDAO.getAllDocuments();
             TopBar.setDocuments(documents);
             borrowingButtonEvent = new BorrowingButtonEvent(borrowDAO, borrowedDocuments);
-
             mainScrollPane.toBack();
 
             // Load images beforehand using multi-thread
@@ -76,9 +79,41 @@ public class HomePageUserController {
             itemsContainer.getChildren().add(createDocumentList("RELIGIOUS"));
             itemsContainer.getChildren().add(createDocumentList("ART"));
 
+            // Listener to refresh every time this scene is shown
+            Runnable task = () -> {
+                while (true){
+                    if(isRefresh) {
+                        Platform.runLater(() -> {
+                            refreshBorrowedDocumentsList("Borrowed Documents");
+                            refreshBorrowedDocumentsList("SCIENCE_FICTION");
+                            refreshBorrowedDocumentsList("FANTASY");
+                            refreshBorrowedDocumentsList("ROMANCE");
+                            refreshBorrowedDocumentsList("TEXTBOOKS");
+                            refreshBorrowedDocumentsList("BIOGRAPHY");
+                            refreshBorrowedDocumentsList("RELIGIOUS");
+                            refreshBorrowedDocumentsList("ART");
+                        });
+                        isRefresh = false;
+                    }
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
+            };
+            refreshThread = new Thread(task);
+            refreshThread.setDaemon(true);
+            refreshThread.start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setIsRefresh(boolean isRefresh) {
+        this.isRefresh = isRefresh;
     }
 
     public void showBookDetails(String title, MouseEvent event) throws Exception{
@@ -187,7 +222,7 @@ public class HomePageUserController {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookByType.fxml"));
                     Scene newScene = new Scene(loader.load());
                     BookByTypeController controller = loader.getController();
-                    controller.setTheme(categoryText);
+                    controller.setTheme(categoryText, borrowingButtonEvent);
                     LibraryManagementApp.showBookByTypePage(newScene);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -265,78 +300,7 @@ public class HomePageUserController {
             });
 
             // When mouse clicked -> show page details
-            anchorPane.setOnMouseClicked(event -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
-                    AnchorPane bookDetailsPane = loader.load();
-
-                    // Choose book
-                    BookDetailsController controller = loader.getController();
-                    controller.setBookDetails(book);
-
-                    //Set borrow button
-                    Button borrowButton = new Button();
-                    borrowButton.setPrefWidth(150);
-                    borrowButton.setLayoutX(300);
-                    borrowButton.setLayoutY(400);
-                    borrowingButtonEvent.updateBorrowButtonState(borrowButton, document);
-
-                    Label errorLabel = new Label();
-                    errorLabel.setLayoutX(200);
-                    errorLabel.setLayoutY(430);
-                    errorLabel.setStyle("-fx-background-color: red;");
-                    TextField daysTextField = new TextField();
-                    final int[] duration = new int[1];
-                    if(borrowButton.getText().equals("Borrow")) {
-                        daysTextField.setVisible(true);
-                        daysTextField.setDisable(false);
-                        daysTextField.setPrefWidth(150);
-                        daysTextField.setLayoutX(140);
-                        daysTextField.setLayoutY(400);
-                        daysTextField.setPromptText("Enter borrowing duration (default: 1 day)");
-                        duration[0] = 1;
-                    } else if(borrowButton.getText().equals("Borrowed")) {
-                        daysTextField.setVisible(true);
-                        daysTextField.setDisable(false);
-                        daysTextField.setPrefWidth(150);
-                        daysTextField.setLayoutX(140);
-                        daysTextField.setLayoutY(400);
-                        daysTextField.setPromptText("Enter extended duration if needed");
-                        duration[0] = 0;
-                    } else {
-                        daysTextField.setVisible(false);
-                        daysTextField.setDisable(true);
-                    }
-                    daysTextField.textProperty().addListener(new ChangeListener<String>() {
-                        @Override
-                        public void changed(ObservableValue<? extends String> observableValue
-                                , String oldValue, String newValue) {
-                            if(!newValue.matches("^(?!0$)\\d{1,2}$")) {
-                                errorLabel.setText("Please enter a number from 1 to 100 ");
-                                borrowButton.setDisable(true);
-                            } else {
-                                borrowButton.setDisable(false);
-                                duration[0] = Integer.parseInt(newValue);
-                            }
-                        }
-                    });
-
-                    borrowButton.setOnAction(e -> {
-                        borrowingButtonEvent.buttonClicked(borrowButton, document, duration[0]);
-                        daysTextField.clear();
-                        refreshBorrowedDocumentsList(String.valueOf(book.getBookType()));
-                    });
-
-                    bookDetailsPane.getChildren().addAll(borrowButton, daysTextField, errorLabel);
-
-                    //Load in App
-                    Scene scene = new Scene(bookDetailsPane);
-                    LibraryManagementApp.showBookDetailsPage(scene);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+            anchorPane.setOnMouseClicked(event -> goToBookDetailsPage(document, book, borrowingButtonEvent));
 
             // Borrow button at the bottom
             Button borrowButton = new Button();
@@ -356,6 +320,80 @@ public class HomePageUserController {
             anchorPane.getChildren().addAll(coverImageView, borrowButton);
         }
         return anchorPane;
+    }
+
+    //Book details page of Picked Book
+    public void goToBookDetailsPage(Document document, Book book, BorrowingButtonEvent borrowingButtonEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+            AnchorPane bookDetailsPane = loader.load();
+
+            // Choose book
+            BookDetailsController controller = loader.getController();
+            controller.setBookDetails(book);
+
+            //Set borrow button
+            Button borrowButton = new Button();
+            borrowButton.setPrefWidth(150);
+            borrowButton.setLayoutX(300);
+            borrowButton.setLayoutY(400);
+            borrowingButtonEvent.updateBorrowButtonState(borrowButton, document);
+
+            Label errorLabel = new Label();
+            errorLabel.setLayoutX(200);
+            errorLabel.setLayoutY(430);
+            errorLabel.setStyle("-fx-background-color: red;");
+            TextField daysTextField = new TextField();
+            final int[] duration = new int[1];
+            if(borrowButton.getText().equals("Borrow")) {
+                daysTextField.setVisible(true);
+                daysTextField.setDisable(false);
+                daysTextField.setPrefWidth(150);
+                daysTextField.setLayoutX(140);
+                daysTextField.setLayoutY(400);
+                daysTextField.setPromptText("Enter borrowing duration (default: 1 day)");
+                duration[0] = 1;
+            } else if(borrowButton.getText().equals("Borrowed")) {
+                daysTextField.setVisible(true);
+                daysTextField.setDisable(false);
+                daysTextField.setPrefWidth(150);
+                daysTextField.setLayoutX(140);
+                daysTextField.setLayoutY(400);
+                daysTextField.setPromptText("Enter extended duration if needed");
+                duration[0] = 0;
+            } else {
+                daysTextField.setVisible(false);
+                daysTextField.setDisable(true);
+            }
+            daysTextField.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observableValue
+                        , String oldValue, String newValue) {
+                    if(!newValue.matches("^(?!0$)\\d{1,2}$")) {
+                        errorLabel.setText("Please enter a number from 1 to 100 ");
+                        borrowButton.setDisable(true);
+                    } else {
+                        borrowButton.setDisable(false);
+                        duration[0] = Integer.parseInt(newValue);
+                    }
+                }
+            });
+
+            borrowButton.setOnAction(e -> {
+                borrowingButtonEvent.buttonClicked(borrowButton, document, duration[0]);
+                daysTextField.clear();
+                //refreshBorrowedDocumentsList(String.valueOf(book.getBookType()));
+            });
+
+            bookDetailsPane.getChildren().addAll(borrowButton, daysTextField, errorLabel);
+
+            //Load in App
+            Scene scene = new Scene(bookDetailsPane);
+            LibraryManagementApp.showBookDetailsPage(scene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Create a placeholder AnchorPane for empty spaces

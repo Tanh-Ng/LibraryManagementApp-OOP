@@ -25,6 +25,8 @@ import static com.librarymanagement.UI.General.ImageLoader.getImage;
 public class BookByTypeController {
     private final HomePageUserController userController = new HomePageUserController();
 
+    private BorrowingButtonEvent borrowingButtonEvent;
+
     private TopBar topBar;
 
     @FXML
@@ -51,17 +53,18 @@ public class BookByTypeController {
         }
     }
 
-    public void setTheme(String typeOfBook) {
+    public void setTheme(String typeOfBook, BorrowingButtonEvent borrowingButtonEvent) {
         theme.setText(typeOfBook);
         theme.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
         documents = userController.getDocumentListByType(typeOfBook);
         for(Document document : documents) {
             itemsContainer.getChildren().add(createBookDetailsLine(document));
         }
+        this.borrowingButtonEvent = borrowingButtonEvent;
     }
 
-    public void handleClose() {
-        LibraryManagementApp.goBack();
+    public void handleClose() throws Exception{
+        LibraryManagementApp.showHomeScreen();
     }
 
     public HBox createBookDetailsLine(Document document) {
@@ -123,23 +126,7 @@ public class BookByTypeController {
                 hBox.setStyle("-fx-background-color: #FFFFFF;");
             });
 
-            hBox.setOnMouseClicked(event -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
-                    AnchorPane bookDetialsPane = loader.load();
-
-                    // Choose book
-                    BookDetailsController controller = loader.getController();
-                    controller.setBookDetails(book);
-
-                    //Load in App
-                    Scene scene = new Scene(bookDetialsPane);
-                    LibraryManagementApp.showBookDetailsPage(scene);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+            hBox.setOnMouseClicked(event -> userController.goToBookDetailsPage(document, book, borrowingButtonEvent));
         }
         return hBox;
     }
