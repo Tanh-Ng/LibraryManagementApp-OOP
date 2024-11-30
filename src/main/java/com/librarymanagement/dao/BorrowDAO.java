@@ -3,18 +3,14 @@ package com.librarymanagement.dao;
 import com.librarymanagement.database.DatabaseConfig;
 import com.librarymanagement.model.Borrow;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BorrowDAO {
 
     // Method to add a borrow record, with checks for user and document existence
-    public void addBorrow(int userId, int documentId, Date borrowDate, int durationDays) throws SQLException {
+    public void addBorrow(int userId, int documentId, Timestamp borrowDate, int durationDays) throws SQLException {
         try (Connection conn = DatabaseConfig.getConnection()) {
 
             // Check if the user exists
@@ -32,7 +28,7 @@ public class BorrowDAO {
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, userId);
                 pstmt.setInt(2, documentId);
-                pstmt.setDate(3, borrowDate);
+                pstmt.setTimestamp(3, borrowDate);
                 pstmt.setInt(4, durationDays);
                 pstmt.executeUpdate();
             }
