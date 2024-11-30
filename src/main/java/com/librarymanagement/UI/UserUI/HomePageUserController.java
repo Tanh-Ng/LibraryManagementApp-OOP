@@ -42,6 +42,9 @@ public class HomePageUserController {
     @FXML
     private  AnchorPane mainAnchorPane;
 
+    @FXML
+    private ScrollPane mainScrollPane;
+
     public static List<Document> documents;
 
     public List<Borrow> borrowedDocuments;
@@ -53,6 +56,8 @@ public class HomePageUserController {
             documents = documentDAO.getAllDocuments();
             TopBar.setDocuments(documents);
             borrowingButtonEvent = new BorrowingButtonEvent(borrowDAO, borrowedDocuments);
+
+            mainScrollPane.toBack();
 
             // Load images beforehand using multi-thread
             documents.forEach(doc -> {
@@ -269,6 +274,7 @@ public class HomePageUserController {
                     BookDetailsController controller = loader.getController();
                     controller.setBookDetails(book);
 
+                    //Set borrow button
                     Button borrowButton = new Button();
                     borrowButton.setPrefWidth(150);
                     borrowButton.setLayoutX(300);
