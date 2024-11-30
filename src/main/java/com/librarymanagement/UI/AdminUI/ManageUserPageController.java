@@ -31,6 +31,8 @@ public class ManageUserPageController {
     public TableColumn<User, String> userNameColumn;
     @FXML
     public TableColumn<User, String> userPasswordColumn;
+    @FXML
+    public TextField textField;
 
     @FXML
     private ObservableList<User> userList = FXCollections.observableArrayList();
@@ -195,5 +197,60 @@ public class ManageUserPageController {
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /**
+     * Handles the "Search By User ID" button action to display only the matching user in the table.
+     *
+     * @param actionEvent The event triggered by the user action.
+     */
+    @FXML
+    private void handleSearchById(ActionEvent actionEvent) {
+        String userIdText = textField.getText().trim();
+
+        if (userIdText.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Input required", "Please enter a User ID to search.");
+            return;
+        }
+
+        try {
+            int userId = Integer.parseInt(userIdText);
+            ObservableList<User> filteredList = FXCollections.observableArrayList();
+
+            // Filter users by User ID
+            for (User user : userDAO.getAllUsers()) {
+                if (user.getUserId() == userId) {
+                    filteredList.add(user);
+                }
+            }
+
+            if (filteredList.isEmpty()) {
+                showAlert(Alert.AlertType.INFORMATION, "Not Found", "No user found with ID: " + userId);
+            }
+
+            // Update data in the table
+            userTable.setItems(filteredList);
+
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.WARNING, "Invalid Input", "User ID must be a valid number.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Database Error", e.getMessage());
+        }
+    }
+
+
+
+    /**
+     * Handles the "See All" button action to display all users in the table.
+     *
+     * @param actionEvent The event triggered by the user action.
+     */
+    public void handleSeeAll(ActionEvent actionEvent) {
+        // Reload the full list of users from the database
+        loadUsers();
+        userTable.setItems(userList);
+        userTable.refresh();
+        showAlert(AlertType.INFORMATION, "Success", "All users are now displayed.");
     }
 }
