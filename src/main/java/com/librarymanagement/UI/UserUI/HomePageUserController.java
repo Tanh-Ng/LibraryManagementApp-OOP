@@ -51,8 +51,6 @@ public class HomePageUserController implements RefreshCallback {
 
     public void initialize() {
         try {
-            TopBar topBar = new TopBar();
-            topBar.switchRefresh(this);
             // DAO initialization and data fetching
             borrowingButtonEvent = new BorrowingButtonEvent(borrowDAO, borrowedDocuments);
             mainScrollPane.toBack();
@@ -184,7 +182,7 @@ public class HomePageUserController implements RefreshCallback {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookByType.fxml"));
                     Scene newScene = new Scene(loader.load());
                     BookByTypeController controller = loader.getController();
-                    controller.setTheme(categoryText);
+                    controller.setTheme(categoryText, borrowingButtonEvent);
                     LibraryManagementApp.showBookByTypePage(newScene);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -275,14 +273,7 @@ public class HomePageUserController implements RefreshCallback {
             // Borrow button at the bottom
             Button borrowButton = new Button();
             borrowingButtonEvent.updateBorrowButtonState(borrowButton, document);
-
-            borrowButton.setOnAction(event -> {
-                borrowingButtonEvent.buttonClicked(borrowButton, document
-                        , borrowButton.getText().equals("Borrow")
-                            ? 1 : 0);
-                borrowingButtonEvent.updateBorrowButtonState(borrowButton, document);
-                refresh(String.valueOf(book.getBookType()));
-            });
+            borrowButton.setMouseTransparent(true);
             borrowButton.setPrefWidth(100);
             AnchorPane.setBottomAnchor(borrowButton, 10.0);
             AnchorPane.setLeftAnchor(borrowButton, 30.0);

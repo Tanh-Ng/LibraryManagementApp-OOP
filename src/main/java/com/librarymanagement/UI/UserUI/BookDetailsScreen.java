@@ -5,6 +5,7 @@ import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +18,8 @@ public class BookDetailsScreen {
     private final Document document;
     private final Book book;
     private final RefreshCallback refreshCallback;
+
+    private Label durationText;
 
     public interface RefreshCallback {
         void refreshBorrowedDocumentsList(String bookType);
@@ -46,18 +49,35 @@ public class BookDetailsScreen {
         // Initialize duration array
         int[] duration = {1}; // Default to 1 day
 
+        durationText = createBorrowDuration(duration[0]);
+        if (borrowButton.getText().equals("Borrowed")) {
+            durationText.setVisible(true);
+        }
+
         // Create and configure days text field
         TextField daysTextField = createDaysTextField(borrowButton, errorLabel, duration);
 
         // Configure borrow button action
-        configureBorrowButtonAction(borrowButton, daysTextField, duration);
+        configureBorrowButtonAction(borrowButton, daysTextField, errorLabel, duration, durationText);
 
         // Add elements to the pane
-        bookDetailsPane.getChildren().addAll(borrowButton, daysTextField, errorLabel);
+        bookDetailsPane.getChildren().addAll(borrowButton, daysTextField, errorLabel, durationText);
 
         // Load in the application
         Scene scene = new Scene(bookDetailsPane);
         LibraryManagementApp.showBookDetailsPage(scene);
+    }
+
+    private Label createBorrowDuration(int duration) {
+        Label durationText = new Label();
+        durationText.setText(duration + (duration == 1 ? " day" : " days") + " left");
+        durationText.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        durationText.setPrefWidth(150);
+        durationText.setLayoutX(300);
+        durationText.setLayoutY(450);
+        durationText.setVisible(false);
+        durationText.setAlignment(Pos.CENTER);
+        return durationText;
     }
 
     private Button createBorrowButton() {
@@ -93,13 +113,18 @@ public class BookDetailsScreen {
         }
 
         daysTextField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (!newValue.matches("^(?!0$)\\d{1,2}$")) {
+            if (!newValue.matches("^(?!0$)\\d{1,2}$")
+            && !newValue.isEmpty()) {
                 errorLabel.setText("Please enter a number from 1 to 99");
                 borrowButton.setDisable(true);
-            } else {
+            } else if (!newValue.equals("")) {
                 errorLabel.setText("");
                 borrowButton.setDisable(false);
                 duration[0] = Integer.parseInt(newValue); // Update duration in array
+            } else {
+                errorLabel.setText("");
+                borrowButton.setDisable(false);
+                duration[0] = borrowButton.getText().equals("Borrow") ? 1 : 0;
             }
         });
     }
@@ -114,9 +139,21 @@ public class BookDetailsScreen {
         duration[0] = defaultValue;
     }
 
-    private void configureBorrowButtonAction(Button borrowButton, TextField daysTextField, int[] duration) {
+    private void configureBorrowButtonAction(Button borrowButton, TextField daysTextField,
+                                             Label errorLabel, int[] duration, Label durationText) {
         borrowButton.setOnAction(e -> {
+            int realDuration = duration[0] == 0 ? 1 : duration[0];
             borrowingButtonEvent.buttonClicked(borrowButton, document, duration[0]);
+
+            //Set duration text
+            if(borrowButton.getText().equals("Borrow")) {
+                durationText.setVisible(false);
+            } else {
+                durationText.setText(realDuration + (realDuration == 1 ? " day" : " days") + " left");
+                durationText.setVisible(true);
+            }
+
+            configureDaysTextField(borrowButton, daysTextField, errorLabel, duration);
             daysTextField.clear();
 
             // Use callback to refresh borrowed documents in the parent class

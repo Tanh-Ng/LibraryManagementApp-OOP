@@ -63,8 +63,6 @@ public class BookDetailsController {
         }
     }
 
-
-
     // Close the popup window
     @FXML
     private void handleClose(){
