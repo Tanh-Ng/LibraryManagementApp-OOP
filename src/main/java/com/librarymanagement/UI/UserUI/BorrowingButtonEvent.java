@@ -51,7 +51,7 @@ public class BorrowingButtonEvent {
         // Borrow document logic
         try {
             borrowDAO.addBorrow(LibraryManagementApp.getCurrentUser().getUserId()
-                    , document.getDocumentId(), new Date(System.currentTimeMillis()), duration);
+                    , document.getDocumentId(), new Timestamp(System.currentTimeMillis()), duration);
             borrowedDocuments.add(new Borrow(borrowDAO.getBorrowIdByUserAndDocument(
                     LibraryManagementApp.getCurrentUser().getUserId(), document.getDocumentId())
                 ,LibraryManagementApp.getCurrentUser().getUserId(), document.getDocumentId(), new Timestamp(System.currentTimeMillis()), duration, 0));

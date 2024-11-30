@@ -1,7 +1,7 @@
 package com.librarymanagement.app;
 
 import com.librarymanagement.UI.General.ImageLoader;
-import com.librarymanagement.UI.General.ManageBorrowController;
+import com.librarymanagement.UI.AdminUI.ManageBorrowController;
 import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Borrow;
