@@ -2,6 +2,7 @@ package com.librarymanagement.app;
 
 import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.UI.General.ManageBorrowController;
+import com.librarymanagement.UI.UserUI.HomePageUserController;
 import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Borrow;
@@ -14,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
@@ -73,12 +75,6 @@ public class LibraryManagementApp extends Application {
         primaryStage.setScene(new Scene(loader.load()));
     }
 
-    public static void showBorrowedDocumentsPage() throws Exception {
-        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/BorrowedPage.fxml"));
-        Scene newScene = new Scene(loader.load());
-        scenesHistory.add(newScene);
-        primaryStage.setScene(newScene);
-    }
 
     public static void showBookDetailsPage(Scene scene) throws Exception {
         scenesHistory.add(primaryStage.getScene());

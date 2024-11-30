@@ -9,8 +9,6 @@ import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
 import com.librarymanagement.dao.DocumentDAO;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +29,6 @@ import javafx.util.Duration;
 import static com.librarymanagement.UI.General.ImageLoader.getImage;
 
 public class HomePageUserController implements RefreshCallback {
-    private final DocumentDAO documentDAO = LibraryManagementApp.getDocumentDAO();
     private final BorrowDAO borrowDAO = LibraryManagementApp.getBorrowDAO();
 
     private BorrowingButtonEvent borrowingButtonEvent;
@@ -51,9 +48,11 @@ public class HomePageUserController implements RefreshCallback {
 
     public void initialize() {
         try {
-            TopBar topBar = new TopBar();
+            // TopBar modification
+            TopBar topBar = TopBar.getInstance();
             topBar.switchRefresh(this);
-            // DAO initialization and data fetching
+            mainAnchorPane.getChildren().addFirst(topBar.getTopBar());
+            // Data fetching
             borrowingButtonEvent = new BorrowingButtonEvent(borrowDAO, borrowedDocuments);
             mainScrollPane.toBack();
             // Load images beforehand using multi-thread
@@ -178,19 +177,19 @@ public class HomePageUserController implements RefreshCallback {
         scrollButtonsHBox.setAlignment(Pos.CENTER);
 
         //Book by type on
-        if(!categoryText.equals("Borrowed Documents")) {
-            seeMoreButton.setOnAction(event -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookByType.fxml"));
-                    Scene newScene = new Scene(loader.load());
-                    BookByTypeController controller = loader.getController();
-                    controller.setTheme(categoryText);
-                    LibraryManagementApp.showBookByTypePage(newScene);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+
+        seeMoreButton.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookByType.fxml"));
+                Scene newScene = new Scene(loader.load());
+                BookByTypeController controller = loader.getController();
+                controller.setTheme(categoryText, documentsByType, this::refresh);
+                LibraryManagementApp.showBookByTypePage(newScene);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         // Add everything to the main VBox
         vbox.getChildren().addAll(topHBox, scrollButtonsHBox);
 
@@ -329,7 +328,6 @@ public class HomePageUserController implements RefreshCallback {
                         .anyMatch(borrow -> borrow.getDocumentId() == doc.getDocumentId()))
                 .toList();
     }
-
 
     @Override
     // Refresh the VBox of borrowed documents list after borrowing or returning

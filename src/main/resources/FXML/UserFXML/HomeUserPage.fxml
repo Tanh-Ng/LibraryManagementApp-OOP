@@ -7,7 +7,6 @@
 
 <AnchorPane fx:id="mainAnchorPane" prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.UserUI.HomePageUserController">
    <children>
-      <fx:include source="TopBar.fxml" />
       <!-- Main ScrollPane -->
       <ScrollPane fx:id="mainScrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutY="58.0" prefHeight="700.0" prefWidth="1200.0" pannable="false">
          <content>

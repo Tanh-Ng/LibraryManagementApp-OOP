@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -32,9 +33,43 @@ public class TopBar {
     @FXML
     private AnchorPane mainAnchorPane;
 
+    private static TopBar instance;
+    private final VBox topBar;
+    private final TopBar controller;
+
     private static final List<Document> documents = LibraryManagementApp.getDocuments();
 
     private RefreshCallback refreshCallback;
+
+    private TopBar() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/TopBar.fxml"));
+            topBar = loader.load();
+            controller = loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+            //throw new RuntimeException("Failed to load TopBar.fxml");
+        }
+    }
+
+    public static TopBar getInstance() {
+        if (instance == null) {
+            synchronized (TopBar.class) {
+                if (instance == null) {
+                    instance = new TopBar();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public VBox getTopBar() {
+        return topBar;
+    }
+
+    public TopBar getController() {
+        return controller;
+    }
 
     public void switchRefresh(RefreshCallback refreshCallback) {
         // Switch context dynamically
