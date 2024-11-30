@@ -36,9 +36,8 @@ public class TopBar {
 
     private RefreshCallback refreshCallback;
 
-    public void switchRefresh(RefreshCallback refreshCallback) {
-        // Switch context dynamically
-        this.refreshCallback = refreshCallback;
+    public interface RefreshCallback {
+        void refreshBorrowedDocumentsList(String bookType);
     }
 
     /// Search function
@@ -119,6 +118,7 @@ public class TopBar {
 
     @FXML
     private void handlePickDocument() throws Exception {
+        searchStringField.clear();
         String documentTitle =  resultListView.getSelectionModel().getSelectedItem().split(" ------ ")[0];
         Book pickedBook = new Book("Null");
         for (Document find : documents) {

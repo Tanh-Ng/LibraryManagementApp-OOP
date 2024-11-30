@@ -29,6 +29,8 @@ public class BookByTypeController {
 
     private TopBar topBar;
 
+    private RefreshCallback refreshCallback;
+
     @FXML
     private Text theme;
 
@@ -126,8 +128,20 @@ public class BookByTypeController {
                 hBox.setStyle("-fx-background-color: #FFFFFF;");
             });
 
-            hBox.setOnMouseClicked(event -> userController.goToBookDetailsPage(document, book, borrowingButtonEvent));
+            hBox.setOnMouseClicked(event -> {
+                BookDetailsScreen bookDetailsScreen = new BookDetailsScreen(borrowingButtonEvent
+                    , document, book, (BookDetailsScreen.RefreshCallback) refreshCallback);
+                try {
+                    bookDetailsScreen.show();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
         return hBox;
+    }
+
+    public interface RefreshCallback {
+        void refreshBorrowedDocumentsList(String bookType);
     }
 }
