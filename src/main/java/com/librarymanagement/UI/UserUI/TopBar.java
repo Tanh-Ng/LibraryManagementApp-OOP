@@ -36,10 +36,6 @@ public class TopBar {
 
     private RefreshCallback refreshCallback;
 
-    public interface RefreshCallback {
-        void refreshBorrowedDocumentsList(String bookType);
-    }
-
     /// Search function
     //Search document after clicked
     public void handleSearchDocument() throws Exception {

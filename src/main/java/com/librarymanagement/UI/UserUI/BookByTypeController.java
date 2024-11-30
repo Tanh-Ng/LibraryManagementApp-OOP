@@ -141,7 +141,4 @@ public class BookByTypeController {
         return hBox;
     }
 
-    public interface RefreshCallback {
-        void refreshBorrowedDocumentsList(String bookType);
-    }
 }

@@ -1,19 +1,13 @@
 package com.librarymanagement.UI.General;
 
-import com.librarymanagement.UI.UserUI.BorrowingButtonEvent;
 import com.librarymanagement.app.LibraryManagementApp;
-import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.model.Book;
-import com.librarymanagement.model.Borrow;
-import com.librarymanagement.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class BookDetailsController {
 
@@ -65,7 +59,7 @@ public class BookDetailsController {
 
     // Close the popup window
     @FXML
-    private void handleClose(){
+    private void handleClose() {
         LibraryManagementApp.goBack();
     }
 }
