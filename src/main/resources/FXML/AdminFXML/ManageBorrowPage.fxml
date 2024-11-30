@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="671.0" prefWidth="974.0" style="-fx-background-color: MediumAquamarine;" stylesheets="@../../css/Design.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.General.ManageBorrowController">
+<AnchorPane prefHeight="671.0" prefWidth="974.0" style="-fx-background-color: MediumAquamarine;" stylesheets="@../../css/Design.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.AdminUI.ManageBorrowController">
    <children>
       <TableView fx:id="borrowTable" layoutX="111.0" layoutY="197.0" prefHeight="277.0" prefWidth="768.0">
         <columns>
@@ -48,6 +48,7 @@
          </children></Pane>
       <Pane layoutX="1.0" layoutY="589.0" prefHeight="82.0" prefWidth="896.0" style="-fx-background-color: yellow;" />
       <Pane layoutX="896.0" layoutY="72.0" prefHeight="599.0" prefWidth="100.0" style="-fx-background-color: green;" />
+      <Button fx:id="DeleteBorrow" layoutX="483.0" layoutY="508.0" mnemonicParsing="false" onAction="#handleDeleteBorrow" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: Bisque;" text="DELETE" />
       <Button fx:id="AcceptRequest" layoutX="619.0" layoutY="508.0" mnemonicParsing="false" onAction="#handleAcceptRequest" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: Bisque;" text="ACCEPT REQUEST" />
       <Button fx:id="DenyRequest" layoutX="755.0" layoutY="508.0" mnemonicParsing="false" onAction="#handleDenyRequest" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: Bisque;" text="DENY REQUEST" />
       <TextField fx:id="searchField" layoutX="397.0" layoutY="161.0" />

@@ -101,6 +101,11 @@ public class ManageDocumentController {
                 showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all required fields!");
                 return;
             }
+            // Check if the ISBN already exists
+            if (documentDAO.isIsbnExists(isbn)) {
+                showAlert(Alert.AlertType.ERROR, "Error", "ISBN already exists!");
+                return;
+            }
 
             // Create a new book with book type
             Document book = new Book(title, author, isbn, bookType);
@@ -182,6 +187,11 @@ public class ManageDocumentController {
             if (!newId.equals(String.valueOf(currentDocumentId))) {
                 // If the ID is different, update the document_id in the database
                 int newDocumentId = Integer.parseInt(newId); // Convert the new ID from String to Integer
+                // Check if the ISBN already exists
+                if (documentDAO.isIdExists(newDocumentId)) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "ID already exists!");
+                    return;
+                }
                 documentDAO.changeDocumentId(currentDocumentId, newDocumentId);
                 selectedDocument.setId(newDocumentId); // Update the selectedDocument's ID
             }
@@ -307,6 +317,11 @@ public class ManageDocumentController {
                 String publishDate=book.getPublishDate();
                 if (title == null || author == null || bookType == null) {
                     showAlert(Alert.AlertType.ERROR, "Error", "Some required book details are missing.");
+                    return;
+                }
+                // Check if the ISBN already exists
+                if (documentDAO.isIsbnExists(isbn)) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "ISBN already exists!");
                     return;
                 }
 

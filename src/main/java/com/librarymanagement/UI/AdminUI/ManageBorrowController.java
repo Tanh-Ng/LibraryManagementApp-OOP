@@ -1,4 +1,4 @@
-package com.librarymanagement.UI.General;
+package com.librarymanagement.UI.AdminUI;
 
 import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.dao.BorrowDAO;
@@ -131,6 +131,40 @@ public class ManageBorrowController {
      */
     public void handleToHomePageAdmin(ActionEvent actionEvent) throws Exception {
         LibraryManagementApp.showAdminPage();
+    }
+    @FXML
+    private void handleDeleteBorrow(ActionEvent actionEvent) {
+        // Get the selected borrow record from the table
+        Borrow selectedBorrow = borrowTable.getSelectionModel().getSelectedItem();
+
+        if (selectedBorrow == null) {
+            // Show alert if no record is selected
+            showAlert(Alert.AlertType.WARNING, "No Selection", "No Borrow Record Selected", "Please select a borrow record to delete.");
+            return;
+        }
+
+        // Confirm deletion with the user
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Delete Confirmation");
+        confirmationAlert.setHeaderText("Are you sure you want to delete this borrow record?");
+        confirmationAlert.setContentText("This action cannot be undone.");
+        confirmationAlert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    // Delete the borrow record using DAO
+                    borrowDAO.deleteBorrow(selectedBorrow.getBorrowId());
+
+                    // Reload the documents list and update the table
+                    loadBorrowedDocuments();
+
+                    // Show success message
+                    showAlert(Alert.AlertType.INFORMATION, "Deleted", "Borrow Record Deleted", "The borrow record has been deleted successfully.");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    showAlert(Alert.AlertType.ERROR, "Error", "Database Error", "An error occurred while deleting the borrow record: " + e.getMessage());
+                }
+            }
+        });
     }
 
     /**

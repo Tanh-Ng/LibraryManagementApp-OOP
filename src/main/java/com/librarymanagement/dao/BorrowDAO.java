@@ -223,6 +223,19 @@ public class BorrowDAO {
             statement.executeUpdate();
         }
     }
+    // Check if the user has any borrowed books
+    public boolean hasBorrowedDocuments(int userId) throws SQLException {
+        String query = "SELECT COUNT(*) FROM BorrowedDocuments WHERE user_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Returns true if there are borrowed books
+            }
+        }
+        return false; // No borrowed books
+    }
 
 
 }
