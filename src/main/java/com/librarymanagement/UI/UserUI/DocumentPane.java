@@ -1,5 +1,4 @@
 package com.librarymanagement.UI.UserUI;
 
-public class SeachDocument {
-
+public class DocumentPane {
 }

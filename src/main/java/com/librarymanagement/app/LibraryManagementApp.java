@@ -1,9 +1,7 @@
 package com.librarymanagement.app;
 
-import com.librarymanagement.UI.General.BookDetailsController;
 import com.librarymanagement.UI.General.ImageLoader;
-import com.librarymanagement.UI.ManageBorrowController;
-import com.librarymanagement.model.Book;
+import com.librarymanagement.UI.General.ManageBorrowController;
 import com.librarymanagement.model.User;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,7 +11,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Stack;
 
 public class LibraryManagementApp extends Application {
@@ -76,6 +73,7 @@ public class LibraryManagementApp extends Application {
         scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(scene);
     }
+
     public static void showBookByTypePage(Scene scene) throws Exception {
         scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(scene);
