@@ -14,7 +14,7 @@ import java.util.List;
 public class BorrowDAO {
 
     // Method to add a borrow record, with checks for user and document existence
-    public void addBorrow(int userId, int documentId, Date borrowDate) throws SQLException {
+    public void addBorrow(int userId, int documentId, Date borrowDate, int durationDays) throws SQLException {
         try (Connection conn = DatabaseConfig.getConnection()) {
 
             // Check if the user exists
@@ -28,11 +28,12 @@ public class BorrowDAO {
             }
 
             // Insert the borrow record if checks pass
-            String sql = "INSERT INTO BorrowedDocuments (user_id, document_id, borrow_date) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO BorrowedDocuments (user_id, document_id, borrow_date, duration_days) VALUES (?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, userId);
                 pstmt.setInt(2, documentId);
                 pstmt.setDate(3, borrowDate);
+                pstmt.setInt(4, durationDays);
                 pstmt.executeUpdate();
             }
         }

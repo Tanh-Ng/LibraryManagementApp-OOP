@@ -1,9 +1,12 @@
 package com.librarymanagement.app;
 
-import com.librarymanagement.UI.General.BookDetailsController;
 import com.librarymanagement.UI.General.ImageLoader;
-import com.librarymanagement.UI.ManageBorrowController;
-import com.librarymanagement.model.Book;
+import com.librarymanagement.UI.General.ManageBorrowController;
+import com.librarymanagement.dao.BorrowDAO;
+import com.librarymanagement.dao.DocumentDAO;
+import com.librarymanagement.model.Borrow;
+import com.librarymanagement.model.Document;
+import com.librarymanagement.model.NormalUser;
 import com.librarymanagement.model.User;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,13 +16,18 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Stack;
 
 public class LibraryManagementApp extends Application {
     private static Stage primaryStage;
     private static User currentUser;
     private static Stack<Scene> scenesHistory = new Stack<>();
+    private static List<Document> documents;
+    private static final DocumentDAO documentDAO = new DocumentDAO();
+    private static final BorrowDAO borrowDAO = new BorrowDAO();
+    private static List<Borrow> borrowList;
 
     public static void goBack(){
         primaryStage.setScene(scenesHistory.pop());
@@ -76,6 +84,7 @@ public class LibraryManagementApp extends Application {
         scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(scene);
     }
+
     public static void showBookByTypePage(Scene scene) throws Exception {
         scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(scene);
@@ -117,16 +126,27 @@ public class LibraryManagementApp extends Application {
         });
     }
 
-    //User setter
-    public static void setCurrentUser(User loggedInUser) {
+    //Setter
+    public static void setCurrentUser(User loggedInUser) throws SQLException {
         currentUser = loggedInUser;
+        documents = documentDAO.getAllDocuments();
+        if (currentUser instanceof NormalUser) {
+            borrowList = borrowDAO.getBorrowedDocumentsByUser(currentUser.getUserId());
+        }
     }
 
     //User getter
-    public static User getCurrentUser() {
-        return currentUser;
-    }
+    public static User getCurrentUser() { return currentUser; }
 
+    // Documents getter
+
+    public static List<Document> getDocuments() { return documents; }
+
+    public static DocumentDAO getDocumentDAO() { return documentDAO; }
+
+    public static List<Borrow> getBorrowList() { return borrowList; }
+
+    public static BorrowDAO getBorrowDAO() { return borrowDAO; }
 
     public static void main(String[] args) {
         launch(args);

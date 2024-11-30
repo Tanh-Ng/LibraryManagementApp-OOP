@@ -32,10 +32,13 @@ public class TopBar {
     @FXML
     private AnchorPane mainAnchorPane;
 
-    private static List<Document> documents = new ArrayList<>();
+    private static final List<Document> documents = LibraryManagementApp.getDocuments();
 
-    public static void setDocuments(List<Document> documents) {
-        TopBar.documents = documents;
+    private RefreshCallback refreshCallback;
+
+    public void switchRefresh(RefreshCallback refreshCallback) {
+        // Switch context dynamically
+        this.refreshCallback = refreshCallback;
     }
 
     /// Search function
@@ -129,14 +132,14 @@ public class TopBar {
         && !Objects.equals(pickedBook.getIsbn(), "Null")) {
 
             //Show pages
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
-            AnchorPane anchorPane = loader.load();
-            Scene scene= new Scene(anchorPane);
-
-            //Set book to show
-            BookDetailsController controller = loader.getController();
-            controller.setBookDetails(pickedBook);
-            LibraryManagementApp.showBookDetailsPage(scene);
+            BookDetailsScreen bookDetailsScreen = new BookDetailsScreen(
+                    new BorrowingButtonEvent(LibraryManagementApp.getBorrowDAO(), LibraryManagementApp.getBorrowList())
+                    , (Document) pickedBook, pickedBook, (BookDetailsScreen.RefreshCallback) refreshCallback);
+            try {
+                bookDetailsScreen.show();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

@@ -32,8 +32,6 @@ public class BookByTypeController {
 
     @FXML
     private ScrollPane mainScrollPane;
-    private boolean isAdjustingScroll = false;
-    private boolean mouseScroll = false;
 
     @FXML
     private AnchorPane mainAnchorPane;
@@ -46,16 +44,6 @@ public class BookByTypeController {
     public void initialize() {
         try {
             //Keep scroll pane
-            mainScrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-                if (!isAdjustingScroll && !mouseScroll) {
-                    isAdjustingScroll = true;
-                    mainScrollPane.setVvalue(oldValue.doubleValue());
-                    isAdjustingScroll = false;
-                }
-            });
-
-            mainScrollPane.setOnScroll(event -> mouseScroll = true);
-            mainScrollPane.setOnMouseEntered(event ->  mouseScroll = true);
             mainScrollPane.toBack();
 
         } catch (Exception e) {
