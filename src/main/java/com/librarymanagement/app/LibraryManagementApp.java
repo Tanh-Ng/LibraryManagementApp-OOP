@@ -73,12 +73,6 @@ public class LibraryManagementApp extends Application {
         primaryStage.setScene(new Scene(loader.load()));
     }
 
-    public static void showBorrowedDocumentsPage() throws Exception {
-        FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/BorrowedPage.fxml"));
-        Scene newScene = new Scene(loader.load());
-        scenesHistory.add(newScene);
-        primaryStage.setScene(newScene);
-    }
 
     public static void showBookDetailsPage(Scene scene) throws Exception {
         scenesHistory.add(primaryStage.getScene());

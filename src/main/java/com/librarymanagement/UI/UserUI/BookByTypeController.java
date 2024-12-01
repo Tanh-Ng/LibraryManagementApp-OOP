@@ -3,7 +3,6 @@ package com.librarymanagement.UI.UserUI;
 import com.librarymanagement.UI.General.BookDetailsController;
 import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.app.LibraryManagementApp;
-import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
 import javafx.fxml.FXML;
@@ -22,8 +21,7 @@ import java.util.List;
 
 import static com.librarymanagement.UI.General.ImageLoader.getImage;
 
-public class BookByTypeController {
-    private final HomePageUserController userController = new HomePageUserController();
+public class BookByTypeController implements RefreshCallback {
 
     private TopBar topBar;
 
@@ -36,13 +34,23 @@ public class BookByTypeController {
     @FXML
     private AnchorPane mainAnchorPane;
 
-    public static List<Document> documents = new ArrayList<>();
-
     @FXML
     private VBox itemsContainer;
 
+    public static List<Document> documents = new ArrayList<>();
+
+    private static RefreshCallback homePageRefresh;
+
+    private String category;
+
     public void initialize() {
         try {
+            // TopBar modification
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/TopBar.fxml"));
+            AnchorPane topBarAnchorPane = loader.load();
+            topBar = loader.getController();
+            topBar.switchRefresh(this);
+            mainAnchorPane.getChildren().addFirst(topBarAnchorPane);
             //Keep scroll pane
             mainScrollPane.toBack();
 
@@ -51,16 +59,22 @@ public class BookByTypeController {
         }
     }
 
-    public void setTheme(String typeOfBook) {
+    public void setTheme(String typeOfBook, List<Document> documents, RefreshCallback homePageRefresh) {
+        // TopBar modification
+        category = typeOfBook;
+        topBar.switchRefresh(this);
         theme.setText(typeOfBook);
         theme.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
-        documents = userController.getDocumentListByType(typeOfBook);
+        BookByTypeController.documents = documents;
+        BookByTypeController.homePageRefresh = homePageRefresh;
         for(Document document : documents) {
             itemsContainer.getChildren().add(createBookDetailsLine(document));
         }
     }
 
     public void handleClose() {
+        topBar.switchRefresh(homePageRefresh);
+        homePageRefresh.refresh(category);
         LibraryManagementApp.goBack();
     }
 
@@ -142,5 +156,13 @@ public class BookByTypeController {
             });
         }
         return hBox;
+    }
+
+    @Override
+    public void refresh(String bookType) {
+        itemsContainer.getChildren().removeAll();
+        for (Document document : documents) {
+            itemsContainer.getChildren().add(createBookDetailsLine(document));
+        }
     }
 }

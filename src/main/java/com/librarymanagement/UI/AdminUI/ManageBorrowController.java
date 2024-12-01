@@ -132,6 +132,7 @@ public class ManageBorrowController {
     public void handleToHomePageAdmin(ActionEvent actionEvent) throws Exception {
         LibraryManagementApp.showAdminPage();
     }
+
     @FXML
     private void handleDeleteBorrow(ActionEvent actionEvent) {
         // Get the selected borrow record from the table
@@ -316,6 +317,7 @@ public class ManageBorrowController {
         }
     }
 
+
     /**
      * Handles the "See Request" button action.
      * Filters and displays only borrow records with an extend duration request greater than 0.
@@ -349,5 +351,4 @@ public class ManageBorrowController {
             showAlert(Alert.AlertType.ERROR, "Error", "Database Error", "An error occurred while retrieving the list of extend requests: " + e.getMessage());
         }
     }
-
 }
