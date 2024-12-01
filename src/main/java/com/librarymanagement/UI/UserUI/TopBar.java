@@ -41,8 +41,6 @@ public class TopBar {
         this.refreshCallback = refreshCallback;
     }
 
-    public AnchorPane getMainAnchorPane() { return mainAnchorPane; }
-
     /// Search function
     //Search document after clicked
     public void handleSearchDocument() throws Exception {
@@ -131,12 +129,12 @@ public class TopBar {
         }
 
         if (!Objects.equals(documentTitle, "No document found.")
-                && !Objects.equals(pickedBook.getIsbn(), "Null")) {
+        && !Objects.equals(pickedBook.getIsbn(), "Null")) {
 
             //Show pages
             BookDetailsScreen bookDetailsScreen = new BookDetailsScreen(
                     new BorrowingButtonEvent(LibraryManagementApp.getBorrowDAO(), LibraryManagementApp.getBorrowList())
-                    , pickedBook, pickedBook, refreshCallback);
+                    , (Document) pickedBook, pickedBook, (BookDetailsScreen.RefreshCallback) refreshCallback);
             try {
                 bookDetailsScreen.show();
             } catch (Exception e) {
