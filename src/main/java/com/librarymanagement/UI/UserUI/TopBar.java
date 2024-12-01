@@ -134,7 +134,7 @@ public class TopBar {
             //Show pages
             BookDetailsScreen bookDetailsScreen = new BookDetailsScreen(
                     new BorrowingButtonEvent(LibraryManagementApp.getBorrowDAO(), LibraryManagementApp.getBorrowList())
-                    , (Document) pickedBook, pickedBook, (BookDetailsScreen.RefreshCallback) refreshCallback);
+                    , pickedBook, pickedBook, refreshCallback);
             try {
                 bookDetailsScreen.show();
             } catch (Exception e) {

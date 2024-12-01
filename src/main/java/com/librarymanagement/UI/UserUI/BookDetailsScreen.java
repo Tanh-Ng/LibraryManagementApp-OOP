@@ -21,10 +21,6 @@ public class BookDetailsScreen {
 
     private Label durationText;
 
-    public interface RefreshCallback {
-        void refreshBorrowedDocumentsList(String bookType);
-    }
-
     public BookDetailsScreen(BorrowingButtonEvent borrowingButtonEvent, Document document, Book book, RefreshCallback refreshCallback) {
         this.borrowingButtonEvent = borrowingButtonEvent;
         this.document = document;
@@ -148,7 +144,7 @@ public class BookDetailsScreen {
 
             // Use callback to refresh borrowed documents in the parent class
             if (refreshCallback != null) {
-                refreshCallback.refreshBorrowedDocumentsList(String.valueOf(book.getBookType()));
+                refreshCallback.refresh(String.valueOf(book.getBookType()));
             }
         });
     }

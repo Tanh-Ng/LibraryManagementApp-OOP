@@ -137,7 +137,7 @@ public class BookByTypeController {
 
             hBox.setOnMouseClicked(event -> {
                 BookDetailsScreen bookDetailsScreen = new BookDetailsScreen(borrowingButtonEvent
-                        , document, book, (BookDetailsScreen.RefreshCallback) refreshCallback);
+                        , document, book, refreshCallback);
                 try {
                     bookDetailsScreen.show();
                 } catch (Exception e) {
