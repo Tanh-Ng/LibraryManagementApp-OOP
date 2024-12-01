@@ -316,4 +316,38 @@ public class ManageBorrowController {
         }
     }
 
+    /**
+     * Handles the "See Request" button action.
+     * Filters and displays only borrow records with an extend duration request greater than 0.
+     * If no such records exist, shows an informational alert to the user.
+     *
+     * @param actionEvent The event triggered by clicking the "See Request" button.
+     */
+    @FXML
+    private void handleSeeRequest(ActionEvent actionEvent) {
+        try {
+            // Filter borrow records with an extend duration request greater than 0
+            ObservableList<Borrow> filteredList = FXCollections.observableArrayList();
+
+            for (Borrow borrow : borrowDAO.getAllBorrowedDocuments()) {
+                if (borrow.getExtendDurationRequest() > 0) {
+                    filteredList.add(borrow);
+                }
+            }
+
+            // Check if the filtered list is empty
+            if (filteredList.isEmpty()) {
+                showAlert(Alert.AlertType.INFORMATION, "Notification", "No Extend Requests", "Currently, there are no records with extend duration requests.");
+            } else {
+                // Update the table with the filtered list
+                borrowTable.setItems(filteredList);
+                borrowTable.refresh();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Database Error", "An error occurred while retrieving the list of extend requests: " + e.getMessage());
+        }
+    }
+
 }

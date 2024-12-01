@@ -12,191 +12,167 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1280.0" style="-fx-background-color: MediumAquamarine;"
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.librarymanagement.UI.AdminUI.HomePageAdminController">
+<AnchorPane prefHeight="700.0" prefWidth="1280.0" style="-fx-background-color: MediumAquamarine;" stylesheets="@../../css/Design.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.AdminUI.HomePageAdminController">
     <children>
-        <fx:include source="AdminTabMenu.fxml"/>
+        <fx:include source="AdminTabMenu.fxml" />
         <Pane layoutX="226.0" layoutY="91.0" prefHeight="83.0" prefWidth="180.0" style="-fx-background-color: pink;">
             <children>
-                <Label fx:id="numberOfDocuments" layoutX="90.0" layoutY="27.0" prefHeight="37.0" prefWidth="34.0"
-                       text="10">
+                <Label fx:id="numberOfDocuments" layoutX="90.0" layoutY="27.0" prefHeight="37.0" prefWidth="34.0" text="10">
                     <font>
-                        <Font size="25.0"/>
+                        <Font size="25.0" />
                     </font>
                 </Label>
-                <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="22.0" layoutY="20.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="22.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../adminIcons/icons8_Book_Shelf_50px.png"/>
+                        <Image url="@../../adminIcons/icons8_Book_Shelf_50px.png" />
                     </image>
                 </ImageView>
             </children>
             <effect>
-                <SepiaTone/>
+                <SepiaTone />
             </effect>
         </Pane>
         <Pane layoutX="476.0" layoutY="91.0" prefHeight="83.0" prefWidth="180.0" style="-fx-background-color: pink;">
             <children>
                 <Label fx:id="numberOfUsers" layoutX="90.0" layoutY="23.0" prefHeight="37.0" prefWidth="34.0" text="10">
                     <font>
-                        <Font size="25.0"/>
+                        <Font size="25.0" />
                     </font>
                 </Label>
-                <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../adminIcons/icons8_People_50px.png"/>
+                        <Image url="@../../adminIcons/icons8_People_50px.png" />
                     </image>
                 </ImageView>
             </children>
             <effect>
-                <SepiaTone/>
+                <SepiaTone />
             </effect>
         </Pane>
         <Pane layoutX="737.0" layoutY="91.0" prefHeight="83.0" prefWidth="180.0" style="-fx-background-color: pink;">
             <children>
-                <Label fx:id="numberOfIssued" layoutX="90.0" layoutY="24.0" prefHeight="37.0" prefWidth="46.0"
-                       text="10">
+                <Label fx:id="numberOfIssued" layoutX="90.0" layoutY="24.0" prefHeight="37.0" prefWidth="46.0" text="10">
                     <font>
-                        <Font size="25.0"/>
+                        <Font size="25.0" />
                     </font>
                 </Label>
-                <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="26.0" layoutY="20.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="26.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../adminIcons/icons8_Sell_50px.png"/>
+                        <Image url="@../../adminIcons/icons8_Sell_50px.png" />
                     </image>
                 </ImageView>
             </children>
             <effect>
-                <SepiaTone/>
+                <SepiaTone />
             </effect>
         </Pane>
-        <Pane fx:id="numberType" layoutX="995.0" layoutY="91.0" prefHeight="83.0" prefWidth="180.0"
-              style="-fx-background-color: pink;">
+        <Pane fx:id="numberType" layoutX="995.0" layoutY="91.0" prefHeight="83.0" prefWidth="180.0" style="-fx-background-color: pink;">
             <children>
                 <Label fx:id="numberOfType" layoutX="90.0" layoutY="24.0" prefHeight="37.0" prefWidth="46.0" text="10">
                     <font>
-                        <Font size="25.0"/>
+                        <Font size="25.0" />
                     </font>
                 </Label>
-                <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="33.0" layoutY="20.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="33.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../adminIcons/icons8_List_of_Thumbnails_50px.png"/>
+                        <Image url="@../../adminIcons/icons8_List_of_Thumbnails_50px.png" />
                     </image>
                 </ImageView>
             </children>
             <effect>
-                <SepiaTone/>
+                <SepiaTone />
             </effect>
         </Pane>
-        <TableView fx:id="userDetails" layoutX="201.0" layoutY="233.0" prefHeight="200.0" prefWidth="694.0"
-                   style="-fx-background-color: PaleTurquoise;">
+        <TableView fx:id="userDetails" layoutX="201.0" layoutY="233.0" prefHeight="200.0" prefWidth="694.0" style="-fx-background-color: PaleTurquoise;">
             <columns>
-                <TableColumn fx:id="userIdColumn" prefWidth="100.80001831054688" text="UserId"/>
-                <TableColumn fx:id="userNameColumn" prefWidth="214.39996337890625" text="UserName"/>
-                <TableColumn fx:id="userPasswordColumn" prefWidth="377.59991455078125" text="UserPassword"/>
+                <TableColumn fx:id="userIdColumn" prefWidth="100.80001831054688" text="UserId" />
+                <TableColumn fx:id="userNameColumn" prefWidth="214.39996337890625" text="UserName" />
+                <TableColumn fx:id="userPasswordColumn" prefWidth="377.59991455078125" text="UserPassword" />
             </columns>
         </TableView>
-        <TableView fx:id="documentDetails" layoutX="202.0" layoutY="487.0" prefHeight="200.0" prefWidth="694.0"
-                   style="-fx-background-color: PaleTurquoise;">
+        <TableView fx:id="documentDetails" layoutX="202.0" layoutY="487.0" prefHeight="200.0" prefWidth="694.0" style="-fx-background-color: PaleTurquoise;">
             <columns>
-                <TableColumn fx:id="documentIdColumn" prefWidth="85.60003662109375" text="Document ID"/>
-                <TableColumn fx:id="documentTitleColumn" prefWidth="179.99993896484375" text="Document Title"/>
-                <TableColumn fx:id="authorColumn" prefWidth="129.5999755859375" text="Author"/>
-                <TableColumn fx:id="isAvailableColumn" prefWidth="75.199951171875" text="Is Available"/>
-                <TableColumn fx:id="isbnColumn" prefWidth="104.800048828125" text="ISBN"/>
-                <TableColumn fx:id="documentTypeColumn" prefWidth="119.199951171875" text="Document Type"/>
+                <TableColumn fx:id="documentIdColumn" prefWidth="85.60003662109375" text="Document ID" />
+                <TableColumn fx:id="documentTitleColumn" prefWidth="179.99993896484375" text="Document Title" />
+                <TableColumn fx:id="authorColumn" prefWidth="129.5999755859375" text="Author" />
+                <TableColumn fx:id="isAvailableColumn" prefWidth="75.199951171875" text="Is Available" />
+                <TableColumn fx:id="isbnColumn" prefWidth="104.800048828125" text="ISBN" />
+                <TableColumn fx:id="documentTypeColumn" prefWidth="119.199951171875" text="Document Type" />
             </columns>
         </TableView>
         <Label layoutX="226.0" layoutY="63.0" text="No. Of Documents :">
             <font>
-                <Font name="System Bold" size="13.0"/>
+                <Font name="System Bold" size="13.0" />
             </font>
         </Label>
         <Label layoutX="476.0" layoutY="63.0" text="No. Of Users :">
             <font>
-                <Font name="System Bold" size="13.0"/>
+                <Font name="System Bold" size="13.0" />
             </font>
         </Label>
         <Label layoutX="737.0" layoutY="63.0" text="Issued Documents :">
             <font>
-                <Font name="System Bold" size="13.0"/>
+                <Font name="System Bold" size="13.0" />
             </font>
         </Label>
         <Label layoutX="995.0" layoutY="63.0" text="Type Of Documents :">
             <font>
-                <Font name="System Bold" size="13.0"/>
+                <Font name="System Bold" size="13.0" />
             </font>
         </Label>
-        <Label layoutX="497.0" layoutY="189.0" prefHeight="26.0" prefWidth="103.0" text="USER DETAILS"
-               textFill="#6b8427">
+        <Label layoutX="497.0" layoutY="189.0" prefHeight="26.0" prefWidth="103.0" text="USER DETAILS" textFill="#6b8427">
             <font>
-                <Font name="Eras Bold ITC" size="13.0"/>
+                <Font name="Eras Bold ITC" size="13.0" />
             </font>
         </Label>
-        <Label layoutX="492.0" layoutY="447.0" prefHeight="26.0" prefWidth="150.0" text="DOCUMENT DETAILS"
-               textFill="#6b8427">
+        <Label layoutX="492.0" layoutY="447.0" prefHeight="26.0" prefWidth="150.0" text="DOCUMENT DETAILS" textFill="#6b8427">
             <font>
-                <Font name="Eras Bold ITC" size="13.0"/>
+                <Font name="Eras Bold ITC" size="13.0" />
             </font>
         </Label>
-        <TableView fx:id="borrowedTable" layoutX="916.0" layoutY="310.0" prefHeight="375.0" prefWidth="360.0"
-                   style="-fx-background-color: Gainsboro;">
+        <TableView fx:id="borrowedTable" layoutX="905.0" layoutY="311.0" prefHeight="375.0" prefWidth="373.0" style="-fx-background-color: Gainsboro;">
             <columns>
-                <TableColumn fx:id="borrowIdColumn" prefWidth="79.99993896484375" text="Borrowed ID"/>
-                <TableColumn fx:id="userIDColumn" prefWidth="63.20001220703125" text="User ID"/>
-                <TableColumn fx:id="documentIDColumn" prefWidth="96.7999267578125" text="Document ID"/>
-                <TableColumn fx:id="borrowDateColumn" prefWidth="115.199951171875" text="Borrow Date"/>
+                <TableColumn fx:id="borrowIdColumn" prefWidth="79.99993896484375" text="Borrowed ID" />
+                <TableColumn fx:id="userIDColumn" prefWidth="63.20001220703125" text="User ID" />
+                <TableColumn fx:id="documentIDColumn" prefWidth="96.7999267578125" text="Document ID" />
+                <TableColumn fx:id="borrowDateColumn" prefWidth="123.199951171875" text="Borrow Date" />
             </columns>
         </TableView>
-        <TextField fx:id="searchField" layoutX="1031.0" layoutY="228.0"/>
-        <Label layoutX="917.0" layoutY="241.0"/>
-        <Button fx:id="searchButton" layoutX="966.0" layoutY="273.0" mnemonicParsing="false"
-                onAction="#handleSearchById" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: Bisque;"
-                text="Search By User ID"/>
-        <Button fx:id="seeAllButton" layoutX="1138.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleSeeAll"
-                prefHeight="26.0" prefWidth="59.0" style="-fx-background-color: Bisque;" text="See All"/>
-        <ImageView fitHeight="44.0" fitWidth="37.0" layoutX="431.0" layoutY="184.0" pickOnBounds="true"
-                   preserveRatio="true">
+        <TextField fx:id="searchField" layoutX="1031.0" layoutY="228.0" />
+        <Label layoutX="917.0" layoutY="241.0" />
+        <Button fx:id="searchButton" layoutX="966.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleSearchById" prefHeight="26.0" prefWidth="140.0" style="-fx-background-color: Bisque;" text="Search By User ID" />
+        <Button fx:id="seeAllButton" layoutX="1138.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleSeeAll" prefHeight="26.0" prefWidth="59.0" style="-fx-background-color: Bisque;" text="See All" />
+        <ImageView fitHeight="44.0" fitWidth="37.0" layoutX="431.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../adminIcons/icons8_Conference_26px.png"/>
+                <Image url="@../../adminIcons/icons8_Conference_26px.png" />
             </image>
         </ImageView>
-        <ImageView fitHeight="38.0" fitWidth="59.0" layoutX="431.0" layoutY="444.0" pickOnBounds="true"
-                   preserveRatio="true">
+        <ImageView fitHeight="38.0" fitWidth="59.0" layoutX="431.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../adminIcons/icons8_View_Details_26px.png"/>
+                <Image url="@../../adminIcons/icons8_View_Details_26px.png" />
             </image>
         </ImageView>
-        <ImageView fitHeight="44.0" fitWidth="46.0" layoutX="961.0" layoutY="215.0" pickOnBounds="true"
-                   preserveRatio="true">
+        <ImageView fitHeight="44.0" fitWidth="46.0" layoutX="961.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../AddNewBookIcons/icons8_Contact_26px.png"/>
+                <Image url="@../../AddNewBookIcons/icons8_Contact_26px.png" />
             </image>
         </ImageView>
-        <Pane layoutX="188.0" layoutY="-1.0" prefHeight="59.0" prefWidth="1091.0"
-              style="-fx-background-color: IndianRed;">
+        <Pane layoutX="188.0" layoutY="-1.0" prefHeight="59.0" prefWidth="1091.0" style="-fx-background-color: IndianRed;">
             <children>
-                <Label layoutX="276.0" layoutY="11.0" prefHeight="38.0" prefWidth="432.0"
-                       text="ONLINE LIBRARY MANAGEMENT SYSTEM" textFill="#c6d427">
+                <Label layoutX="276.0" layoutY="11.0" prefHeight="38.0" prefWidth="432.0" text="ONLINE LIBRARY MANAGEMENT SYSTEM" textFill="#c6d427">
                     <font>
-                        <Font name="Comic Sans MS" size="20.0"/>
+                        <Font name="Comic Sans MS" size="20.0" />
                     </font>
                 </Label>
-                <Label layoutX="923.0" layoutY="11.0" prefHeight="38.0" prefWidth="128.0" text="WELCOME ADMIN "
-                       textFill="#f5f5f5">
+                <Label layoutX="923.0" layoutY="11.0" prefHeight="38.0" prefWidth="128.0" text="WELCOME ADMIN " textFill="#f5f5f5">
                     <font>
-                        <Font name="Candara Bold" size="14.0"/>
+                        <Font name="Candara Bold" size="14.0" />
                     </font>
                 </Label>
 
-                <ImageView fitHeight="44.0" fitWidth="46.0" layoutX="868.0" layoutY="8.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="44.0" fitWidth="46.0" layoutX="868.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../adminIcons/male_user_50px.png"/>
+                        <Image url="@../../adminIcons/male_user_50px.png" />
                     </image>
                 </ImageView>
             </children>
