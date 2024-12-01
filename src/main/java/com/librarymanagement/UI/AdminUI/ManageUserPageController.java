@@ -132,7 +132,7 @@ public class ManageUserPageController {
                     return;
                 }
                 BorrowDAO borrowDAO = new BorrowDAO();
-                if(borrowDAO.hasBorrowedDocuments(currentUserId)){
+                if (borrowDAO.hasBorrowedDocuments(currentUserId)) {
                     showAlert(Alert.AlertType.ERROR, "Error", "User cannot update ID while having borrowed books.");
                     return;
                 }
@@ -183,7 +183,7 @@ public class ManageUserPageController {
             return;
         }
         BorrowDAO borrowDAO = new BorrowDAO();
-        if(borrowDAO.hasBorrowedDocuments(selectedUser.getUserId())){
+        if (borrowDAO.hasBorrowedDocuments(selectedUser.getUserId())) {
             showAlert(Alert.AlertType.ERROR, "Error", "User cannot delete user while having borrowed books.");
             return;
         }
@@ -258,7 +258,6 @@ public class ManageUserPageController {
             showAlert(Alert.AlertType.ERROR, "Database Error", e.getMessage());
         }
     }
-
 
 
     /**
