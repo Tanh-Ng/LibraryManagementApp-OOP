@@ -36,6 +36,13 @@ public class TopBar {
 
     private RefreshCallback refreshCallback;
 
+    public void switchRefresh(RefreshCallback refreshCallback) {
+        // Switch context dynamically
+        this.refreshCallback = refreshCallback;
+    }
+
+    public AnchorPane getMainAnchorPane() { return mainAnchorPane; }
+
     /// Search function
     //Search document after clicked
     public void handleSearchDocument() throws Exception {
@@ -114,7 +121,6 @@ public class TopBar {
 
     @FXML
     private void handlePickDocument() throws Exception {
-        searchStringField.clear();
         String documentTitle =  resultListView.getSelectionModel().getSelectedItem().split(" ------ ")[0];
         Book pickedBook = new Book("Null");
         for (Document find : documents) {
@@ -125,12 +131,12 @@ public class TopBar {
         }
 
         if (!Objects.equals(documentTitle, "No document found.")
-        && !Objects.equals(pickedBook.getIsbn(), "Null")) {
+                && !Objects.equals(pickedBook.getIsbn(), "Null")) {
 
             //Show pages
             BookDetailsScreen bookDetailsScreen = new BookDetailsScreen(
                     new BorrowingButtonEvent(LibraryManagementApp.getBorrowDAO(), LibraryManagementApp.getBorrowList())
-                    , (Document) pickedBook, pickedBook, (BookDetailsScreen.RefreshCallback) refreshCallback);
+                    , pickedBook, pickedBook, refreshCallback);
             try {
                 bookDetailsScreen.show();
             } catch (Exception e) {

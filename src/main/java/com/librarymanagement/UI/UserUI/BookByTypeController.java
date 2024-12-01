@@ -3,7 +3,6 @@ package com.librarymanagement.UI.UserUI;
 import com.librarymanagement.UI.General.BookDetailsController;
 import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.app.LibraryManagementApp;
-import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
 import javafx.fxml.FXML;
@@ -22,14 +21,9 @@ import java.util.List;
 
 import static com.librarymanagement.UI.General.ImageLoader.getImage;
 
-public class BookByTypeController {
-    private final HomePageUserController userController = new HomePageUserController();
-
-    private BorrowingButtonEvent borrowingButtonEvent;
+public class BookByTypeController implements RefreshCallback {
 
     private TopBar topBar;
-
-    private RefreshCallback refreshCallback;
 
     @FXML
     private Text theme;
@@ -40,13 +34,23 @@ public class BookByTypeController {
     @FXML
     private AnchorPane mainAnchorPane;
 
-    public static List<Document> documents = new ArrayList<>();
-
     @FXML
     private VBox itemsContainer;
 
+    public static List<Document> documents = new ArrayList<>();
+
+    private static RefreshCallback homePageRefresh;
+
+    private String category;
+
     public void initialize() {
         try {
+            // TopBar modification
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/TopBar.fxml"));
+            AnchorPane topBarAnchorPane = loader.load();
+            topBar = loader.getController();
+            topBar.switchRefresh(this);
+            mainAnchorPane.getChildren().addFirst(topBarAnchorPane);
             //Keep scroll pane
             mainScrollPane.toBack();
 
@@ -55,18 +59,23 @@ public class BookByTypeController {
         }
     }
 
-    public void setTheme(String typeOfBook, BorrowingButtonEvent borrowingButtonEvent) {
+    public void setTheme(String typeOfBook, List<Document> documents, RefreshCallback homePageRefresh) {
+        // TopBar modification
+        category = typeOfBook;
+        topBar.switchRefresh(this);
         theme.setText(typeOfBook);
         theme.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
-        documents = userController.getDocumentListByType(typeOfBook);
+        BookByTypeController.documents = documents;
+        BookByTypeController.homePageRefresh = homePageRefresh;
         for(Document document : documents) {
             itemsContainer.getChildren().add(createBookDetailsLine(document));
         }
-        this.borrowingButtonEvent = borrowingButtonEvent;
     }
 
-    public void handleClose() throws Exception{
-        LibraryManagementApp.showHomeScreen();
+    public void handleClose() {
+        topBar.switchRefresh(homePageRefresh);
+        homePageRefresh.refresh(category);
+        LibraryManagementApp.goBack();
     }
 
     public HBox createBookDetailsLine(Document document) {
@@ -129,16 +138,31 @@ public class BookByTypeController {
             });
 
             hBox.setOnMouseClicked(event -> {
-                BookDetailsScreen bookDetailsScreen = new BookDetailsScreen(borrowingButtonEvent
-                    , document, book, (BookDetailsScreen.RefreshCallback) refreshCallback);
                 try {
-                    bookDetailsScreen.show();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
+                    AnchorPane bookDetialsPane = loader.load();
+
+                    // Choose book
+                    BookDetailsController controller = loader.getController();
+                    controller.setBookDetails(book);
+
+                    //Load in App
+                    Scene scene = new Scene(bookDetialsPane);
+                    LibraryManagementApp.showBookDetailsPage(scene);
+
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
             });
         }
         return hBox;
     }
 
+    @Override
+    public void refresh(String bookType) {
+        itemsContainer.getChildren().removeAll();
+        for (Document document : documents) {
+            itemsContainer.getChildren().add(createBookDetailsLine(document));
+        }
+    }
 }

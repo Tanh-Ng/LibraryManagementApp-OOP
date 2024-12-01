@@ -56,12 +56,12 @@ public class LoginController {
         String password = passwordField.getText();
 
         if (username == null || username.isEmpty() && (password == null || password.isEmpty())) {
-            errorLabel.setText("Please enter your username to retrieve the password.");
+            errorLabel.setText("Please enter username to get password.");
             return;
         }
 
         if (password != null && !password.isEmpty() && (username == null || username.isEmpty())) {
-            errorLabel.setText("Please enter your username to retrieve the password.");
+            errorLabel.setText("Please enter username to get password.");
             return;
         }
 
