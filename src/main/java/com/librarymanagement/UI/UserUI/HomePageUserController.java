@@ -309,6 +309,10 @@ public class HomePageUserController implements RefreshCallback {
             return null; // Return an empty list for invalid input
         }
 
+        if (categoryText.equals("Borrowed Documents")) {
+            return getBorrowedDocumentsList();
+        }
+
         // Parse the categoryText into a BookType enum
         Book.BookType selectedType;
         try {
