@@ -42,6 +42,7 @@ public class HomePageUserController implements RefreshCallback {
     @FXML
     private ScrollPane mainScrollPane;
 
+
     public static List<Document> documents = LibraryManagementApp.getDocuments();
 
     public List<Borrow> borrowedDocuments = LibraryManagementApp.getBorrowList();
@@ -49,9 +50,11 @@ public class HomePageUserController implements RefreshCallback {
     public void initialize() {
         try {
             // TopBar modification
-            TopBar topBar = TopBar.getInstance();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/TopBar.fxml"));
+            AnchorPane topBarAnchorPane = loader.load();
+            TopBar topBar = loader.getController();
             topBar.switchRefresh(this);
-            mainAnchorPane.getChildren().addFirst(topBar.getTopBar());
+            mainAnchorPane.getChildren().addFirst(topBarAnchorPane);
             // Data fetching
             borrowingButtonEvent = new BorrowingButtonEvent(borrowDAO, borrowedDocuments);
             mainScrollPane.toBack();

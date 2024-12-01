@@ -41,10 +41,16 @@ public class BookByTypeController implements RefreshCallback {
 
     private static RefreshCallback homePageRefresh;
 
+    private String category;
+
     public void initialize() {
         try {
-            topBar = TopBar.getInstance();
-            mainAnchorPane.getChildren().addFirst(topBar.getTopBar());
+            // TopBar modification
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/TopBar.fxml"));
+            AnchorPane topBarAnchorPane = loader.load();
+            topBar = loader.getController();
+            topBar.switchRefresh(this);
+            mainAnchorPane.getChildren().addFirst(topBarAnchorPane);
             //Keep scroll pane
             mainScrollPane.toBack();
 
@@ -55,8 +61,7 @@ public class BookByTypeController implements RefreshCallback {
 
     public void setTheme(String typeOfBook, List<Document> documents, RefreshCallback homePageRefresh) {
         // TopBar modification
-        TopBar topBarController = topBar.getController();
-        topBarController.switchRefresh(this);
+        category = typeOfBook;
         topBar.switchRefresh(this);
         theme.setText(typeOfBook);
         theme.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
@@ -69,6 +74,7 @@ public class BookByTypeController implements RefreshCallback {
 
     public void handleClose() {
         topBar.switchRefresh(homePageRefresh);
+        homePageRefresh.refresh(category);
         LibraryManagementApp.goBack();
     }
 
