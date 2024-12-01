@@ -4,6 +4,7 @@ import com.librarymanagement.app.LibraryManagementApp;
 import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 import java.sql.Date;
@@ -67,9 +68,11 @@ public class BorrowingButtonEvent {
                     .filter(b -> b.getDocumentId() == document.getDocumentId())
                     .findFirst()
                     .orElse(null);
-            if (borrow != null) {
+            if (borrow != null && borrow.getExtendDurationRequest() == 0) {
                 borrowDAO.setExtendDurationRequest(borrow.getBorrowId(), duration);
                 borrow.setExtendDurationRequest(duration);
+            } else {
+                showAlert(Alert.AlertType.INFORMATION, "Extend Borrow Duration request", "Pending...");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -94,5 +97,12 @@ public class BorrowingButtonEvent {
 
     private boolean isBorrowed(Document document) {
         return borrowedDocuments.stream().anyMatch(b -> b.getDocumentId() == document.getDocumentId());
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
