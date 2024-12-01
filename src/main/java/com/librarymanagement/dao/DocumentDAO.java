@@ -276,6 +276,31 @@ public class DocumentDAO {
             conn.close();
         }
     }
-
+    public boolean isIsbnExists(String isbn) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM documents WHERE isbn = ?";
+        Connection conn = DatabaseConfig.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, isbn);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isIdExists(int Id) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM documents WHERE document_id = ?";
+        Connection conn = DatabaseConfig.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, Id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
 
 }

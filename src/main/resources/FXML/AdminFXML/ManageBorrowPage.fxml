@@ -48,8 +48,9 @@
          </children></Pane>
       <Pane layoutX="1.0" layoutY="589.0" prefHeight="82.0" prefWidth="896.0" style="-fx-background-color: yellow;" />
       <Pane layoutX="896.0" layoutY="72.0" prefHeight="599.0" prefWidth="100.0" style="-fx-background-color: green;" />
-      <Button fx:id="AcceptRequest" layoutX="619.0" layoutY="508.0" mnemonicParsing="false" onAction="#handleAcceptRequest" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: Bisque;" text="ACCEPT REQUEST" />
-      <Button fx:id="DenyRequest" layoutX="755.0" layoutY="508.0" mnemonicParsing="false" onAction="#handleDenyRequest" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: Bisque;" text="DENY REQUEST" />
+      <Button fx:id="DeleteBorrow" layoutX="432.0" layoutY="495.0" mnemonicParsing="false" onAction="#handleDeleteBorrow" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: Bisque;" text="DELETE" />
+      <Button fx:id="acceptRequest" layoutX="619.0" layoutY="534.0" mnemonicParsing="false" onAction="#handleAcceptRequest" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: Bisque;" text="ACCEPT REQUEST" />
+      <Button fx:id="denyRequest" layoutX="751.0" layoutY="534.0" mnemonicParsing="false" onAction="#handleDenyRequest" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: Bisque;" text="DENY REQUEST" />
       <TextField fx:id="searchField" layoutX="397.0" layoutY="161.0" />
       <Button fx:id="searchButton" layoutX="567.0" layoutY="161.0" mnemonicParsing="false" onAction="#handleSearchById" style="-fx-background-color: Bisque;" text="Search By User ID" />
       <Button fx:id="seeAllButton" layoutX="693.0" layoutY="161.0" mnemonicParsing="false" onAction="#handleSeeAll" style="-fx-background-color: Bisque;" text="See All" />
@@ -58,5 +59,6 @@
             <Image url="@../../icons/library-2.png" />
          </image>
       </ImageView>
+      <Button fx:id="seeRequest" layoutX="688.0" layoutY="495.0" mnemonicParsing="false" onAction="#handleSeeRequest" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: Bisque;" text="SEE REQUEST" />
    </children>
 </AnchorPane>

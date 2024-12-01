@@ -15,61 +15,54 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: MediumAquamarine;"
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.librarymanagement.UI.AdminUI.ManageDocumentController" stylesheets="@../../css/Design.css">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: MediumAquamarine;" stylesheets="@../../css/Design.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.AdminUI.ManageDocumentController">
    <children>
       <AnchorPane prefHeight="706.0" prefWidth="294.0" style="-fx-background-color: PaleTurquoise;">
          <children>
-            <TextField fx:id="titleField" layoutX="57.0" layoutY="258.0" prefHeight="26.0" prefWidth="150.0"
-                       promptText="Enter Document Title..."/>
-            <TextField fx:id="authorNameField" layoutX="58.0" layoutY="340.0" promptText="Enter Author Name..."/>
-            <TextField fx:id="documentIDField" layoutX="57.0" layoutY="184.0" promptText="Enter Document ID..."/>
+            <TextField fx:id="titleField" layoutX="57.0" layoutY="258.0" prefHeight="26.0" prefWidth="150.0" promptText="Enter Document Title..." />
+            <TextField fx:id="authorNameField" layoutX="58.0" layoutY="340.0" promptText="Enter Author Name..." />
+            <TextField fx:id="documentIDField" layoutX="57.0" layoutY="184.0" promptText="Enter Document ID..." />
             <Label layoutX="57.0" layoutY="147.0" text="Document ID:" textFill="#b17521">
                <font>
-                  <Font name="System Bold" size="13.0"/>
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
             <Label layoutX="56.0" layoutY="225.0" text=" Document Title:" textFill="#b17521">
                <font>
-                  <Font name="System Bold" size="13.0"/>
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
             <Label layoutX="56.0" layoutY="307.0" text="Author Name:" textFill="#b17521">
                <font>
-                  <Font name="System Bold" size="13.0"/>
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Button layoutX="20.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleAddDocument"
-                    style="-fx-background-color: Bisque;" text="ADD"/>
-            <Button layoutX="99.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleUpdateDocument"
-                    style="-fx-background-color: Bisque;" text="UPDATE"/>
-            <Button layoutX="191.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleDeleteDocument"
-                    style="-fx-background-color: Bisque;" text="DELETE"/>
-            <Button layoutX="54.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleToHomePageAdmin"
-                    style="-fx-background-color: Bisque;" text="BACK"/>
+            <Button layoutX="20.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleAddDocument" style="-fx-background-color: Bisque;" text="ADD" />
+            <Button layoutX="99.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleUpdateDocument" style="-fx-background-color: Bisque;" text="UPDATE" />
+            <Button layoutX="191.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleDeleteDocument" style="-fx-background-color: Bisque;" text="DELETE" />
+            <Button layoutX="54.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleToHomePageAdmin" style="-fx-background-color: Bisque;" text="BACK" />
             <Label layoutX="70.0" layoutY="97.0" text="ADMIN ACTION" textFill="#f73d3d">
                <font>
-                  <Font name="System Bold" size="19.0"/>
+                  <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <TextField fx:id="isbnField" layoutX="58.0" layoutY="409.0" promptText="Enter ISBN..."/>
+            <TextField fx:id="isbnField" layoutX="58.0" layoutY="409.0" promptText="Enter ISBN..." />
             <Label layoutX="58.0" layoutY="377.0" text="ISBN:" textFill="#b17521">
                <font>
-                  <Font name="System Bold" size="13.0"/>
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
             <ChoiceBox fx:id="isAvailableField" layoutX="58.0" layoutY="489.0" prefWidth="150.0">
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                     <Boolean fx:value="True"/>
-                     <Boolean fx:value="False"/>
+                     <Boolean fx:value="True" />
+                     <Boolean fx:value="False" />
                   </FXCollections>
                </items>
             </ChoiceBox>
             <Label layoutX="55.0" layoutY="453.0" text="Is Available:" textFill="#b17521">
                <font>
-                  <Font name="System Bold" size="13.0"/>
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
 
@@ -77,19 +70,18 @@
             <ChoiceBox fx:id="bookTypeChoiceBox" layoutX="58.0" layoutY="565.0" prefWidth="150.0">
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="TEXTBOOK"/>
-                     <String fx:value="ROMANCE"/>
-                     <String fx:value="SCIENCE_FICTION"/>
+                     <String fx:value="TEXTBOOK" />
+                     <String fx:value="ROMANCE" />
+                     <String fx:value="SCIENCE_FICTION" />
                   </FXCollections>
                </items>
             </ChoiceBox>
             <Label layoutX="57.0" layoutY="534.0" text="Book Type:" textFill="#b17521">
                <font>
-                  <Font name="System Bold" size="13.0"/>
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ImageView fitHeight="53.0" fitWidth="34.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true"
-                       preserveRatio="true">
+            <ImageView fitHeight="53.0" fitWidth="34.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
                <Image url="@../../AddNewBookIcons/icons8_Rewind_48px.png" />
                </image>
@@ -126,7 +118,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <TableView fx:id="documentTableView" layoutX="321.0" layoutY="219.0" prefHeight="298.0" prefWidth="862.0">
+      <TableView fx:id="documentTableView" layoutX="315.0" layoutY="274.0" prefHeight="298.0" prefWidth="862.0">
          <columns>
             <TableColumn fx:id="documentIdColumn" prefWidth="106.39999389648438" text="Document ID" />
             <TableColumn fx:id="documentTitleColumn" prefWidth="192.0" text="Document Title" />
@@ -136,13 +128,13 @@
             <TableColumn fx:id="documentTypeColumn" prefWidth="120.800048828125" text="Document Type" />
          </columns>
       </TableView>
-      <TextField fx:id="isbnSearchField" layoutX="624.0" layoutY="169.0" promptText="Enter ISBN..." />
-      <Label layoutX="498.0" layoutY="172.0" text="Search ISBN:">
+      <TextField fx:id="isbnSearchField" layoutX="458.0" layoutY="156.0" promptText="Enter ISBN..." />
+      <Label layoutX="458.0" layoutY="126.0" text="Search ISBN:">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Label>
-      <Button layoutX="824.0" layoutY="169.0" mnemonicParsing="false" onAction="#handleSearchByIsbn" style="-fx-background-color: Bisque;" text="CHECK" />
-      <Button layoutX="909.0" layoutY="169.0" mnemonicParsing="false" onAction="#handleAddFromApi" style="-fx-background-color: Bisque;" text="ADD" />
+      <Button layoutX="458.0" layoutY="193.0" mnemonicParsing="false" onAction="#handleSearchByIsbn" style="-fx-background-color: Bisque;" text="CHECK" />
+      <Button layoutX="547.0" layoutY="193.0" mnemonicParsing="false" onAction="#handleAddFromApi" style="-fx-background-color: Bisque;" text="ADD" />
       <Pane layoutX="294.0" layoutY="1.0" prefHeight="90.0" prefWidth="905.0" style="-fx-background-color: IndianRed;">
          <children>
             <Label layoutX="343.0" layoutY="11.0" prefHeight="69.0" prefWidth="265.0" text="MANAGE DOCUMENTS" textAlignment="CENTER" textFill="#c6d427">
@@ -157,9 +149,17 @@
             </ImageView>
          </children>
       </Pane>
-      <ImageView fitHeight="124.0" fitWidth="99.0" layoutX="382.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="121.0" fitWidth="110.0" layoutX="337.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../icons/library-3.png.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="searchButton" layoutX="927.0" layoutY="193.0" mnemonicParsing="false" onAction="#handleSearchById" style="-fx-background-color: Bisque;" text="Search By Document ID" />
+      <Button fx:id="seeAllButton" layoutX="1089.0" layoutY="193.0" mnemonicParsing="false" onAction="#handleSeeAll" style="-fx-background-color: Bisque;" text="See All" />
+      <TextField fx:id="textField" layoutX="945.0" layoutY="156.0" prefHeight="26.0" prefWidth="170.0" />
+      <ImageView fitHeight="69.0" fitWidth="69.0" layoutX="839.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../AddNewBookIcons/icons8_Edit_Property_50px.png" />
          </image>
       </ImageView>
    </children>

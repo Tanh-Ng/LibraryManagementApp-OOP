@@ -205,5 +205,31 @@ public class UserDAO {
             conn.close();
         }
     }
+    public boolean isUserExists(String name) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM users WHERE name = ?";
+        Connection conn = DatabaseConfig.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, name);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isIdExists(int Id) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM users WHERE user_id = ?";
+        Connection conn = DatabaseConfig.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, Id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
 
 }

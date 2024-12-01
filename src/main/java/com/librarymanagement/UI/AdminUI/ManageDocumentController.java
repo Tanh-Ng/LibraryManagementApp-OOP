@@ -2,7 +2,10 @@ package com.librarymanagement.UI.AdminUI;
 
 import com.librarymanagement.UI.General.BookDetailsController;
 import com.librarymanagement.app.LibraryManagementApp;
+import com.librarymanagement.model.User;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -37,6 +40,12 @@ public class ManageDocumentController {
     @FXML
     private TextField isbnSearchField;
     private final DocumentDAO documentDAO = new DocumentDAO();
+
+    @FXML
+    private TextField textField;
+    @FXML
+    private ObservableList<Document> documentList = FXCollections.observableArrayList();
+
 
     /**
      * Initializes the controller and sets up the table view and book type choice box.
@@ -92,6 +101,11 @@ public class ManageDocumentController {
                 showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all required fields!");
                 return;
             }
+            // Check if the ISBN already exists
+            if (documentDAO.isIsbnExists(isbn)) {
+                showAlert(Alert.AlertType.ERROR, "Error", "ISBN already exists!");
+                return;
+            }
 
             // Create a new book with book type
             Document book = new Book(title, author, isbn, bookType);
@@ -132,11 +146,14 @@ public class ManageDocumentController {
             List<Document> documents = documentDAO.getAllDocuments();
             documentTableView.getItems().clear();
             documentTableView.getItems().addAll(documents);
+            documentList.setAll(documentDAO.getAllDocuments());
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while loading data.");
         }
     }
+
+
 
     /**
      * Handles updating an existing book document.
@@ -170,6 +187,11 @@ public class ManageDocumentController {
             if (!newId.equals(String.valueOf(currentDocumentId))) {
                 // If the ID is different, update the document_id in the database
                 int newDocumentId = Integer.parseInt(newId); // Convert the new ID from String to Integer
+                // Check if the ISBN already exists
+                if (documentDAO.isIdExists(newDocumentId)) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "ID already exists!");
+                    return;
+                }
                 documentDAO.changeDocumentId(currentDocumentId, newDocumentId);
                 selectedDocument.setId(newDocumentId); // Update the selectedDocument's ID
             }
@@ -297,6 +319,11 @@ public class ManageDocumentController {
                     showAlert(Alert.AlertType.ERROR, "Error", "Some required book details are missing.");
                     return;
                 }
+                // Check if the ISBN already exists
+                if (documentDAO.isIsbnExists(isbn)) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "ISBN already exists!");
+                    return;
+                }
 
                 // Create a new Book instance with fetched details
                 Book newBook = new Book(title, author, fetchedIsbn, bookType);
@@ -357,5 +384,55 @@ public class ManageDocumentController {
             clearFields();
         }
     }
+
+    public void handleSearchById(ActionEvent actionEvent) {
+        String searchIdString = textField.getText().trim();  // Get the value from the search field (Document ID)
+
+        if (searchIdString.isEmpty()) {
+            // If Document ID is empty, show an alert
+            showAlert(Alert.AlertType.WARNING, "Invalid Input", "Please enter a valid Document ID.");
+            return;
+        }
+
+        try {
+            // Convert searchIdString to an integer
+            int searchId = Integer.parseInt(searchIdString);
+
+            // Assuming you have a method to search by Document ID from the database or the list
+            ObservableList<Document> searchResults = FXCollections.observableArrayList();
+
+            // Loop through the list of documents and check if the ID matches
+            for (Document doc : documentList) { // documentList is your collection of documents
+                if (doc.getDocumentId() == searchId) {
+                    searchResults.add(doc);
+                }
+            }
+
+            if (searchResults.isEmpty()) {
+                // Show an alert if no document is found
+                showAlert(Alert.AlertType.INFORMATION, "No Results", "No document found with Document ID: " + searchId);
+            } else {
+                // Update the table with the search results
+                documentTableView.setItems(searchResults);
+            }
+        } catch (NumberFormatException e) {
+            // If unable to convert string to number, show an error alert
+            showAlert(Alert.AlertType.ERROR, "Invalid Input", "Document ID must be a valid number.");
+        }
+    }
+
+    public void handleSeeAll(ActionEvent actionEvent) {
+        // Ensure that documentList is fully loaded from the database
+        loadDocumentData();
+
+        if (documentList.isEmpty()) {
+            // If no documents were found, show an alert
+            showAlert(Alert.AlertType.INFORMATION, "No Documents", "No documents found in the system.");
+        } else {
+            // Display all documents in the table
+            documentTableView.setItems(documentList);
+        }
+    }
+
 
 }
