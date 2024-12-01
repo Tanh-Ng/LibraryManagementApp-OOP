@@ -3,6 +3,7 @@ package com.librarymanagement.UI.UserUI;
 import com.librarymanagement.UI.General.BookDetailsController;
 import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.app.LibraryManagementApp;
+import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
 import javafx.fxml.FXML;
@@ -21,9 +22,14 @@ import java.util.List;
 
 import static com.librarymanagement.UI.General.ImageLoader.getImage;
 
-public class BookByTypeController implements RefreshCallback {
+public class BookByTypeController {
+    private final HomePageUserController userController = new HomePageUserController();
+
+    private BorrowingButtonEvent borrowingButtonEvent;
 
     private TopBar topBar;
+
+    private RefreshCallback refreshCallback;
 
     @FXML
     private Text theme;
@@ -34,23 +40,13 @@ public class BookByTypeController implements RefreshCallback {
     @FXML
     private AnchorPane mainAnchorPane;
 
+    public static List<Document> documents = new ArrayList<>();
+
     @FXML
     private VBox itemsContainer;
 
-    public static List<Document> documents = new ArrayList<>();
-
-    private static RefreshCallback homePageRefresh;
-
-    private String category;
-
     public void initialize() {
         try {
-            // TopBar modification
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/TopBar.fxml"));
-            AnchorPane topBarAnchorPane = loader.load();
-            topBar = loader.getController();
-            topBar.switchRefresh(this);
-            mainAnchorPane.getChildren().addFirst(topBarAnchorPane);
             //Keep scroll pane
             mainScrollPane.toBack();
 
@@ -59,23 +55,18 @@ public class BookByTypeController implements RefreshCallback {
         }
     }
 
-    public void setTheme(String typeOfBook, List<Document> documents, RefreshCallback homePageRefresh) {
-        // TopBar modification
-        category = typeOfBook;
-        topBar.switchRefresh(this);
+    public void setTheme(String typeOfBook, BorrowingButtonEvent borrowingButtonEvent) {
         theme.setText(typeOfBook);
         theme.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
-        BookByTypeController.documents = documents;
-        BookByTypeController.homePageRefresh = homePageRefresh;
+        documents = userController.getDocumentListByType(typeOfBook);
         for(Document document : documents) {
             itemsContainer.getChildren().add(createBookDetailsLine(document));
         }
+        this.borrowingButtonEvent = borrowingButtonEvent;
     }
 
-    public void handleClose() {
-        topBar.switchRefresh(homePageRefresh);
-        homePageRefresh.refresh(category);
-        LibraryManagementApp.goBack();
+    public void handleClose() throws Exception{
+        LibraryManagementApp.showHomeScreen();
     }
 
     public HBox createBookDetailsLine(Document document) {
@@ -102,10 +93,10 @@ public class BookByTypeController implements RefreshCallback {
 
             VBox details = new VBox();
             details.getChildren().addAll(new Text("Title: " + book.getTitle()),
-                                              new Text("Author: " + book.getAuthor()),
-                                              new Text("Isbn:" + book.getIsbn()),
-                                              new Text("Publisher: " + book.getPublisher()),
-                                              new Text("Published Date: " + book.getPublishDate()));
+                    new Text("Author: " + book.getAuthor()),
+                    new Text("Isbn:" + book.getIsbn()),
+                    new Text("Publisher: " + book.getPublisher()),
+                    new Text("Published Date: " + book.getPublishDate()));
             details.setStyle("-fx-font-size: 20px;");
             details.setMinWidth(600);
             ImageView qrCodeImageView = new ImageView();
@@ -138,31 +129,16 @@ public class BookByTypeController implements RefreshCallback {
             });
 
             hBox.setOnMouseClicked(event -> {
+                BookDetailsScreen bookDetailsScreen = new BookDetailsScreen(borrowingButtonEvent
+                        , document, book, (BookDetailsScreen.RefreshCallback) refreshCallback);
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/BookDetails.fxml"));
-                    AnchorPane bookDetialsPane = loader.load();
-
-                    // Choose book
-                    BookDetailsController controller = loader.getController();
-                    controller.setBookDetails(book);
-
-                    //Load in App
-                    Scene scene = new Scene(bookDetialsPane);
-                    LibraryManagementApp.showBookDetailsPage(scene);
-
+                    bookDetailsScreen.show();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             });
         }
         return hBox;
     }
 
-    @Override
-    public void refresh(String bookType) {
-        itemsContainer.getChildren().removeAll();
-        for (Document document : documents) {
-            itemsContainer.getChildren().add(createBookDetailsLine(document));
-        }
-    }
 }

@@ -186,7 +186,7 @@ public class HomePageUserController implements RefreshCallback {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookByType.fxml"));
                 Scene newScene = new Scene(loader.load());
                 BookByTypeController controller = loader.getController();
-                controller.setTheme(categoryText, documentsByType, this::refresh);
+                controller.setTheme(categoryText, borrowingButtonEvent);
                 LibraryManagementApp.showBookByTypePage(newScene);
             } catch (Exception e) {
                 e.printStackTrace();
