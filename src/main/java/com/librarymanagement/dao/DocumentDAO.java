@@ -251,8 +251,9 @@ public class DocumentDAO {
             conn.setAutoCommit(false); // Start transaction
 
             // Insert a new document with the new document_id
-            String insertSql = "INSERT INTO Documents (document_id, title, author, is_available, isbn, book_type) " +
-                    "SELECT ?, title, author, is_available, isbn, book_type FROM Documents WHERE document_id = ?";
+            String insertSql = "INSERT INTO Documents (document_id, title, author, is_available, isbn, book_type, image_url, info_url, publisher, publish_date) " +
+                    "SELECT ?, title, author, is_available, isbn, book_type, image_url, info_url, publisher, " +
+                    "publish_date FROM Documents WHERE document_id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
                 pstmt.setInt(1, newDocumentId); // New document_id
                 pstmt.setInt(2, oldDocumentId); // Old document_id to copy data from

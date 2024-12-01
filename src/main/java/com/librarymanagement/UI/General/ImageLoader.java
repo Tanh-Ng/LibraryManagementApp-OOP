@@ -31,6 +31,10 @@ public class ImageLoader {
 
     // Get a preloaded image or placeholder
     public static Image getImage(String url) {
+        if (url == null) {
+            System.out.println("Warning: Attempted to fetch an image with a null URL.");
+            return null;
+        };
         return imageCache.get(url);
     }
 
