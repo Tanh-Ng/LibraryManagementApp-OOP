@@ -59,6 +59,9 @@ public class BookByTypeController {
         theme.setText(typeOfBook);
         theme.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
         documents = userController.getDocumentListByType(typeOfBook);
+        if(documents.isEmpty()) {
+            return;
+        }
         for(Document document : documents) {
             itemsContainer.getChildren().add(createBookDetailsLine(document));
         }
