@@ -50,9 +50,6 @@ public class BookDetailsScreen {
         int[] duration = {1}; // Default to 1 day
 
         durationText = createBorrowDuration(duration[0]);
-        if (borrowButton.getText().equals("Borrowed")) {
-            durationText.setVisible(true);
-        }
 
         // Create and configure days text field
         TextField daysTextField = createDaysTextField(borrowButton, errorLabel, duration);
@@ -71,11 +68,10 @@ public class BookDetailsScreen {
     private Label createBorrowDuration(int duration) {
         Label durationText = new Label();
         durationText.setText(duration + (duration == 1 ? " day" : " days") + " left");
+        borrowingButtonEvent.updateDurationTextLabel(durationText, document);
         durationText.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
-        durationText.setPrefWidth(150);
         durationText.setLayoutX(300);
         durationText.setLayoutY(450);
-        durationText.setVisible(false);
         durationText.setAlignment(Pos.CENTER);
         return durationText;
     }
@@ -142,16 +138,10 @@ public class BookDetailsScreen {
     private void configureBorrowButtonAction(Button borrowButton, TextField daysTextField,
                                              Label errorLabel, int[] duration, Label durationText) {
         borrowButton.setOnAction(e -> {
-            int realDuration = duration[0] == 0 ? 1 : duration[0];
             borrowingButtonEvent.buttonClicked(borrowButton, document, duration[0]);
 
             //Set duration text
-            if(borrowButton.getText().equals("Borrow")) {
-                durationText.setVisible(false);
-            } else {
-                durationText.setText(realDuration + (realDuration == 1 ? " day" : " days") + " left");
-                durationText.setVisible(true);
-            }
+            borrowingButtonEvent.updateDurationTextLabel(durationText, document);
 
             configureDaysTextField(borrowButton, daysTextField, errorLabel, duration);
             daysTextField.clear();
