@@ -8,7 +8,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -85,7 +84,7 @@ public class BorrowingButtonEvent {
                     , document.getDocumentId(), new Timestamp(System.currentTimeMillis()), duration);
             borrowedDocuments.add(new Borrow(borrowDAO.getBorrowIdByUserAndDocument(
                     LibraryManagementApp.getCurrentUser().getUserId(), document.getDocumentId())
-                ,LibraryManagementApp.getCurrentUser().getUserId(), document.getDocumentId(), new Timestamp(System.currentTimeMillis()), duration, 0));
+                    , LibraryManagementApp.getCurrentUser().getUserId(), document.getDocumentId(), new Timestamp(System.currentTimeMillis()), duration, 0));
         } catch (Exception e) {
             System.out.println("Error borrowing document: " + e.getMessage());
         }

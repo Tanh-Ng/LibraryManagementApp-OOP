@@ -105,6 +105,7 @@ public class BorrowDAO {
         }
         return null; // Return null if not found
     }
+
     // Method to delete a borrow record by its ID
     public void deleteBorrow(int borrowId) throws SQLException {
         String sql = "DELETE FROM BorrowedDocuments WHERE borrow_id = ?";
@@ -223,6 +224,7 @@ public class BorrowDAO {
             statement.executeUpdate();
         }
     }
+
     // Check if the user has any borrowed books
     public boolean hasBorrowedDocuments(int userId) throws SQLException {
         String query = "SELECT COUNT(*) FROM BorrowedDocuments WHERE user_id = ?";

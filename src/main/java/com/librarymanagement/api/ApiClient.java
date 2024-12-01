@@ -1,9 +1,12 @@
 package com.librarymanagement.api;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javafx.scene.image.Image;
 
 import org.json.JSONObject;
 
@@ -37,5 +40,15 @@ public class ApiClient {
             System.out.println("An error occurred while fetching book details: " + e.getMessage());
             return null;
         }
+    }
+
+    public static String getQRCodeURL(String data) {
+
+        // QR Code API URL
+        String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + data;
+
+        // Load the QR code image
+        return qrCodeUrl;
+
     }
 }

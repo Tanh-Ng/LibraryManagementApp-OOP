@@ -7,7 +7,6 @@ import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
-import com.librarymanagement.dao.DocumentDAO;
 
 import javafx.fxml.FXML;
 import javafx.animation.PauseTransition;
@@ -24,6 +23,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 
 import java.util.List;
+
 import javafx.util.Duration;
 
 import static com.librarymanagement.UI.General.ImageLoader.getImage;
@@ -37,7 +37,7 @@ public class HomePageUserController implements RefreshCallback {
     private VBox itemsContainer; // The container for dynamic items (rows)
 
     @FXML
-    private  AnchorPane mainAnchorPane;
+    private AnchorPane mainAnchorPane;
 
     @FXML
     private ScrollPane mainScrollPane;
@@ -61,7 +61,7 @@ public class HomePageUserController implements RefreshCallback {
             // Load images beforehand using multi-thread
             documents.forEach(doc -> {
                 if (doc instanceof Book book) {
-                    ImageLoader.preloadImage(book.getImageUrl());
+                    ImageLoader.preloadImage(book);
                 }
             });
 
@@ -80,8 +80,8 @@ public class HomePageUserController implements RefreshCallback {
         }
     }
 
-    public void showBookDetails(String title, MouseEvent event) throws Exception{
-        Book pickedBook =new Book("Null");
+    public void showBookDetails(String title, MouseEvent event) throws Exception {
+        Book pickedBook = new Book("Null");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookDetailsBox.fxml"));
         HBox bookDetailsBox = loader.load();
         for (Document searchDocument : documents) {
@@ -108,7 +108,7 @@ public class HomePageUserController implements RefreshCallback {
                 bookDetailsBox.setLayoutX(mouseX + 5);
             }
 
-            if (mouseY + 400.0 > 700){
+            if (mouseY + 400.0 > 700) {
                 bookDetailsBox.setLayoutY(mouseY - 400 - 5);
             } else {
                 bookDetailsBox.setLayoutY(mouseY + 5);
@@ -227,15 +227,14 @@ public class HomePageUserController implements RefreshCallback {
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         if (document instanceof Book book) {
             // Preload the book's image in a background thread
-            String imageUrl = book.getImageUrl();
-            ImageLoader.preloadImage(imageUrl);
+            ImageLoader.preloadImage(book);
 
             // Create an ImageView for the book cover
             ImageView coverImageView = new ImageView();
             coverImageView.setFitHeight(150); // Set desired height
             //coverImageView.setFitWidth(120); // Set desired width
             coverImageView.setPreserveRatio(true);
-            coverImageView.setImage(getImage(imageUrl)); // Retrieve preloaded image
+            coverImageView.setImage(getImage(book.getImageUrl())); // Retrieve preloaded image
 
             // Position the ImageView at the top center
             AnchorPane.setTopAnchor(coverImageView, 10.0);
@@ -281,7 +280,7 @@ public class HomePageUserController implements RefreshCallback {
             borrowButton.setOnAction(event -> {
                 borrowingButtonEvent.buttonClicked(borrowButton, document
                         , borrowButton.getText().equals("Borrow")
-                            ? 1 : 0);
+                                ? 1 : 0);
                 borrowingButtonEvent.updateBorrowButtonState(borrowButton, document);
                 refresh(String.valueOf(book.getBookType()));
             });

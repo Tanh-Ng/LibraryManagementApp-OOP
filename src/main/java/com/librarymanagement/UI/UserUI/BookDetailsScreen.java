@@ -106,7 +106,7 @@ public class BookDetailsScreen {
 
         daysTextField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (!newValue.matches("^(?!0$)\\d{1,2}$")
-            && !newValue.isEmpty()) {
+                    && !newValue.isEmpty()) {
                 errorLabel.setText("Please enter a number from 1 to 99");
                 borrowButton.setDisable(true);
             } else if (!newValue.equals("")) {

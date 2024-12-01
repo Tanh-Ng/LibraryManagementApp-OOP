@@ -1,16 +1,17 @@
 package com.librarymanagement.UI.UserUI;
 
-import com.librarymanagement.UI.General.BookDetailsController;
+
 import com.librarymanagement.UI.General.ImageLoader;
 import com.librarymanagement.app.LibraryManagementApp;
-import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Book;
 import com.librarymanagement.model.Document;
+
+import static com.librarymanagement.UI.General.ImageLoader.getQRCode;
+import static com.librarymanagement.api.ApiClient.getQRCodeURL;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -63,16 +64,16 @@ public class BookByTypeController {
         theme.setText(typeOfBook);
         theme.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
         documents = userController.getDocumentListByType(typeOfBook);
-        if(documents.isEmpty()) {
+        if (documents.isEmpty()) {
             return;
         }
-        for(Document document : documents) {
+        for (Document document : documents) {
             itemsContainer.getChildren().add(createBookDetailsLine(document));
         }
         this.borrowingButtonEvent = borrowingButtonEvent;
     }
 
-    public void handleClose() throws Exception{
+    public void handleClose() throws Exception {
         LibraryManagementApp.showHomeScreen();
     }
 
@@ -82,15 +83,16 @@ public class BookByTypeController {
         anchorPane.setStyle("-fx-background-color: lightgray; -fx-pref-height: 220px; -fx-pref-width: 160px;");
         if (document instanceof Book book) {
             // Preload the book's image in a background thread
-            String imageUrl = book.getImageUrl();
-            ImageLoader.preloadImage(imageUrl);
+
+            ImageLoader.preloadImage(book);
+            ImageLoader.preloadQRCode(getQRCodeURL(book.getInfoUrl()));
 
             // Create an ImageView for the book cover
             ImageView coverImageView = new ImageView();
             coverImageView.setFitHeight(150); // Set desired height
             //coverImageView.setFitWidth(120); // Set desired width
             coverImageView.setPreserveRatio(true);
-            coverImageView.setImage(getImage(imageUrl)); // Retrieve preloaded image
+            coverImageView.setImage(getImage(book.getImageUrl())); // Retrieve preloaded image
 
             // Position the ImageView at the top center
             AnchorPane.setTopAnchor(coverImageView, 10.0);
@@ -109,14 +111,10 @@ public class BookByTypeController {
             ImageView qrCodeImageView = new ImageView();
             AnchorPane qrAnchorPane = new AnchorPane();
             try {
-                // QR Code API URL
-                String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + book.getInfoUrl();
-
-                // Load the QR code image
-                Image qrCodeImage = new Image(qrCodeUrl);
-
+                String qrCodeUrl = getQRCodeURL(book.getInfoUrl());
+                //System.out.println(qrCodeUrl);
                 // Set the QR code image
-                qrCodeImageView.setImage(qrCodeImage);
+                qrCodeImageView.setImage(getQRCode(qrCodeUrl));
                 AnchorPane.setTopAnchor(qrCodeImageView, 30.0);
                 qrAnchorPane.getChildren().add(qrCodeImageView);
 

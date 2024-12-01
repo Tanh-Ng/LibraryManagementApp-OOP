@@ -277,6 +277,7 @@ public class DocumentDAO {
             conn.close();
         }
     }
+
     public boolean isIsbnExists(String isbn) throws SQLException {
         String sql = "SELECT COUNT(*) FROM documents WHERE isbn = ?";
         Connection conn = DatabaseConfig.getConnection();
@@ -290,6 +291,7 @@ public class DocumentDAO {
         }
         return false;
     }
+
     public boolean isIdExists(int Id) throws SQLException {
         String sql = "SELECT COUNT(*) FROM documents WHERE document_id = ?";
         Connection conn = DatabaseConfig.getConnection();

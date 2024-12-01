@@ -119,7 +119,7 @@ public class TopBar {
 
     @FXML
     private void handlePickDocument() throws Exception {
-        String documentTitle =  resultListView.getSelectionModel().getSelectedItem().split(" ------ ")[0];
+        String documentTitle = resultListView.getSelectionModel().getSelectedItem().split(" ------ ")[0];
         Book pickedBook = new Book("Null");
         for (Document find : documents) {
             if (find.getTitle().toLowerCase().equals(documentTitle.toLowerCase())) {
@@ -129,7 +129,7 @@ public class TopBar {
         }
 
         if (!Objects.equals(documentTitle, "No document found.")
-        && !Objects.equals(pickedBook.getIsbn(), "Null")) {
+                && !Objects.equals(pickedBook.getIsbn(), "Null")) {
 
             //Show pages
             BookDetailsScreen bookDetailsScreen = new BookDetailsScreen(
@@ -143,8 +143,8 @@ public class TopBar {
         }
     }
 
-    public void showBookDetails(String title, MouseEvent event) throws Exception{
-        Book pickedBook =new Book("Null");
+    public void showBookDetails(String title, MouseEvent event) throws Exception {
+        Book pickedBook = new Book("Null");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/BookDetailsBox.fxml"));
         HBox bookDetailsBox = loader.load();
         for (Document searchDocument : documents) {
@@ -171,7 +171,7 @@ public class TopBar {
                 bookDetailsBox.setLayoutX(mouseX + 5);
             }
 
-            if (mouseY > 300){
+            if (mouseY > 300) {
                 bookDetailsBox.setLayoutY(mouseY - 405);
             } else {
                 bookDetailsBox.setLayoutY(mouseY + 5);
