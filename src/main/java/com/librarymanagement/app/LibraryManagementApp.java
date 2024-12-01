@@ -1,8 +1,7 @@
 package com.librarymanagement.app;
 
 import com.librarymanagement.UI.General.ImageLoader;
-import com.librarymanagement.UI.General.ManageBorrowController;
-import com.librarymanagement.UI.UserUI.HomePageUserController;
+import com.librarymanagement.UI.AdminUI.ManageBorrowController;
 import com.librarymanagement.dao.BorrowDAO;
 import com.librarymanagement.dao.DocumentDAO;
 import com.librarymanagement.model.Borrow;
@@ -15,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;

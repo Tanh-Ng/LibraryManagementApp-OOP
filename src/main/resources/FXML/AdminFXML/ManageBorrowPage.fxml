@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="671.0" prefWidth="974.0" style="-fx-background-color: MediumAquamarine;" stylesheets="@../../css/Design.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.General.ManageBorrowController">
+<AnchorPane prefHeight="671.0" prefWidth="974.0" style="-fx-background-color: MediumAquamarine;" stylesheets="@../../css/Design.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarymanagement.UI.AdminUI.ManageBorrowController">
    <children>
       <TableView fx:id="borrowTable" layoutX="111.0" layoutY="197.0" prefHeight="277.0" prefWidth="768.0">
         <columns>
