@@ -27,6 +27,8 @@ import java.util.List;
 import javafx.util.Duration;
 
 import static com.librarymanagement.UI.General.ImageLoader.getImage;
+import static com.librarymanagement.app.LibraryManagementApp.getCurrentUser;
+import static com.librarymanagement.app.LibraryManagementApp.setCurrentUser;
 
 public class HomePageUserController implements RefreshCallback {
     private final BorrowDAO borrowDAO = LibraryManagementApp.getBorrowDAO();
@@ -338,12 +340,16 @@ public class HomePageUserController implements RefreshCallback {
     @Override
     // Refresh the VBox of borrowed documents list after borrowing or returning
     public void refresh(String category) {
+
         try {
+            setCurrentUser(getCurrentUser());
+            borrowedDocuments = LibraryManagementApp.getBorrowList();
             // Remove the first child (the Borrowed Documents section)
             if (!itemsContainer.getChildren().isEmpty()) {
                 itemsContainer.getChildren().removeFirst();
             }
-
+            setCurrentUser(getCurrentUser());
+            borrowedDocuments = LibraryManagementApp.getBorrowList();
             // Add the updated Borrowed Documents section
             itemsContainer.getChildren().addFirst(createDocumentList("Borrowed Documents"));
 

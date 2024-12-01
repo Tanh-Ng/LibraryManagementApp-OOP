@@ -128,6 +128,7 @@ public class LibraryManagementApp extends Application {
         currentUser = loggedInUser;
         documents = documentDAO.getAllDocuments();
         if (currentUser instanceof NormalUser) {
+            borrowDAO.deleteExpiredBorrow();
             borrowList = borrowDAO.getBorrowedDocumentsByUser(currentUser.getUserId());
         }
     }

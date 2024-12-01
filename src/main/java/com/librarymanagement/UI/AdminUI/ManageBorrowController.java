@@ -297,8 +297,6 @@ public class ManageBorrowController {
      */
     private void startExpirationCheck() {
         scheduler = Executors.newSingleThreadScheduledExecutor();
-
-
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 borrowDAO.deleteExpiredBorrow();

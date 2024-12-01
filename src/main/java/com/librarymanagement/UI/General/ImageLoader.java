@@ -130,7 +130,6 @@ public class ImageLoader {
             System.out.println("Warning: Attempted to fetch a QR code with a null URL.");
             return null;
         }
-        System.out.println(qrCodeUrl);
         return qrCodeCache.get(qrCodeUrl);
     }
 
