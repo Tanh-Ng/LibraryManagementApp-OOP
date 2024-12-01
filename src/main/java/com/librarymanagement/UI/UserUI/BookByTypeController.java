@@ -47,6 +47,10 @@ public class BookByTypeController {
 
     public void initialize() {
         try {
+            // TopBar modification
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UserFXML/TopBar.fxml"));
+            AnchorPane topBarAnchorPane = loader.load();
+            mainAnchorPane.getChildren().addFirst(topBarAnchorPane);
             //Keep scroll pane
             mainScrollPane.toBack();
 
