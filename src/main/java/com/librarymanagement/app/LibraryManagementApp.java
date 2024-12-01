@@ -29,15 +29,16 @@ public class LibraryManagementApp extends Application {
     private static final BorrowDAO borrowDAO = new BorrowDAO();
     private static List<Borrow> borrowList;
 
-    public static void goBack(){
+    public static void goBack() {
         primaryStage.setScene(scenesHistory.pop());
     }
-  
+
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
         showLoginScreen();
 
+        primaryStage.centerOnScreen();
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
             confirmExit();
@@ -89,21 +90,25 @@ public class LibraryManagementApp extends Application {
     public static void showAdminPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/AdminFXML/HomeAdminPage.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
+        primaryStage.centerOnScreen();
     }
 
     public static void showManageDocumentPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/AdminFXML/ManageDocumentPage.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
+        primaryStage.centerOnScreen();
     }
 
     public static void showManageUserPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/AdminFXML/ManageUserPage.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
+        primaryStage.centerOnScreen();
     }
 
     public static void showManageBorrowPage() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/AdminFXML/ManageBorrowPage.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
+        primaryStage.centerOnScreen();
     }
 
     private void confirmExit() {
@@ -111,8 +116,6 @@ public class LibraryManagementApp extends Application {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Exit Confirmation");
             alert.setHeaderText("Are you sure you want to exit?");
-
-
             if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
                 ImageLoader.shutdown();
                 Platform.exit();
@@ -130,17 +133,27 @@ public class LibraryManagementApp extends Application {
     }
 
     //User getter
-    public static User getCurrentUser() { return currentUser; }
+    public static User getCurrentUser() {
+        return currentUser;
+    }
 
     // Documents getter
 
-    public static List<Document> getDocuments() { return documents; }
+    public static List<Document> getDocuments() {
+        return documents;
+    }
 
-    public static DocumentDAO getDocumentDAO() { return documentDAO; }
+    public static DocumentDAO getDocumentDAO() {
+        return documentDAO;
+    }
 
-    public static List<Borrow> getBorrowList() { return borrowList; }
+    public static List<Borrow> getBorrowList() {
+        return borrowList;
+    }
 
-    public static BorrowDAO getBorrowDAO() { return borrowDAO; }
+    public static BorrowDAO getBorrowDAO() {
+        return borrowDAO;
+    }
 
     public static void main(String[] args) {
         launch(args);

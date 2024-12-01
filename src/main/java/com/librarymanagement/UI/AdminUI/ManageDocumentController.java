@@ -22,20 +22,33 @@ import java.util.List;
 
 public class ManageDocumentController {
 
-    @FXML private TextField titleField;
-    @FXML private TextField authorNameField;
-    @FXML private TextField documentIDField;
-    @FXML private ChoiceBox<Boolean> isAvailableField;
-    @FXML private TextField isbnField;
-    @FXML private ChoiceBox<Book.BookType> bookTypeChoiceBox; // ChoiceBox for book type
+    @FXML
+    private TextField titleField;
+    @FXML
+    private TextField authorNameField;
+    @FXML
+    private TextField documentIDField;
+    @FXML
+    private ChoiceBox<Boolean> isAvailableField;
+    @FXML
+    private TextField isbnField;
+    @FXML
+    private ChoiceBox<Book.BookType> bookTypeChoiceBox; // ChoiceBox for book type
 
-    @FXML private TableView<Document> documentTableView;
-    @FXML private TableColumn<Document, Integer> documentIdColumn;
-    @FXML private TableColumn<Document, String> documentTitleColumn;
-    @FXML private TableColumn<Document, String> authorColumn;
-    @FXML private TableColumn<Document, Boolean> isAvailableColumn;
-    @FXML private TableColumn<Document, String> isbnColumn;
-    @FXML private TableColumn<Document, String> documentTypeColumn;
+    @FXML
+    private TableView<Document> documentTableView;
+    @FXML
+    private TableColumn<Document, Integer> documentIdColumn;
+    @FXML
+    private TableColumn<Document, String> documentTitleColumn;
+    @FXML
+    private TableColumn<Document, String> authorColumn;
+    @FXML
+    private TableColumn<Document, Boolean> isAvailableColumn;
+    @FXML
+    private TableColumn<Document, String> isbnColumn;
+    @FXML
+    private TableColumn<Document, String> documentTypeColumn;
 
     @FXML
     private TextField isbnSearchField;
@@ -152,7 +165,6 @@ public class ManageDocumentController {
             showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while loading data.");
         }
     }
-
 
 
     /**
@@ -311,10 +323,10 @@ public class ManageDocumentController {
                 String fetchedIsbn = book.getIsbn();
                 Book.BookType bookType = Book.BookType.TEXTBOOKS;
                 boolean isAvailable = true;  // Default availability for fetched books
-                String imageUrl=book.getImageUrl();
-                String infoUrl=book.getInfoUrl();
-                String publisher=book.getPublisher();
-                String publishDate=book.getPublishDate();
+                String imageUrl = book.getImageUrl();
+                String infoUrl = book.getInfoUrl();
+                String publisher = book.getPublisher();
+                String publishDate = book.getPublishDate();
                 if (title == null || author == null || bookType == null) {
                     showAlert(Alert.AlertType.ERROR, "Error", "Some required book details are missing.");
                     return;
@@ -366,6 +378,7 @@ public class ManageDocumentController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private void fillFieldsWithSelectedDocument(Document selectedDocument) {
         if (selectedDocument instanceof Book) {
             Book selectedBook = (Book) selectedDocument;

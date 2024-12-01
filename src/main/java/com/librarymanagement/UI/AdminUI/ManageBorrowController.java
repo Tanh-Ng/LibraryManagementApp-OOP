@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +45,7 @@ public class ManageBorrowController {
     @FXML
     private TextField searchField;
 
-    private static  ScheduledExecutorService scheduler;
+    private static ScheduledExecutorService scheduler;
 
     private BorrowDAO borrowDAO = new BorrowDAO();
     private ObservableList<Borrow> borrowList = FXCollections.observableArrayList();
