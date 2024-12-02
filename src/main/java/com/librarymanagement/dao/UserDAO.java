@@ -83,8 +83,8 @@ public class UserDAO {
                 throw new SQLException("Username not found.");
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Log the exception or handle it appropriately
-            throw new SQLException("Error retrieving user with username " + username, e);
+            //e.printStackTrace(); // Log the exception or handle it appropriately
+            throw new SQLException("User with username " + username + " not found", e);
         }
     }
 
