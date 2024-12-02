@@ -6,6 +6,7 @@ import com.librarymanagement.model.Borrow;
 import com.librarymanagement.model.Document;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
 import java.sql.Date;
@@ -69,11 +70,38 @@ public class BorrowingButtonEvent {
 
     public void buttonClicked(Button button, Document document, int duration) {
         if (isBorrowed(document) && duration == 0) {
-            returnDocument(document);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Return Book");
+            alert.setContentText("Are you sure?");
+            alert.showAndWait().ifPresent(response -> {
+                if (response.equals(ButtonType.OK)) {
+                    returnDocument(document);
+                } else {
+
+                }
+            });
         } else if (isBorrowed(document) && duration != 0) {
-            requestExtendDuration(document, duration);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Extend borrow duration");
+            alert.setContentText("You want to extend to " + duration + (duration == 1 ? " day?" : " days?"));
+            alert.showAndWait().ifPresent(response -> {
+                if (response.equals(ButtonType.OK)) {
+                    requestExtendDuration(document, duration);
+                } else {
+
+                }
+            });
         } else {
-            borrowDocument(document, duration);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Borrow Book");
+            alert.setContentText("You want to borrow for " + duration + (duration == 1 ? " day?" : " days?"));
+            alert.showAndWait().ifPresent(response -> {
+                if (response.equals(ButtonType.OK)) {
+                    borrowDocument(document, duration);
+                } else {
+
+                }
+            });
         }
         updateBorrowButtonState(button, document);
     }
