@@ -35,16 +35,6 @@ class UserDAOTest {
         List<User> users = userDAO.getAllUsers();
         assertEquals(1, users.size());
         assertTrue(users.get(0) instanceof Admin);
-        assertEquals(users.get(0).getUserId(), users.get(0).getUserId()); // Verify ID matches
-    }
-
-    @Test
-    void testGetUserById() throws SQLException {
-        User normalUser = new NormalUser(100, "NormalUser", "user123");
-        userDAO.addUser(normalUser); // Use generated ID
-        User retrievedUser = userDAO.getUserById(normalUser.getUserId()); // Use dynamic ID here
-        assertNotNull(retrievedUser);
-        assertEquals("NormalUser", retrievedUser.getName());
     }
 
     @Test

@@ -6,10 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,10 +46,10 @@ class BorrowDAOTest {
     void testAddBorrow_UserNotFound() {
         int invalidUserId = 999; // User ID that doesn't exist
         int documentId = DUMMY_DOCUMENT_ID;
-        Date borrowDate = new Date(System.currentTimeMillis());
+        Timestamp borrowDate = new Timestamp(System.currentTimeMillis());
 
         SQLException exception = assertThrows(SQLException.class, () -> {
-            borrowDAO.addBorrow(invalidUserId, documentId, borrowDate);
+            borrowDAO.addBorrow(invalidUserId, documentId, borrowDate,1);
         });
         assertTrue(exception.getMessage().contains("User ID " + invalidUserId + " not found."));
     }
@@ -61,21 +58,24 @@ class BorrowDAOTest {
     void testAddBorrow_DocumentNotFound() {
         int userId = DUMMY_USER_ID;
         int invalidDocumentId = 999; // Document ID that doesn't exist
-        Date borrowDate = new Date(System.currentTimeMillis());
+        java.sql.Timestamp borrowTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
+        int duration = 1;
 
         SQLException exception = assertThrows(SQLException.class, () -> {
-            borrowDAO.addBorrow(userId, invalidDocumentId, borrowDate);
+            borrowDAO.addBorrow(userId, invalidDocumentId, borrowTimestamp, duration);
         });
         assertTrue(exception.getMessage().contains("Document ID " + invalidDocumentId + " not found."));
     }
+
 
     @Test
     void testAddBorrow_Successful() throws SQLException {
         int userId = DUMMY_USER_ID;
         int documentId = DUMMY_DOCUMENT_ID;
-        Date borrowDate = new Date(System.currentTimeMillis());
+        java.sql.Timestamp borrowTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
+        int duration = 1; // Replace with an appropriate value
 
-        borrowDAO.addBorrow(userId, documentId, borrowDate);
+        borrowDAO.addBorrow(userId, documentId, borrowTimestamp, duration);
 
         List<Borrow> borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(userId);
         assertFalse(borrowedDocuments.isEmpty(), "Borrowed documents should not be empty after adding a borrow.");
@@ -86,9 +86,9 @@ class BorrowDAOTest {
     void testGetBorrowById() throws SQLException {
         int userId = DUMMY_USER_ID;
         int documentId = DUMMY_DOCUMENT_ID;
-        Date borrowDate = new Date(System.currentTimeMillis());
+        java.sql.Timestamp borrowTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
 
-        borrowDAO.addBorrow(userId, documentId, borrowDate);
+        borrowDAO.addBorrow(userId, documentId, borrowTimestamp,1);
 
         List<Borrow> borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(userId);
         Borrow borrow = borrowDAO.getBorrowById(borrowedDocuments.get(0).getBorrowId());
@@ -101,9 +101,9 @@ class BorrowDAOTest {
     void testDeleteBorrow() throws SQLException {
         int userId = DUMMY_USER_ID;
         int documentId = DUMMY_DOCUMENT_ID;
-        Date borrowDate = new Date(System.currentTimeMillis());
+        java.sql.Timestamp borrowTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
 
-        borrowDAO.addBorrow(userId, documentId, borrowDate);
+        borrowDAO.addBorrow(userId, documentId, borrowTimestamp,1);
 
         List<Borrow> borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(userId);
         int borrowId = borrowedDocuments.get(0).getBorrowId();
@@ -134,9 +134,9 @@ class BorrowDAOTest {
         // Insert a borrow record with default duration of 1 day
         int userId = DUMMY_USER_ID;
         int documentId = DUMMY_DOCUMENT_ID;
-        Date borrowDate = new Date(System.currentTimeMillis());
+        java.sql.Timestamp borrowTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
         int request = 5;
-        borrowDAO.addBorrow(userId, documentId, borrowDate);
+        borrowDAO.addBorrow(userId, documentId, borrowTimestamp,1);
 
         // Get the borrow ID
         List<Borrow> borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(userId);
@@ -170,8 +170,8 @@ class BorrowDAOTest {
         // Insert a borrow record with a borrow date that is far in the past
         int userId = DUMMY_USER_ID;
         int documentId = DUMMY_DOCUMENT_ID;
-        Date borrowDate = new Date(System.currentTimeMillis() - 100000000L);  // 100 million milliseconds ago
-        borrowDAO.addBorrow(userId, documentId, borrowDate);
+        java.sql.Timestamp borrowTimestamp = new java.sql.Timestamp(System.currentTimeMillis()- 1000000);
+        borrowDAO.addBorrow(userId, documentId, borrowTimestamp,1);
 
         // Fetch the borrow record before deletion
         List<Borrow> borrowedDocuments = borrowDAO.getBorrowedDocumentsByUser(userId);
