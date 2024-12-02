@@ -72,17 +72,20 @@ public class LibraryManagementApp extends Application {
     public static void showHomeScreen() throws Exception {
         FXMLLoader loader = new FXMLLoader(LibraryManagementApp.class.getResource("/FXML/UserFXML/HomeUserPage.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
+        primaryStage.centerOnScreen();
     }
 
 
     public static void showBookDetailsPage(Scene scene) throws Exception {
         scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(scene);
+        primaryStage.centerOnScreen();
     }
 
     public static void showBookByTypePage(Scene scene) throws Exception {
         scenesHistory.add(primaryStage.getScene());
         primaryStage.setScene(scene);
+        primaryStage.centerOnScreen();
     }
 
     //Admins' Screen
@@ -115,7 +118,7 @@ public class LibraryManagementApp extends Application {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Exit Confirmation");
-            alert.setHeaderText("Are you sure you want to exit?");
+            alert.setHeaderText("Are you sure that you want to exit?");
             if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
                 ImageLoader.shutdown();
                 Platform.exit();
