@@ -2,6 +2,7 @@ package com.librarymanagement.UI.General;
 
 import com.librarymanagement.app.LibraryManagementApp;
 
+import static com.librarymanagement.UI.General.ImageLoader.getImage;
 import static com.librarymanagement.api.ApiClient.getQRCodeURL;
 
 import com.librarymanagement.model.Book;
@@ -33,8 +34,9 @@ public class BookDetailsController {
     public void setBookDetails(Book book) {
 
         // Set the cover image
-        Image coverImage = new Image(book.getImageUrl());
-        bookCoverImageView.setImage(coverImage);
+        bookCoverImageView.setImage(getImage(book.getImageUrl()));
+        //Image coverImage = new Image(book.getImageUrl());
+        //bookCoverImageView.setImage(coverImage);
         String QrURL = getQRCodeURL(book.getInfoUrl());
         if (QrURL != null) {
             Image QRImage = new Image(QrURL);
