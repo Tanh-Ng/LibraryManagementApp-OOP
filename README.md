@@ -11,7 +11,7 @@ A JavaFX-based Library Management System that allows users and administrators to
 - [Features](Feature.md)
 - [Database Design](DatabaseDesign.md)
 
-// ... existing code ...entication (login)
+- User authentication (login)
 - User dashboard for browsing and searching books
 - Book details and categorization
 - Borrow and return management
